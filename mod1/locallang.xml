@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for module &quot;tools_txmkphpidsM1&quot;</description>
+	</meta>
+	<data type="array">
+            <languageKey index="default" type="array">
+                <label index="title">PHPIDS</label>
+                <label index="function1">Show all impacts</label>
+                <label index="function2">Clear the log table</label>
+                <label index="function3">Clear the cache table</label>
+                <label index="function4">Update converter and filter</label>
+                <label index="function1_text">This shows all impacts with an impact level higher then the value you specified in the TypoScript object &lt;code&gt;Impact.db_threshold&lt;/code&gt;.</label>
+                <label index="function1_text_find_more">You can find all impacts in the logfile you specified in the TypoScript object &lt;code&gt;Logging.path&lt;/code&gt;.</label>
+                <label index="function1_text_check">In the TypoScript Objects of PHPIDS you can set &lt;code&gt;General.debug_mode&lt;/code&gt; to true to check if PHPIDS works correctly.</label>
+                <label index="function2_text">This will set all DB entries in the tx_mkphpids_log table to deleted=1 and no longer show them in "Show all impacts". Are you sure you want to do that?</label>
+                <label index="function2_text_del_ok">Successfully set all entrys in the tx_mkphpids_log table to deleted=1.</label>
+                <label index="function3_text">This will truncate the tx_mkphpids_cache table and delete all of its records. Are you sure you want to do that?</label>
+                <label index="function3_text_del_ok">Successfully truncated tx_mkphpids_cache.</label>
+                <label index="function4_text_1">Here you can update the &lt;code&gt;default_filer.xml&lt;/code&gt; and the &lt;code&gt;Converter.php&lt;/code&gt; for PHPIDS from: </label>
+                <label index="function4_text_2">These files are necessary to identify the latest attacks and intrusion attemps.</label>
+                <label index="function4_text_update_ok">Update succesfull.</label>
+                <label index="open_link">Open this link in a new window</label>
+                <label index="attack_from">Click to see where this attack came from</label>
+                <label index="attack_to">Click to see where the IP is located which was attacked</label>
+                <label index="sql_no_data">No data found.</label>
+                <label index="sql_exec_error">Error executing the query!</label>
+            </languageKey>
+	</data>
+</T3locallang>

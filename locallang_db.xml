@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'mkphpids'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tx_mkphpids_log">Log table for PHPIDS</label>
+			<label index="tx_mkphpids_log.name">Name</label>
+			<label index="tx_mkphpids_log.value">Value</label>
+			<label index="tx_mkphpids_log.page">Page</label>
+			<label index="tx_mkphpids_log.ip">IP</label>
+			<label index="tx_mkphpids_log.impact">Impact</label>
+			<label index="tx_mkphpids_log.origin">Origin</label>
+			<label index="tx_mkphpids_log.created">Created</label>
+			<label index="tx_mkphpids_cache">Cache table for PHPIDS</label>
+			<label index="tx_mkphpids_cache.type">Type</label>
+			<label index="tx_mkphpids_cache.created">Created</label>
+			<label index="tx_mkphpids_cache.phpids_data">Data</label>
+			<label index="tx_mkphpids_cache.modified">Modified</label>
+		</languageKey>
+	</data>
+</T3locallang>

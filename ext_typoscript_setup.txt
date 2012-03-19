@@ -1,0 +1,42 @@
+plugin.tx_mkphpids_pi1 {
+
+    Impact.file_threshold   = {$plugin.tx_mkphpids_pi1.Impact.file_threshold}
+    Impact.db_threshold     = {$plugin.tx_mkphpids_pi1.Impact.db_threshold}
+    Impact.email_threshold  = {$plugin.tx_mkphpids_pi1.Impact.email_threshold}
+    Impact.die_threshold    = {$plugin.tx_mkphpids_pi1.Impact.die_threshold}
+    General.debug_mode      = {$plugin.tx_mkphpids_pi1.General.debug_mode}
+    General.filter_type     = {$plugin.tx_mkphpids_pi1.General.filter_type}
+    General.use_base_path   = {$plugin.tx_mkphpids_pi1.General.use_base_path}
+    General.filter_path     = {$plugin.tx_mkphpids_pi1.General.filter_path}
+    General.tmp_path        = {$plugin.tx_mkphpids_pi1.General.tmp_path}
+    General.scan_keys       = {$plugin.tx_mkphpids_pi1.General.scan_keys}
+    General.HTML_Purifier_Path = {$plugin.tx_mkphpids_pi1.General.HTML_Purifier_Path}
+    General.HTML_Purifier_Cache = {$plugin.tx_mkphpids_pi1.General.HTML_Purifier_Cache}
+    General.html            = {$plugin.tx_mkphpids_pi1.General.html}
+    General.json            = {$plugin.tx_mkphpids_pi1.General.json}
+    General.exceptions_0    = {$plugin.tx_mkphpids_pi1.General.exceptions_0}
+    General.exceptions_1    = {$plugin.tx_mkphpids_pi1.General.exceptions_1}
+    General.exceptions_2    = {$plugin.tx_mkphpids_pi1.General.exceptions_2}
+    General.whitelist	    = {$plugin.tx_mkphpids_pi1.General.whitelist}
+    General.min_php_version = {$plugin.tx_mkphpids_pi1.General.min_php_version}
+    Logging.email           = {$plugin.tx_mkphpids_pi1.Logging.email}
+    Logging.path            = {$plugin.tx_mkphpids_pi1.Logging.path}
+    Logging.envelope        = {$plugin.tx_mkphpids_pi1.Logging.envelope}
+    Logging.safemode        = {$plugin.tx_mkphpids_pi1.Logging.safemode}
+    Logging.urlencode       = {$plugin.tx_mkphpids_pi1.Logging.urlencode}
+    Logging.allowed_rate    = {$plugin.tx_mkphpids_pi1.Logging.allowed_rate}
+    Caching.caching         = {$plugin.tx_mkphpids_pi1.Caching.caching}
+    Caching.expiration_time = {$plugin.tx_mkphpids_pi1.Caching.expiration_time}
+    Caching.path            = {$plugin.tx_mkphpids_pi1.Caching.path}
+
+    _CSS_DEFAULT_STYLE (
+        .tx-mkphpids-pi1 { padding:5px; text-align:left; margin:0 0 5px 0; }
+        .tx-mkphpids-pi1 h6 { margin:0; padding:0; font-size:12px; }
+        .tx-mkphpids-pi1 .box { padding:5px; margin:0 0 5px 0; }
+        .tx-mkphpids-pi1 .info { border:1px solid #AACCEE; background-color:#F6FBFF; }
+        .tx-mkphpids-pi1 .ok { border:1px solid #90DE00; background-color:#F3FFDF; }
+        .tx-mkphpids-pi1 .error { border:1px solid #FF0000; background-color:#FFEEEE; font-weight:bold; }
+    )
+}
+
+page.8 < plugin.tx_mkphpids_pi1
