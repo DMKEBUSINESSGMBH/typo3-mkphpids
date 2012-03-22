@@ -59,6 +59,7 @@ class tx_mkphpids_pi1 extends tslib_pibase {
 
         $this->conf['General.']['whitelist'] = explode(',', $this->conf['General.']['whitelist']);
         $this->conf['General.']['json'] = explode(',',$this->conf['General.']['json']);
+        $this->conf['General.']['html'] = explode(',',$this->conf['General.']['html']);
 
         // Should the current page be monitored or is it in the whitelist?
         if (!in_array($GLOBALS['TSFE']->id, $this->conf['General.']['whitelist'])) {
