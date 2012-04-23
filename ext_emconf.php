@@ -16,7 +16,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'category' => 'plugin',
 	'shy' => 0,
 	'version' => '1.3.3',
-	'dependencies' => 'cms',
+	'dependencies' => 'cms,rn_base',
 	'conflicts' => '',
 	'priority' => '',
 	'loadOrder' => '',
@@ -37,6 +37,7 @@ $EM_CONF[$_EXTKEY] = array(
 			'php' => '5.1.6-0.0.0',
 			'typo3' => '4.4.0-0.0.0',
 			'cms' => '',
+			'rn_base' => '',
 		),
 		'conflicts' => array(
 		),
