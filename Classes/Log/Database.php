@@ -184,6 +184,7 @@ class Tx_mkphpids_Log_Database implements IDS_Log_Interface
             }
         }
 
+        tx_rnbase::load('tx_rnbase_util_TYPO3');
         foreach ($data as $event) {
         	$name   = $event->getName();
         	$value  = $event->getValue();
@@ -198,6 +199,8 @@ class Tx_mkphpids_Log_Database implements IDS_Log_Interface
         		'ip' => $GLOBALS['TYPO3_DB']->quoteStr($ip, $this->table),
         		'impact' => $GLOBALS['TYPO3_DB']->quoteStr($impact, $this->table),
         		'origin' => $GLOBALS['TYPO3_DB']->quoteStr($_SERVER['SERVER_ADDR'], $this->table),
+        		'feuser' => tx_rnbase_util_TYPO3::getFEUserUID(),
+        		'beuser' => tx_rnbase_util_TYPO3::getBEUserUID(),
         		'created' => date('Y-m-d H:i:s'),
 			);
 			$res = $GLOBALS['TYPO3_DB']->exec_INSERTquery($this->table, $fieldValues);

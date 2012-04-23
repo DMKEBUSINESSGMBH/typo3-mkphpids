@@ -204,7 +204,7 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
 		    $content .= '<p class="typo3-message message-information">' . $LANG->getLL('function1_text') . '</p>';
 
 		    $content .= '<table class="typo3-dblist" cellspacing="0" cellpadding="0" border="0">
-                                    <tbody>
+                                    <thead>
                                         <tr class="c-headLine">
                                             <td class="col-title"><a style="width:150px" href="index.php?order=name' . ($req_ord == 'name' ? $direction : urlencode(' ASC')) . '">Name ' . ($req_ord == 'name' ? $arrow : '') . '</a></td>
                                             <td class="col-title"><a style="width:375px" href="index.php?order=value' . ($req_ord == 'value' ? $direction : urlencode(' ASC')) . '">Value ' . ($req_ord == 'value' ? $arrow : '') . '</a></td>
@@ -213,7 +213,11 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
                                             <td class="col-title"><a style="width:100px" href="index.php?order=origin' . ($req_ord == 'origin' ? $direction : urlencode(' ASC')) . '">Origin ' . ($req_ord == 'origin' ? $arrow : '') . '</a></td>
                                             <td class="col-title"><a style="width:100px" href="index.php?order=created' . ($req_ord == 'created' ? $direction : urlencode(' ASC')) . '">Created ' . ($req_ord == 'created' ? $arrow : '') . '</a></td>
                                             <td class="col-title"><a style="width:75px; text-align:center;" href="index.php?order=impact' . ($req_ord == 'impact' ? $direction : urlencode(' DESC')) . '">Impact ' . ($req_ord == 'impact' ? $arrow : '') . '</a></td>
-                                        </tr>';
+                                            <td class="col-title">FE-User</td>
+                                            <td class="col-title">BE-User</td>
+                                        </tr>
+		    						</thead>
+		    						<tbody>';
 
 		    while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 			$i++;
@@ -225,6 +229,8 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
                                             <td><a href="http://www.ip2location.com/' . $row["origin"] . '" target="_blank" title="' . $LANG->getLL('attack_to') . '">' . $row["origin"] . '</a>&nbsp;</td>
                                             <td>' . $row["created"] . '&nbsp;</td>
                                             <td style="text-align:center; ' . $this->hlp_impactStyle($row["impact"]) . '">&nbsp;' . $row["impact"] . '</td>
+                                            <td>' . $row["feuser"] . '&nbsp;</td>
+                                            <td>' . $row["beuser"] . '&nbsp;</td>
                                          </tr>';
 		    }
 

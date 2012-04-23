@@ -287,12 +287,17 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
                 	: $event->getValue()) . ", ";
         }
 
-$format .= "Affected parameters: %s \n";
+        $format .= "Affected parameters: %s \n";
         $format .= "Affected parameters (url encoded): %s \n";
 		$format .= "Affected parameters (url decoded): %s \n\n";
         $format .= "Request URI: %s \n";
         $format .= "Request URI (url encoded): %s \n";
 		$format .= "Request URI (url decoded): %s \n\n";
+
+		tx_rnbase::load('tx_rnbase_util_TYPO3');
+		$format .= 'BE_USER: '.tx_rnbase_util_TYPO3::getBEUserUID()."\n";
+		$format .= 'FE_USER: '.tx_rnbase_util_TYPO3::getFEUserUID()."\n";
+
         $format .= "--\n";
         $format .= "Don't know what to do now?\n";
         $format .= "Contact us at www.pixabit.de so we can help you securing your TYPO3 installation.\n";
