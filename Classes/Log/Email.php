@@ -310,7 +310,7 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
 
         if(!empty($_GET)) $format .= '_GET: '. var_export($_GET, true). "\n";
         if(!empty($_POST)) $format .= '_POST: '. var_export($_POST, true). "\n";
-        $format .= '_SERVER'. var_export($_SERVER, true). "\n\n";
+        $format .= '_SERVER: '. var_export($_SERVER, true). "\n\n";
 
         tx_rnbase::load('tx_rnbase_util_TYPO3');
         $format .= 'BE_USER: '.tx_rnbase_util_TYPO3::getBEUserUID()."\n";
