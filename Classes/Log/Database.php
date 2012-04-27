@@ -185,12 +185,21 @@ class Tx_mkphpids_Log_Database implements IDS_Log_Interface
         }
 
         tx_rnbase::load('tx_rnbase_util_TYPO3');
+        $dataArray = array(
+			'get' => $_GET, //var_export($_GET, true),
+			'post' => $_POST, //var_export($_POST, true),
+			'server' => $_SERVER, //var_export($_SERVER, true),
+			'feuser' => tx_rnbase_util_TYPO3::getFEUserUID(),
+			'beuser' => tx_rnbase_util_TYPO3::getBEUserUID(),
+        ); $dataArray = serialize($dataArray);
+
         foreach ($data as $event) {
         	$name   = $event->getName();
         	$value  = $event->getValue();
         	$page 	= isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
         	$ip   	= $this->ip;
             $impact = $event->getImpact();
+
 
         	$fieldValues = array(
 				'name' => $GLOBALS['TYPO3_DB']->quoteStr($name, $this->table),
@@ -199,8 +208,7 @@ class Tx_mkphpids_Log_Database implements IDS_Log_Interface
         		'ip' => $GLOBALS['TYPO3_DB']->quoteStr($ip, $this->table),
         		'impact' => $GLOBALS['TYPO3_DB']->quoteStr($impact, $this->table),
         		'origin' => $GLOBALS['TYPO3_DB']->quoteStr($_SERVER['SERVER_ADDR'], $this->table),
-        		'feuser' => tx_rnbase_util_TYPO3::getFEUserUID(),
-        		'beuser' => tx_rnbase_util_TYPO3::getBEUserUID(),
+        		'data' => $dataArray,
         		'created' => date('Y-m-d H:i:s'),
 			);
 			$res = $GLOBALS['TYPO3_DB']->exec_INSERTquery($this->table, $fieldValues);

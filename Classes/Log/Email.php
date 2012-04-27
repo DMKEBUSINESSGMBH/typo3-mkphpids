@@ -294,16 +294,8 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
         $format .= "Request URI (url encoded): %s \n";
 		$format .= "Request URI (url decoded): %s \n\n";
 
-		tx_rnbase::load('tx_rnbase_util_TYPO3');
-		$format .= 'BE_USER: '.tx_rnbase_util_TYPO3::getBEUserUID()."\n";
-		$format .= 'FE_USER: '.tx_rnbase_util_TYPO3::getFEUserUID()."\n";
 
-        $format .= "--\n";
-        $format .= "Don't know what to do now?\n";
-        $format .= "Contact us at www.pixabit.de so we can help you securing your TYPO3 installation.\n";
-
-
-        return sprintf($format,
+        $format = sprintf($format,
                        $this->ip,
                        date('c'),
                        $data->getImpact(),
@@ -315,6 +307,20 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
                        trim(urlencode($_SERVER['REQUEST_URI'])),
 					   trim(urldecode($_SERVER['REQUEST_URI']))
                    );
+
+        if(!empty($_GET)) $format .= '_GET: '. var_export($_GET, true). "\n";
+        if(!empty($_POST)) $format .= '_POST: '. var_export($_POST, true). "\n";
+        $format .= '_SERVER'. var_export($_SERVER, true). "\n\n";
+
+        tx_rnbase::load('tx_rnbase_util_TYPO3');
+        $format .= 'BE_USER: '.tx_rnbase_util_TYPO3::getBEUserUID()."\n";
+        $format .= 'FE_USER: '.tx_rnbase_util_TYPO3::getFEUserUID()."\n\n";
+
+//         $format .= "--\n";
+//         $format .= "Don't know what to do now?\n";
+//         $format .= "Contact us at www.pixabit.de so we can help you securing your TYPO3 installation.\n";
+
+        return $format;
     }
 
     /**

@@ -134,6 +134,14 @@ class tx_mkphpids_pi1 extends tslib_pibase {
                  * simply echoing the result object, since IDS_Report implemented
                  * a __toString method.
                  */
+
+                // @TODO:
+                // http://buhl.localhost/?refid=28+AND+1%3D1&mkhoga[uid]=AND+uid+%3D+(SELECT+*+FROM+tx_mkhoga_jobads+WHERE+1)
+                // meldet einen impact von 11
+//                 tx_rnbase_util_Debug::debug(array(
+//                 		'empty' => $result->isEmpty(),
+//                 		'impact' => $result->getImpact(),
+//                 	), 'DEBUG: '.__METHOD__.' Line: '.__LINE__,'mwDebug'); // @TODO: remove me
                 if (!$result->isEmpty()) {
                     $content.='<p class="box error">' . $result . '</p>';
 
@@ -161,15 +169,15 @@ class tx_mkphpids_pi1 extends tslib_pibase {
                         $content .='<div class="box ok">Reporting to File (Threshold: ' . $this->conf['Impact.']['file_threshold'] . ')</div>';
                     }
 
-                    if ($this->conf['Impact.']['db_threshold'] && $result->getImpact() >= $this->conf['Impact.']['db_threshold']) {
+//                     if ($this->conf['Impact.']['db_threshold'] && $result->getImpact() >= $this->conf['Impact.']['db_threshold']) {
                         $compositeLog->addLogger(Tx_mkphpids_Log_Database::getInstance($init)); // Log Impact into a Database (tx_mkphpids_log)
                         $content .='<div class="box ok">Reporting to DB (Threshold: ' . $this->conf['Impact.']['db_threshold'] . ')</div>';
-                    }
+//                     }
 
-                    if ($this->conf['Impact.']['email_threshold'] && $result->getImpact() >= $this->conf['Impact.']['email_threshold']) {
+//                     if ($this->conf['Impact.']['email_threshold'] && $result->getImpact() >= $this->conf['Impact.']['email_threshold']) {
                         $compositeLog->addLogger(Tx_mkphpids_Log_Email::getInstance($init));    // Report Impact via E-Mail
                         $content .='<div class="box ok">Reporting by E-Mail (Threshold: ' . $this->conf['Impact.']['email_threshold'] . ')</div>';
-                    }
+//                     }
 
                     $compositeLog->execute($result);
 

@@ -15,8 +15,7 @@ CREATE TABLE tx_mkphpids_log (
 	impact int(11) DEFAULT '0' NOT NULL,
 	origin tinytext,
 	created tinytext,
-	feuser int(11) DEFAULT '0' NOT NULL,
-	beuser int(11) DEFAULT '0' NOT NULL,
+	data longtext,
 	
 	PRIMARY KEY (uid),
 	KEY parent (pid)
