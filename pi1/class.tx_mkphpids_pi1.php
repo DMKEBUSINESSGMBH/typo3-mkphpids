@@ -169,15 +169,15 @@ class tx_mkphpids_pi1 extends tslib_pibase {
                         $content .='<div class="box ok">Reporting to File (Threshold: ' . $this->conf['Impact.']['file_threshold'] . ')</div>';
                     }
 
-//                     if ($this->conf['Impact.']['db_threshold'] && $result->getImpact() >= $this->conf['Impact.']['db_threshold']) {
+                    if ($this->conf['Impact.']['db_threshold'] && $result->getImpact() >= $this->conf['Impact.']['db_threshold']) {
                         $compositeLog->addLogger(Tx_mkphpids_Log_Database::getInstance($init)); // Log Impact into a Database (tx_mkphpids_log)
                         $content .='<div class="box ok">Reporting to DB (Threshold: ' . $this->conf['Impact.']['db_threshold'] . ')</div>';
-//                     }
+                    }
 
-//                     if ($this->conf['Impact.']['email_threshold'] && $result->getImpact() >= $this->conf['Impact.']['email_threshold']) {
+                    if ($this->conf['Impact.']['email_threshold'] && $result->getImpact() >= $this->conf['Impact.']['email_threshold']) {
                         $compositeLog->addLogger(Tx_mkphpids_Log_Email::getInstance($init));    // Report Impact via E-Mail
                         $content .='<div class="box ok">Reporting by E-Mail (Threshold: ' . $this->conf['Impact.']['email_threshold'] . ')</div>';
-//                     }
+                    }
 
                     $compositeLog->execute($result);
 
