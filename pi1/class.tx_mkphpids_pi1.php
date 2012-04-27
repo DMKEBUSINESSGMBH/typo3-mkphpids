@@ -135,13 +135,12 @@ class tx_mkphpids_pi1 extends tslib_pibase {
                  * a __toString method.
                  */
 
-                // @TODO:
-                // http://buhl.localhost/?refid=28+AND+1%3D1&mkhoga[uid]=AND+uid+%3D+(SELECT+*+FROM+tx_mkhoga_jobads+WHERE+1)
-                // meldet einen impact von 11
-//                 tx_rnbase_util_Debug::debug(array(
-//                 		'empty' => $result->isEmpty(),
-//                 		'impact' => $result->getImpact(),
-//                 	), 'DEBUG: '.__METHOD__.' Line: '.__LINE__,'mwDebug'); // @TODO: remove me
+                // @FIXME: PHPIDS soll auf PHP beruhende Anwendungen vor Cross-Site-Scripting-, SQL-Injection und anderen Angriffe schützen.
+                // http://buhl.localhost/?ext[uid]=11%3B%20DELETE%20FROM%20pages
+                // Medlet einen impact von 11, die tabelle  pages ist danach leer
+                // ergebendes sql: SELECT * FROM tx_ext WHERE uid = 1; DELETE FROM pages;
+                // Was verhindert phpids
+                //tx_rnbase_util_Debug::debug('impact:'.$result->getImpact(), 'DEBUG: '.__METHOD__.' Line: '.__LINE__,'mwDebug'); // @TODO: remove me exit;
                 if (!$result->isEmpty()) {
                     $content.='<p class="box error">' . $result . '</p>';
 
