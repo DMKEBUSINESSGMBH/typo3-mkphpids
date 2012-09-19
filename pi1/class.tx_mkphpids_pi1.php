@@ -42,7 +42,7 @@ class tx_mkphpids_pi1 extends tslib_pibase {
     var $scriptRelPath = 'pi1/class.tx_mkphpids_pi1.php'; // Path to this script relative to the extension dir.
     var $extKey = 'mkphpids'; // The extension key.
     var $conf;
-
+    
     /**
      * The main method of the PlugIn
      *
@@ -54,7 +54,6 @@ class tx_mkphpids_pi1 extends tslib_pibase {
         $this->pi_USER_INT_obj = 1;
         $this->conf = $conf;
         $this->conf['General.']['exceptions'] = array();
-        $version = 'PHPIDS for TYPO3. Plugin v1.2.5 with PHPIDS v0.7.0';
 
         $this->conf['General.']['whitelist'] = explode(',', $this->conf['General.']['whitelist']);
         $this->conf['General.']['json'] = explode(',',$this->conf['General.']['json']);
@@ -80,7 +79,7 @@ class tx_mkphpids_pi1 extends tslib_pibase {
                 session_start();
             }
 
-            $content = '<div class="box info"><h6>' . $version . '</h6></div>';
+            $content = '<div class="box info"><h6>MKPHPIDS for TYPO3</h6></div>';
 
             try {
                 /*
@@ -180,17 +179,7 @@ class tx_mkphpids_pi1 extends tslib_pibase {
                     $compositeLog->execute($result);
 
                     if ($this->conf['Impact.']['die_threshold'] && $result->getImpact() >= $this->conf['Impact.']['die_threshold']) {
-                        if ($this->debug == false) {
-                            $content = '';  // Delete all informations possibly given by PHP IDS
-                        } else {
-                            $content .='<div>Dieing... (Threshold: ' . $this->conf['Impact.']['die_threshold'] . ')</div>';
-                        }
-                        $content .= '<br /><div>You have been logged out cause of a possible hacking attemp.</div>
-										<div>Your data has been stored and reported.</div>
-										<div>If you think this is an error please contact the webmaster of this website.</div>
-									 <br /><div><i>' . $version . '</i></div>';
-                        session_destroy();
-                        die($content);
+                        $this->handleDieThreshold($content);
                     }
                 } else {
                     $content.='	<div class="box ok">
@@ -211,6 +200,30 @@ class tx_mkphpids_pi1 extends tslib_pibase {
         }
     }
 
+    /**
+     * @param string $content
+     * 
+     * @return void
+     */
+    private function handleDieThreshold($content) {
+    	session_destroy();
+    	
+    	if ($this->debug == false && $this->conf['Impact.']['die_redirect_pid']) {
+	    	$redirectUrl = $this->pi_getPageLink($this->conf['Impact.']['die_redirect_pid']);
+	    	header('Location: '.t3lib_div::locationHeaderUrl($redirectUrl));
+    	} else {
+    		if ($this->debug == false){
+    			$content = '';//remove left over informations
+    		} else {
+				$content .='<div>Dieing... (Threshold: ' . $this->conf['Impact.']['die_threshold'] . ')</div>';
+    		}
+			$content .= '<br /><div>You have been logged out cause of a possible hacking attemp.</div>
+						<div>Your data has been stored and reported.</div>
+						<div>If you think this is an error please contact the webmaster of this website.</div>';
+			
+			die($content);
+    	}
+    }
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkphpids/pi1/class.tx_mkphpids_pi1.php']) {

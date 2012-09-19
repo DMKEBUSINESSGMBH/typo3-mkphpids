@@ -17,23 +17,26 @@ plugin.tx_mkphpids_pi1 {
 
     # cat=plugin.mkphpids/enable/006; type=int; label=Die Threshold: Treshold for locking the homepage to the attacker with a session_destroy() and PHP die(). Set to 0 if no die() desired.
     Impact.die_threshold    = 65
+    
+    # cat=plugin.mkphpids/enable/007; type=text; label=Pid/Alias of the page to redirect to after an attack. By default we just show a plain message to the attacker.
+    Impact.die_redirect_pid	= 
 
-    # cat=plugin.mkphpids/enable/007; type=text; label=Exceptions 1: Define which fields shouldn't be monitored. You can also make a comma separated list
+    # cat=plugin.mkphpids/enable/008; type=text; label=Exceptions 1: Define which fields shouldn't be monitored. You can also make a comma separated list
     General.exceptions_0    = GET.EXAMPLE1
 
-    # cat=plugin.mkphpids/enable/008; type=text; label=Exceptions 2: Define which fields shouldn't be monitored. You can also make a comma separated list
+    # cat=plugin.mkphpids/enable/009; type=text; label=Exceptions 2: Define which fields shouldn't be monitored. You can also make a comma separated list
     General.exceptions_1    = POST.EXAMPLE2
 
-    # cat=plugin.mkphpids/enable/009; type=text; label=Exceptions 3: Define which fields shouldn't be monitored. You can also make a comma separated list
+    # cat=plugin.mkphpids/enable/010; type=text; label=Exceptions 3: Define which fields shouldn't be monitored. You can also make a comma separated list
     General.exceptions_2    = COOKIE.__utmz,COOKIE.__utmc
 
-    # cat=plugin.mkphpids/enable/010; type=text; label=HTML: Define which fields contain html and need preparation before hitting the PHPIDS rules
+    # cat=plugin.mkphpids/enable/011; type=text; label=HTML: Define which fields contain html and need preparation before hitting the PHPIDS rules
     General.html          	= __wysiwyg
 
-    # cat=plugin.mkphpids/enable/011; type=text; label=JSON: Define which fields contain JSON data and should be treated as such for fewer false positives
+    # cat=plugin.mkphpids/enable/012; type=text; label=JSON: Define which fields contain JSON data and should be treated as such for fewer false positives
     General.json          	= POST.__jsondata
 
-    # cat=plugin.mkphpids/enable/012; type=text; label=Whitelist: Define which pages should not be protected by PHPIDS. Do this by entering the ID of the specific pages. Make a comma separated list for more then one pages
+    # cat=plugin.mkphpids/enable/013; type=text; label=Whitelist: Define which pages should not be protected by PHPIDS. Do this by entering the ID of the specific pages. Make a comma separated list for more then one pages
     General.whitelist	    =
 
     # cat=plugin.mkphpids/file/001; type=boolean; label=Use base path: Choose if base path is used. Default is true
