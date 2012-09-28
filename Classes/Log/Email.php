@@ -405,6 +405,8 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
      */
     protected function send($address, $data, $headers, $envelope = null)
     {
+    	$headers = $this->replaceHeaderMarkers($headers);
+    	
         if (!$envelope || strpos(ini_get('sendmail_path'),' -f') !== false) {
             return mail($address,
                 $this->subject,
@@ -417,6 +419,29 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
                 $headers,
                 '-f' . $envelope);
         }
+    }
+    
+    /**
+     * @param string $headers
+     * 
+     * @return string
+     */
+    private function replaceHeaderMarkers($headers) {
+    	foreach ($this->getAvailableHeaderMarkers() as $marker => $replacement) {
+    		$headers = str_replace('###'.$marker.'###', $replacement, $headers);
+    	}
+    	
+    	return $headers;
+    }
+    
+    /**
+     * @return array
+     */
+    private function getAvailableHeaderMarkers() {
+    	return array(
+    		'SITEHOST' 	=> t3lib_div::getIndpEnv('TYPO3_HOST_ONLY'),
+    		'CRLF'		=> CRLF
+    	);
     }
 }
 

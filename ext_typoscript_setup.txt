@@ -24,6 +24,7 @@ plugin.tx_mkphpids_pi1 {
     Logging.path            = {$plugin.tx_mkphpids_pi1.Logging.path}
     Logging.envelope        = {$plugin.tx_mkphpids_pi1.Logging.envelope}
     Logging.safemode        = {$plugin.tx_mkphpids_pi1.Logging.safemode}
+    Logging.header			= {$plugin.tx_mkphpids_pi1.Logging.header}
     Logging.urlencode       = {$plugin.tx_mkphpids_pi1.Logging.urlencode}
     Logging.allowed_rate    = {$plugin.tx_mkphpids_pi1.Logging.allowed_rate}
     Caching.caching         = {$plugin.tx_mkphpids_pi1.Caching.caching}

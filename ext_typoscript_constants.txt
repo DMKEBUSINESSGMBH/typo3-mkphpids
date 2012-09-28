@@ -71,19 +71,22 @@ plugin.tx_mkphpids_pi1 {
 
     # cat=plugin.mkphpids//004; type=boolean; label=Logging Safemofe: For E-Mail logging. Default is true
     Logging.safemode        = 1
+    
+    # cat=plugin.mkphpids//005; type=text; label=Logging Header: The sent E-Mail header. The markers ###SITEHOST### and ###CRLF### are supported. You should set a From header!!! If not the value from php.ini is taken.
+    Logging.header        	= From: <PHPIDS von ###SITEHOST###> mkphpids@###SITEHOST### ###CRLF###
 
-    # cat=plugin.mkphpids//005; type=boolean; label=Logging urlencode: For Email logging. Default is true
+    # cat=plugin.mkphpids//006; type=boolean; label=Logging urlencode: For Email logging. Default is true
     Logging.urlencode       = 1
 
-    # cat=plugin.mkphpids//006; type=int; label=Logging Allowed rate: For Email logging. Default is 15
+    # cat=plugin.mkphpids//007; type=int; label=Logging Allowed rate: For Email logging. Default is 15
     Logging.allowed_rate    = 15
 
-    # cat=plugin.mkphpids//007; type=options[session,file,database,memcached,none]; label=Caching method: Default is file
+    # cat=plugin.mkphpids//008; type=options[session,file,database,memcached,none]; label=Caching method: Default is file
     Caching.caching         = file
 
-    # cat=plugin.mkphpids//008; type=int; label=Caching expiration time: Default is 600
+    # cat=plugin.mkphpids//009; type=int; label=Caching expiration time: Default is 600
     Caching.expiration_time = 600
 
-    # cat=plugin.mkphpids//009; type=text; label=Min PHP Version: PHPIDS should run with PHP 5.1.2 but this is untested - set this value to force compatibilty with minor versions
+    # cat=plugin.mkphpids//010; type=text; label=Min PHP Version: PHPIDS should run with PHP 5.1.2 but this is untested - set this value to force compatibilty with minor versions
     General.min_php_version = 5.1.6
 }
