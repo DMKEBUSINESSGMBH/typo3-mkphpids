@@ -171,8 +171,25 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
                 #ext-px-phpids-mod1-index-php .typo3-mediumDoc { width: 100%; }
                 TABLE.typo3-dblist TD DIV { width: inherit; height: inherit; padding: 0px 2px 0px 2px; overflow:auto; }
                 .col-title { font-weight:bold; }
+                .typo3-dblist a.extra-data { background: transparent url("") no-repeat scroll 0 1px; padding: 0 0 0 20px; white-space: nowrap; display: block; }
+                .typo3-dblist a.extra-data:hover { background-color: white; }
+                .typo3-dblist a.open { background-image: url("../../../../typo3/sysext/t3skin/icons/gfx/plusbullet_list.gif"); }
+                .typo3-dblist a.close {  background-image: url("../../../../typo3/sysext/t3skin/icons/gfx/minusbullet_list.gif"); }
              </style>
         ';
+	$content .= '
+		<script type="text/javascript">
+			function show_hide_extradata(el) {
+				var id = el.id, div = document.getElementById(id+"-div"), hide = false;
+				if (!div) return true;
+				hide = div.style.display === "none" ? false : true;
+				div.style.display = hide ? "none" : "block";
+				el.className = hide ? "extra-data open" : "extra-data close";
+				el.innerHTML = hide ? "Show extra data" : "Hide extra data";
+				return false;
+    		}
+		</script>
+	';
 
 	switch ((string) $this->MOD_SETTINGS['function']) {
 
@@ -228,7 +245,12 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
 // 				$dataArray = '<a title="Show extra data" id="extra-link-'.$row['uid'].'" href="javascript:document.getElementById(\'extra-data-'.$row['uid'].'\').style.display = \'block\';">'
 // 							.'+ Show Data: </a>'
 // 							.'<div id="extra-data-'.$row['uid'].'" style="display:none;">'.t3lib_div::view_array($dataArray).'</div>';
-				$dataArray = '@TODO: Javascript zum einblenden. Die Daten liegen momentan im verstecklten Div!<div id="extra-data-'.$row['uid'].'" style="display:none;">'.t3lib_div::view_array($dataArray).'</div>';
+				tx_rnbase::load('tx_rnbase_util_TYPO3');
+				if(tx_rnbase_util_TYPO3::isTYPO45OrHigher())
+					$dataArray = t3lib_utility_Debug::viewArray($dataArray);
+				else
+					$dataArray = t3lib_div::view_array($dataArray);
+				$dataArray = '<a onclick="return show_hide_extradata(this);" id="extra-data-368" class="extra-data open" href="javascript:void(0);">Show extra data</a><div id="extra-data-'.$row['uid'].'-div" style="display:none;">'.$dataArray.'</div>';
 			}
 			$content .= '   <tr class="' . ($i % 2 ? 'db_list_normal' : 'db_list_alt') . '' . ($i == 1 ? ' firstcol' : '') . '' . ($i == $numRows ? ' lastcol' : '') . '">
                                             <td><div><code>' . htmlspecialchars($row["name"]) . '</code>&nbsp;</div></td>
