@@ -5,6 +5,9 @@ plugin.tx_mkphpids_pi1 {
 
     # cat=plugin.mkphpids/enable/002; type=text; label=Address for reportings by E-Mail: If not specified the $TYPO3_CONF_VARS['BE']['warning_email_addr'] will be used
     Logging.email        	=
+    
+    # cat=plugin.mkphpids/enable/003; type=int; label=Print to screen Threshold: Threshold for printing an impact to the screen. Set to 0 if no logging desired.
+    Impact.print_to_screen_threshold   = 0
 
     # cat=plugin.mkphpids/enable/003; type=int; label=File Threshold: Threshold for reporting an impact to the logfile defined in Logging.path. Set to 0 if no logging desired.
     Impact.file_threshold   = 0

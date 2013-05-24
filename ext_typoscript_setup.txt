@@ -1,5 +1,6 @@
 plugin.tx_mkphpids_pi1 {
 
+	Impact.print_to_screen_threshold   = {$plugin.tx_mkphpids_pi1.Impact.print_to_screen_threshold}
     Impact.file_threshold   = {$plugin.tx_mkphpids_pi1.Impact.file_threshold}
     Impact.db_threshold     = {$plugin.tx_mkphpids_pi1.Impact.db_threshold}
     Impact.email_threshold  = {$plugin.tx_mkphpids_pi1.Impact.email_threshold}

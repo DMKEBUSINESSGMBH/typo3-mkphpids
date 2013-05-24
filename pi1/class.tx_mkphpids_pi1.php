@@ -147,9 +147,6 @@ class tx_mkphpids_pi1 extends tslib_pibase {
                      */
                     require_once(t3lib_extMgm::extPath('mkphpids').'IDS/Log/File.php');
                     require_once(t3lib_extMgm::extPath('mkphpids').'IDS/Log/Composite.php');
-                    tx_rnbase::load('Tx_mkphpids_Log_Email');
-                    tx_rnbase::load('Tx_mkphpids_Log_Database');
-
                     $compositeLog = new IDS_Log_Composite();
 
                     /*
@@ -161,17 +158,25 @@ class tx_mkphpids_pi1 extends tslib_pibase {
                      *  65+: This is a serious hacking attemp -> knock em out!
                      */
 
+                    if ($this->conf['Impact.']['print_to_screen_threshold'] && $result->getImpact() >= $this->conf['Impact.']['print_to_screen_threshold']) {
+                    	tx_rnbase::load('Tx_mkphpids_Log_PrintToScreen');
+                    	$compositeLog->addLogger(Tx_mkphpids_Log_PrintToScreen::getInstance());  
+                    	$content .='<div class="box ok">Reporting to Screen (Threshold: ' . $this->conf['Impact.']['print_to_screen_threshold'] . ')</div>';
+                    }
+                    
                     if ($this->conf['Impact.']['file_threshold'] && $result->getImpact() >= $this->conf['Impact.']['file_threshold']) {
                         $compositeLog->addLogger(IDS_Log_File::getInstance($init));     // Log Impact into File (IDS/tmp/phpids_log.txt)
                         $content .='<div class="box ok">Reporting to File (Threshold: ' . $this->conf['Impact.']['file_threshold'] . ')</div>';
                     }
 
                     if ($this->conf['Impact.']['db_threshold'] && $result->getImpact() >= $this->conf['Impact.']['db_threshold']) {
+                    	tx_rnbase::load('Tx_mkphpids_Log_Database');
                         $compositeLog->addLogger(Tx_mkphpids_Log_Database::getInstance($init)); // Log Impact into a Database (tx_mkphpids_log)
                         $content .='<div class="box ok">Reporting to DB (Threshold: ' . $this->conf['Impact.']['db_threshold'] . ')</div>';
                     }
 
                     if ($this->conf['Impact.']['email_threshold'] && $result->getImpact() >= $this->conf['Impact.']['email_threshold']) {
+                    	tx_rnbase::load('Tx_mkphpids_Log_Email');
                         $compositeLog->addLogger(Tx_mkphpids_Log_Email::getInstance($init));    // Report Impact via E-Mail
                         $content .='<div class="box ok">Reporting by E-Mail (Threshold: ' . $this->conf['Impact.']['email_threshold'] . ')</div>';
                     }
