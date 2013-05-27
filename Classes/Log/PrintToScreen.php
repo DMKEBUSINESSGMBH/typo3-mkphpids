@@ -32,6 +32,7 @@
  */
 
 require_once(t3lib_extMgm::extPath('mkphpids').'IDS/Log/Interface.php');
+tx_rnbase::load('tx_rnbase_util_Debug');
 
 /**
  * Email logging wrapper
@@ -76,8 +77,8 @@ class Tx_mkphpids_Log_PrintToScreen implements IDS_Log_Interface
      */
     public function execute(IDS_Report $data)
     {
-        t3lib_div::debug(array(
-        	"mkphpids vermutet eine Attacke:<br/>" . $data
+        tx_rnbase_util_Debug::debug(array(
+        	"mkphpids vermutet eine Attacke:" . str_replace('<br/>', '', $data)
         ),__METHOD__.__LINE__);
     }
 }

@@ -133,12 +133,16 @@ class tx_mkphpids_pi1 extends tslib_pibase {
                  * a __toString method.
                  */
 
-                // @FIXME: PHPIDS soll auf PHP beruhende Anwendungen vor Cross-Site-Scripting-, SQL-Injection und anderen Angriffe schützen.
+                // mwagner: PHPIDS soll auf PHP beruhende Anwendungen vor Cross-Site-Scripting-, SQL-Injection und anderen Angriffe schützen.
                 // http://buhl.localhost/?ext[uid]=11%3B%20DELETE%20FROM%20pages
                 // Medlet einen impact von 11, die tabelle  pages ist danach leer
                 // ergebendes sql: SELECT * FROM tx_ext WHERE uid = 1; DELETE FROM pages;
-                // Was verhindert phpids
-                //tx_rnbase_util_Debug::debug('impact:'.$result->getImpact(), 'DEBUG: '.__METHOD__.' Line: '.__LINE__,'mwDebug'); // @TODO: remove me exit;
+                // Was verhindert phpids.
+                //
+                // hbochmann: PHPIDS prüft lediglich Parameter und bewertet diese auf Angriffspotential.
+                // Diese Erkennung ist selbstverständlich nicht 100% sicher/zuverlässig sondern nur ein weiteres
+                // Hilfsmittel ein sicheres System bereitzustellen. Programmcode mus trotzdem sicher sein.
+                // Verhindert wird nur etwas was mit sehr großer Sicherheit ein Angriffsversuch ist.
                 if (!$result->isEmpty()) {
                     $content.='<p class="box error">' . $result . '</p>';
 
