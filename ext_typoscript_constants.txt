@@ -24,13 +24,13 @@ plugin.tx_mkphpids_pi1 {
     # cat=plugin.mkphpids/enable/007; type=text; label=Pid/Alias of the page to redirect to after an attack. By default we just show a plain message to the attacker.
     Impact.die_redirect_pid	= 
 
-    # cat=plugin.mkphpids/enable/008; type=text; label=Exceptions 1: Define which fields shouldn't be monitored. You can also make a comma separated list
+    # cat=plugin.mkphpids/enable/008; type=text; label=Exceptions 1: Define which fields shouldn't be monitored. You can also make a comma separated list. It is possible to use a Regex like this /COOKIE._pk_ref_*/i
     General.exceptions_0    = GET.EXAMPLE1
 
-    # cat=plugin.mkphpids/enable/009; type=text; label=Exceptions 2: Define which fields shouldn't be monitored. You can also make a comma separated list
+    # cat=plugin.mkphpids/enable/009; type=text; label=Exceptions 2: Define which fields shouldn't be monitored. You can also make a comma separated list It is possible to use a Regex like this /COOKIE._pk_ref_*/i
     General.exceptions_1    = POST.EXAMPLE2
 
-    # cat=plugin.mkphpids/enable/010; type=text; label=Exceptions 3: Define which fields shouldn't be monitored. You can also make a comma separated list
+    # cat=plugin.mkphpids/enable/010; type=text; label=Exceptions 3: Define which fields shouldn't be monitored. You can also make a comma separated list It is possible to use a Regex like this /COOKIE._pk_ref_*/i
     General.exceptions_2    = COOKIE.__utmz,COOKIE.__utmc,COOKIE.__gads,COOKIE._pk_ref_1_95c0,COOKIE._pk_ref_1_bdaa
 
     # cat=plugin.mkphpids/enable/011; type=text; label=HTML: Define which fields contain html and need preparation before hitting the PHPIDS rules
