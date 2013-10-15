@@ -13,10 +13,10 @@ plugin.tx_mkphpids_pi1 {
     Impact.file_threshold   = 0
 
     # cat=plugin.mkphpids/enable/004; type=int; label=DB Threshold: Threshold for reporting an impact to the database shown in the PHPIDS backend module. Set to 0 if no logging desired.
-    Impact.db_threshold     = 30
+    Impact.db_threshold     = 15
 
     # cat=plugin.mkphpids/enable/005; type=int; label=EMail Threshold: Threshold for reporting an impact by e-mail specified in Logging.email. Set to 0 if no logging desired.
-    Impact.email_threshold  = 50
+    Impact.email_threshold  = 20
 
     # cat=plugin.mkphpids/enable/006; type=int; label=Die Threshold: Treshold for locking the homepage to the attacker with a session_destroy() and PHP die(). Set to 0 if no die() desired.
     Impact.die_threshold    = 65
