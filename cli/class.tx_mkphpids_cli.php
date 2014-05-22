@@ -22,6 +22,8 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+tx_rnbase::load('tx_rnbase_util_DB');
 
 class tx_mkphpids_cli extends tx_scheduler_Task {
 
@@ -48,7 +50,7 @@ class tx_mkphpids_cli extends tx_scheduler_Task {
             $filter = t3lib_div::writeFile($this->localFilter, $filter);
             $converter = t3lib_div::getUrl($this->remoteConverter);
             $converter = t3lib_div::writeFile($this->localConverter, $converter);
-            $res = mysql_query('TRUNCATE tx_mkphpids_cache');
+            $res = tx_rnbase_util_DB::doQuery('TRUNCATE tx_mkphpids_cache');
 
             if ($filter && $converter && $res) {
                 t3lib_div::devLog('[scheduler: phpids updater]: Updated successfull.', 'mkphpids', -1);
