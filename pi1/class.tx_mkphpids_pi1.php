@@ -112,7 +112,7 @@ class tx_mkphpids_pi1 extends tslib_pibase {
 
                 $init->config['Logging'] = $this->conf['Logging.'];
                 $init->config['Logging']['table'] = 'tx_mkphpids_log';
-                $init->config['Logging']['recipients'] = $this->conf['Logging.']['email'] ? $this->conf['Logging.']['email'] : $TYPO3_CONF_VARS['BE']['warning_email_addr'];
+                $init->config['Logging']['recipients'] = $this->conf['Logging.']['email'] ? $this->conf['Logging.']['email'] : $GLOBALS['TYPO3_CONF_VARS']['BE']['warning_email_addr'];
 
                 $init->config['Caching'] = $this->conf['Caching.'];
                 $init->config['Caching']['table'] = 'tx_mkphpids_cache';
@@ -234,7 +234,7 @@ class tx_mkphpids_pi1 extends tslib_pibase {
     }
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkphpids/pi1/class.tx_mkphpids_pi1.php']) {
-    include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkphpids/pi1/class.tx_mkphpids_pi1.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkphpids/pi1/class.tx_mkphpids_pi1.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkphpids/pi1/class.tx_mkphpids_pi1.php']);
 }
 ?>

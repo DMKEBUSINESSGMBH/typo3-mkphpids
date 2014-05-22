@@ -27,8 +27,11 @@
 // DEFAULT initialization of a module [BEGIN]
 unset($MCONF);
 require_once('conf.php');
+
 require_once($REQUIRE_PATH . 'init.php');
-require_once($REQUIRE_PATH . 'template.php');
+if (!class_exists('template')) {
+	require_once($REQUIRE_PATH . 'template.php');
+}
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_util_DB');
@@ -435,8 +438,8 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
 
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkphpids/mod1/index.php']) {
-    include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkphpids/mod1/index.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkphpids/mod1/index.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkphpids/mod1/index.php']);
 }
 
 
