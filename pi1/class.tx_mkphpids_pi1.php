@@ -23,7 +23,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-require_once(PATH_tslib . 'class.tslib_pibase.php');
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 
 /**
@@ -42,7 +41,7 @@ class tx_mkphpids_pi1 extends tslib_pibase {
     var $scriptRelPath = 'pi1/class.tx_mkphpids_pi1.php'; // Path to this script relative to the extension dir.
     var $extKey = 'mkphpids'; // The extension key.
     var $conf;
-    
+
     /**
      * The main method of the PlugIn
      *
@@ -113,7 +112,7 @@ class tx_mkphpids_pi1 extends tslib_pibase {
 
                 $init->config['Logging'] = $this->conf['Logging.'];
                 $init->config['Logging']['table'] = 'tx_mkphpids_log';
-                $init->config['Logging']['recipients'] = $this->conf['Logging.']['email'] ? $this->conf['Logging.']['email'] : $TYPO3_CONF_VARS['BE']['warning_email_addr'];
+                $init->config['Logging']['recipients'] = $this->conf['Logging.']['email'] ? $this->conf['Logging.']['email'] : $GLOBALS['TYPO3_CONF_VARS']['BE']['warning_email_addr'];
 
                 $init->config['Caching'] = $this->conf['Caching.'];
                 $init->config['Caching']['table'] = 'tx_mkphpids_cache';
@@ -164,10 +163,10 @@ class tx_mkphpids_pi1 extends tslib_pibase {
 
                     if ($this->conf['Impact.']['print_to_screen_threshold'] && $result->getImpact() >= $this->conf['Impact.']['print_to_screen_threshold']) {
                     	tx_rnbase::load('Tx_mkphpids_Log_PrintToScreen');
-                    	$compositeLog->addLogger(Tx_mkphpids_Log_PrintToScreen::getInstance());  
+                    	$compositeLog->addLogger(Tx_mkphpids_Log_PrintToScreen::getInstance());
                     	$content .='<div class="box ok">Reporting to Screen (Threshold: ' . $this->conf['Impact.']['print_to_screen_threshold'] . ')</div>';
                     }
-                    
+
                     if ($this->conf['Impact.']['file_threshold'] && $result->getImpact() >= $this->conf['Impact.']['file_threshold']) {
                         $compositeLog->addLogger(IDS_Log_File::getInstance($init));     // Log Impact into File (IDS/tmp/phpids_log.txt)
                         $content .='<div class="box ok">Reporting to File (Threshold: ' . $this->conf['Impact.']['file_threshold'] . ')</div>';
@@ -211,12 +210,12 @@ class tx_mkphpids_pi1 extends tslib_pibase {
 
     /**
      * @param string $content
-     * 
+     *
      * @return void
      */
     private function handleDieThreshold($content) {
     	session_destroy();
-    	
+
     	if ($this->debug == false && $this->conf['Impact.']['die_redirect_pid']) {
 	    	$redirectUrl = $this->pi_getPageLink($this->conf['Impact.']['die_redirect_pid']);
 	    	header('Location: '.t3lib_div::locationHeaderUrl($redirectUrl));
@@ -229,13 +228,13 @@ class tx_mkphpids_pi1 extends tslib_pibase {
 			$content .= '<br /><div>You have been logged out cause of a possible hacking attemp.</div>
 						<div>Your data has been stored and reported.</div>
 						<div>If you think this is an error please contact the webmaster of this website.</div>';
-			
+
 			die($content);
     	}
     }
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkphpids/pi1/class.tx_mkphpids_pi1.php']) {
-    include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkphpids/pi1/class.tx_mkphpids_pi1.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkphpids/pi1/class.tx_mkphpids_pi1.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkphpids/pi1/class.tx_mkphpids_pi1.php']);
 }
 ?>

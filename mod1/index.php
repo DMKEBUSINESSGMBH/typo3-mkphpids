@@ -27,11 +27,16 @@
 // DEFAULT initialization of a module [BEGIN]
 unset($MCONF);
 require_once('conf.php');
+
 require_once($REQUIRE_PATH . 'init.php');
-require_once($REQUIRE_PATH . 'template.php');
+if (!class_exists('template')) {
+	require_once($REQUIRE_PATH . 'template.php');
+}
+
+require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+tx_rnbase::load('tx_rnbase_util_DB');
 
 $LANG->includeLLFile('EXT:mkphpids/mod1/locallang.xml');
-require_once(PATH_t3lib . 'class.t3lib_scbase.php');
 $BE_USER->modAccess($MCONF, 1); // This checks permissions and exits if the users has no permission for entry.
 // DEFAULT initialization of a module [END]
 
@@ -283,7 +288,9 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
 		    if ($res) {
 			$content.='<p class="typo3-message message-ok">' . $LANG->getLL('function2_text_del_ok') . '</p>';
 		    } else {
-			$content.='<p class="typo3-message message-error">' . $LANG->getLL('sql_exec_error') . mysql_error() . '</p>';
+			$content.=	'<p class="typo3-message message-error">' .
+						$LANG->getLL('sql_exec_error') .
+						$GLOBALS['TYPO3_DB']->sql_error() . '</p>';
 		    }
 		} else {
 		    $content.='<p class="typo3-message message-warning">' . $LANG->getLL('function2_text') . '</p>';
@@ -296,11 +303,13 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
 
 	    case 3: // Function to truncate the tx_mkphpids_cache table
 		if ($_REQUEST['del']) {
-		    $res = mysql_query('TRUNCATE tx_mkphpids_cache');
+		    $res = tx_rnbase_util_DB::doQuery('TRUNCATE tx_mkphpids_cache');
 		    if ($res) {
 			$content.='<p class="typo3-message message-ok">' . $LANG->getLL('function3_text_del_ok') . '</p>';
 		    } else {
-			$content.='<p class="typo3-message message-error">' . $LANG->getLL('sql_exec_error') . mysql_error() . '</p>';
+			$content.=	'<p class="typo3-message message-error">' .
+						$LANG->getLL('sql_exec_error') .
+						$GLOBALS['TYPO3_DB']->sql_error() . '</p>';
 		    }
 		} else {
 		    $content.='<p class="typo3-message message-warning">' . $LANG->getLL('function3_text') . '</p>';
@@ -318,7 +327,7 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
 		    $converter = t3lib_div::getUrl($this->remoteConverter);
 		    $converter = t3lib_div::writeFile($this->localConverter, $converter);
 
-		    $res = mysql_query('TRUNCATE tx_mkphpids_cache');
+		    $res = tx_rnbase_util_DB::doQuery('TRUNCATE tx_mkphpids_cache');
 		    if ($filter && $converter && $res) {
 			$content.='<p class="typo3-message message-ok">' . $LANG->getLL('function4_text_update_ok') . '</p>';
 		    } else {
@@ -429,8 +438,8 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
 
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkphpids/mod1/index.php']) {
-    include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkphpids/mod1/index.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkphpids/mod1/index.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkphpids/mod1/index.php']);
 }
 
 

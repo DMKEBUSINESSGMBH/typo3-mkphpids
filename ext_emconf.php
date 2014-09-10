@@ -17,6 +17,8 @@ $EM_CONF[$_EXTKEY] = array(
 	'shy' => 0,
 	'version' => '1.4.9',
 	'dependencies' => 'cms,rn_base',
+	//@TODO cms entfernen ab TYPO3 7.x
+	'dependencies' => 'cms,frontend,core,rn_base',
 	'conflicts' => '',
 	'priority' => '',
 	'loadOrder' => '',
@@ -35,8 +37,11 @@ $EM_CONF[$_EXTKEY] = array(
 	'constraints' => array(
 		'depends' => array(
 			'php' => '5.1.6-0.0.0',
-			'typo3' => '4.4.0-0.0.0',
+			'typo3' => '4.4.0-6.2.99',
+			//@TODO cms entfernen ab TYPO3 7.x
 			'cms' => '',
+			'core' => '',
+			'frontend' => '',
 			'rn_base' => '',
 		),
 		'conflicts' => array(
