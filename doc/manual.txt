@@ -1,0 +1,174 @@
+﻿
+EXT: PHPIDS
+Extension Key: px_phpids
+Copyright 2008-2009, pixabit GmbH / pascal.naujoks@pixabit.de, <pascal.naujoks@pixabit.de>
+
+This document is published under the Open Content License
+available from http://www.opencontent.org/opl.shtml
+
+The content of this document is related to TYPO3 
+- a GNU/GPL CMS/Framework available from www.typo3.com
+
+Table of Contents
+EXT: PHPIDS	1
+Introduction	2
+What does it do?	2
+Features	2
+Screenshots	2
+Users Manual	3
+Installation	3
+How to update 	3
+Administration	3
+Configuration	3
+Credits	4
+To-Do list	4
+
+Introduction
+What does it do?
+Adding a PHP Intrusion Detection System from http://www.phpids.org  to your TYPO3 Website.
+Features
+Quote from the Author of PHPIDS:
+“PHPIDS (PHP-Intrusion Detection System) is a simple to use, well structured, fast and state-of-the-art security layer for your PHP based web application. The IDS neither strips, sanitizes nor filters any malicious input, it simply recognizes when an attacker tries to break your site and reacts in exactly the way you want it to. Based on a set of approved and heavily tested filter rules any attack is given a numerical impact rating which makes it easy to decide what kind of action should follow the hacking attempt. This could range from simple logging to sending out an emergency mail to the development team, displaying a warning message for the attacker or even ending the user’s session.
+PHPIDS enables you to see who’s attacking your site and how and all without the tedious trawling of logfiles or searching hacker forums for your domain. Last but not least it’s licensed under the LGPL!”
+On their site you can find a collection of resources related to PHPIDS. These including files, documentation, a friendly forum and a demo which shows some of the best features of PHPIDS. 
+Screenshots
+
+
+
+
+
+Users Manual
+Installation
+Install the extension with the Extension Manager.
+The extension is automaticly installed by setting a Page Object “page.8 < plugin.tx_pxphpids_pi1” in the ext_typoscript_setup.txt. If you already defined the .8 by another extension please use another number as low as possible.
+After activation you should get a message on top of your page: “No attack detected – click for an example attack”. (See Image 2).
+This Message shows you that the installation completed successfully. Now you can turn the message off by setting the Typo-Script variable General.debug_mode to 0. To do this choose “Template” in your Typo3 Backend. Then refer to the first page after the page with the globe-sign. Choose “Constant Editor” from the dropdown on top of the page. You should now see a new dropdown with a list of installed and configurable extension. Choose “PX_PHPIDS (27)”. See Section “Configuration” for details.
+Note that most of the variables must not be changed since PHPIDS for TYPO3 is preconfigured and should fit most need.
+How to update 
+From time to time you have to update the filer rules (default_filter.xml) and the converter (Converter.php).
+This can be done by using the backend module PHPIDS → Update converter and filter → Start update
+You can automate this procedure by adding PHPIDS to the TYPO3 Scheduler. To do this click on the backend module Scheduler → Add task → Choose “PHPIDS filter and converter update”. The task frequency should be once a week (for example “30 3 * * 0”).
+Administration
+All settings are done by TypoScript objects. Please refer to your Constant Editor and choose PX_PHPIDS.
+They are also explained in the next section: “Configuration”.
+Configuration
+Use the Constant Editor template tool to set these properties. If you are not using the Constant editor to configure the extension, you should analyze carefully the use of these constants in the default setup file.
+Property:
+Data type:
+Description:
+Default:
+General.debug_mode
+boolean
+Debug Mode: Turn on or off debug mode.
+1
+Impact.file_threshold
+int
+File Threshold: Threshold for reporting an impact to the logfile defined in Logging.path
+1
+Impact.db_threshold
+int
+DB Threshold: Threshold for reporting an impact to the database shown in the PHPIDS backend module
+25
+Impact.email_threshold
+int
+EMail Threshold: Threshold for reporting an impact by e-mail specified in Logging.email
+50
+Impact.die_threshold
+int
+Die Threshold: Treshold for locking the homepage to the attacker with a session_destroy() and PHP die()
+75
+General.filter_type
+text
+Filter Typ: Choose your filter type.
+xml
+General.use_base_path
+boolean
+Use base path: Choose if base path is used. 
+1
+General.filter_path
+text
+Filter path: Choose your filter file. Default is default_filter.xml
+default_filter.xml
+General.tmp_path
+text
+Tmp path: Choose your temp path.
+tmp
+General.scan_keys
+boolean
+Scan Key: Use scan key
+0
+General.HTML_Purifier_Path
+text
+HTML Purifier Path: In case you want to use a different HTMLPurifier source, specify it here. By default, those files are used that are being shipped with PHPIDS
+IDS/vendors/htmlpurifier/HTMLPurifier.auto.php
+General.HTML_Purifier_Cache
+text
+HTML Purifier Cache: In case you want to use a different HTMLPurifier cache, specify it here. By default, those files are used that are being shipped with PHPIDS
+IDS/vendors/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer
+General.html 
+text
+HTML: Define which fields contain html and need preparation before hitting the PHPIDS rules
+__wysiwyg
+General.json
+text
+JSON: Define which fields contain JSON data and should be treated as such for fewer false positives
+__jsondata
+General.exceptions_0
+text
+Exception 1: Define which fields shouldn't be monitored
+
+General.exceptions_1
+text
+Exception 2: Define which fields shouldn't be monitored
+
+General.exceptions_2
+text
+Exception 3: Define which fields shouldn't be monitored
+
+General.min_php_version
+text
+PHPIDS should run with PHP 5.1.2 but this is untested - set this value to force compatibilty with minor versions
+5.1.6
+Logging.email
+text
+Address for reportings by E-Mail: If not specified the $TYPO3_CONF_VARS['BE']['warning_email_addr'] will be used
+
+Logging.path
+text
+File logging: If you use the PHPIDS logger you can define specific configuration here
+tmp/phpids_log.txt
+Logging.envelope
+text
+Email logging: Note that enabling safemode you can prevent spam attempts
+
+Logging.safemode
+boolean
+Logging Safemofe for E-Mail logging.
+1
+Logging.urlencode
+boolean
+Logging urlencode for Email logging
+1
+Logging.allowed_rate
+int
+Logging Allowed rate for Email logging
+15
+Caching.caching 
+options[session,file,database,memcached,none];
+Caching method
+file
+Caching.expiration_time
+int
+Caching expiration time
+600
+Caching.path
+text
+File caching path
+tmp/default_filter.cache
+Credits
+First of all thanks to Kasper Skårhøj, the founder of TYPO3. 
+Then I would like to thank Mario Heiderich and his team from www.php-ids.org for developing the original PHPIDS.
+I also would like to thank Alexander S., Alexander K. and Stefan W. for helping me out with some tricky TYPO3 things.
+And last but not least I would like to thank www.pixabit.de – without this company PHPIDS for Typo3 would not exist.
+To-Do list
+Convert this extension to extbase and fluid.

@@ -29,8 +29,9 @@ require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
  * Plugin 'PHPIDS for Typo3' for the 'mkphpids' extension.
  *
  * @author	pixabit GmbH / Pascal Naujoks <pascal.naujoks@pixabit.de>
+ * @author Hannes Bochmann <dev@dmk-ebusiness.de>
  * @package	TYPO3
- * @subpackage	tx_mkphpids *
+ * @subpackage	tx_mkphpids
  * @todo port to rn_base plugin
  * @todo the converter class has been edited inside the IDS folder. so an update
  * of IDS is not easy in the moment. find a way to put the converter outside!
