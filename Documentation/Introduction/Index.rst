@@ -19,10 +19,13 @@ What does it do?
 
 Adding a PHP Intrusion Detection System from http://www.phpids.org  to your TYPO3 Website.
 
+This extension is a fork of px_phpids with more features and TYPO3 6.2 support. 
+So thanx for the development of px_phpids.
+
 .. _features:
 
 Features
-----------------
+--------
 Quote from the Author of PHPIDS:
 
 “PHPIDS (PHP-Intrusion Detection System) is a simple to use, well structured, 
@@ -48,7 +51,7 @@ shows some of the best features of PHPIDS.
 .. _screenshots:
 
 Screenshots
-----------------
+-----------
 
 .. figure:: ../Images/BackendModule.png
    :alt: backend module.
