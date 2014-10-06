@@ -23,7 +23,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
+tx_rnbase::load('tx_rnbase_util_Strings');
 
 /**
  * Plugin 'PHPIDS for Typo3' for the 'mkphpids' extension.
@@ -55,17 +56,51 @@ class tx_mkphpids_pi1 extends tslib_pibase {
         $this->conf = $conf;
         $this->conf['General.']['exceptions'] = array();
 
-        $this->conf['General.']['whitelist'] = explode(',', $this->conf['General.']['whitelist']);
-        $this->conf['General.']['json'] = explode(',',$this->conf['General.']['json']);
-        $this->conf['General.']['html'] = explode(',',$this->conf['General.']['html']);
+
+        $this->conf['General.']['whitelist'] = tx_rnbase_util_Strings::trimExplode(
+            ',',
+            $this->conf['General.']['whitelist'],
+            TRUE
+        );
+        $this->conf['General.']['json'] = tx_rnbase_util_Strings::trimExplode(
+            ',',
+            $this->conf['General.']['json'],
+            TRUE
+        );
+        $this->conf['General.']['html'] = tx_rnbase_util_Strings::trimExplode(
+            ',',
+            $this->conf['General.']['html'],
+            TRUE
+        );
 
         // Should the current page be monitored or is it in the whitelist?
         if (!in_array($GLOBALS['TSFE']->id, $this->conf['General.']['whitelist'])) {
 
             // Hook for importing exceptions from constant editor
-            $this->conf['General.']['exceptions'] = array_merge(explode(',', $this->conf['General.']['exceptions_0']), $this->conf['General.']['exceptions']);
-            $this->conf['General.']['exceptions'] = array_merge(explode(',', $this->conf['General.']['exceptions_1']), $this->conf['General.']['exceptions']);
-            $this->conf['General.']['exceptions'] = array_merge(explode(',', $this->conf['General.']['exceptions_2']), $this->conf['General.']['exceptions']);
+            $this->conf['General.']['exceptions'] = array_merge(
+                tx_rnbase_util_Strings::trimExplode(
+                    ',',
+                    $this->conf['General.']['exceptions_0'],
+                    TRUE
+                ),
+                $this->conf['General.']['exceptions']
+            );
+            $this->conf['General.']['exceptions'] = array_merge(
+                tx_rnbase_util_Strings::trimExplode(
+                    ',',
+                    $this->conf['General.']['exceptions_1'],
+                    TRUE
+                ),
+                $this->conf['General.']['exceptions']
+            );
+            $this->conf['General.']['exceptions'] = array_merge(
+                tx_rnbase_util_Strings::trimExplode(
+                    ',',
+                    $this->conf['General.']['exceptions_2'],
+                    TRUE
+                ),
+                $this->conf['General.']['exceptions']
+            );
             unset($this->conf['General.']['exceptions_0'], $this->conf['General.']['exceptions_1'], $this->conf['General.']['exceptions_2']);
 
             // Settings
