@@ -31,7 +31,7 @@ plugin.tx_mkphpids_pi1 {
     General.exceptions_1    = POST.EXAMPLE2
 
     # cat=plugin.mkphpids/enable/010; type=text; label=Exceptions 3: Define which fields shouldn't be monitored. You can also make a comma separated list It is possible to use a Regex like this /COOKIE._pk_ref_*/i
-    General.exceptions_2    = COOKIE.__utmz,COOKIE.__utmc,COOKIE.__gads,COOKIE._pk_ref_1_95c0,COOKIE._pk_ref_1_bdaa,/POST.*.__hmac/i,/GET.*.__hmac/i
+    General.exceptions_2    = COOKIE.__utmz,COOKIE.__utmc,COOKIE.__gads,/COOKIE.*_session/i,/COOKIE._pk_ref_*/i,/POST.*.__hmac/i,/GET.*.__hmac/i
 
     # cat=plugin.mkphpids/enable/011; type=text; label=HTML: Define which fields contain html and need preparation before hitting the PHPIDS rules
     General.html          	= __wysiwyg
