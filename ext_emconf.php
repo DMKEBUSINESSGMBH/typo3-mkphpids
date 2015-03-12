@@ -11,7 +11,7 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'TYPO3 Security / Intrusion Detection System',
+	'title' => 'MK PHPIDS',
 	'description' => 'Currently the PHPIDS detects all sorts of XSS, SQL Injection, header injection, directory traversal, RFE/LFI, DoS and LDAP attacks. Through special conversion algorithms the PHPIDS is even able to detect heavily obfuscated attacks.',
 	'category' => 'plugin',
 	'shy' => 0,
