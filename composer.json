@@ -1,7 +1,7 @@
 {
 	"name" : "dmk/mkphpids",
 	"description" : "Currently the PHPIDS detects all sorts of XSS, SQL Injection, header injection, directory traversal, RFE/LFI, DoS and LDAP attacks. Through special conversion algorithms the PHPIDS is even able to detect heavily obfuscated attacks.",
-	"version" : "1.5.4",
+	"version" : "1.5.5",
 	"type" : "typo3-cms-extension",
 	"keywords" : ["TYPO3 CMS", "phpids", "xss", "SQL Injection"],
 	"homepage" : "http://www.dmk-ebusiness.de/",
