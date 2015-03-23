@@ -23,7 +23,7 @@ plugin.tx_mkphpids_pi1 {
     
     # cat=plugin.mkphpids/enable/007; type=text; label=Pid/Alias of the page to redirect to after an attack. By default we just show a plain message to the attacker.
     Impact.die_redirect_pid	= 
-
+    
     # cat=plugin.mkphpids/enable/008; type=text; label=Exceptions 1: Define which fields shouldn't be monitored. You can also make a comma separated list. It is possible to use a Regex like this /COOKIE._pk_ref_*/i
     General.exceptions_0    = GET.EXAMPLE1
 
@@ -41,6 +41,9 @@ plugin.tx_mkphpids_pi1 {
 
     # cat=plugin.mkphpids/enable/013; type=text; label=Whitelist: Define which pages should not be protected by PHPIDS. Do this by entering the ID of the specific pages. Make a comma separated list for more then one pages
     General.whitelist	    =
+    
+    # cat=plugin.mkphpids/enable/014; type=text; label=Comma separated list of IPs which are excluded from the intrution detection. Check the manual how the IPs can be defined.
+    General.excludedIPs    = 
 
     # cat=plugin.mkphpids/file/001; type=boolean; label=Use base path: Choose if base path is used. Default is true
     General.use_base_path   = 1

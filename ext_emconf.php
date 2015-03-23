@@ -39,7 +39,7 @@ $EM_CONF[$_EXTKEY] = array(
 			'cms' => '',
 			'core' => '',
 			'frontend' => '',
-			'rn_base' => '',
+			'rn_base' => '0.14.14-',
 		),
 		'conflicts' => array(
 		),

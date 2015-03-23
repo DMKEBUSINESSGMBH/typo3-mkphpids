@@ -25,6 +25,7 @@
 
 require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_util_Strings');
+tx_rnbase::load('tx_rnbase_util_Network');
 
 /**
  * Plugin 'PHPIDS for Typo3' for the 'mkphpids' extension.
@@ -54,6 +55,11 @@ class tx_mkphpids_pi1 extends tslib_pibase {
     function main($content, $conf) {
         $this->pi_USER_INT_obj = 1;
         $this->conf = $conf;
+
+		if ($this->isCurrentIpExcluded()) {
+			return NULL;
+		}
+
         $this->conf['General.']['exceptions'] = array();
 
 
@@ -243,6 +249,22 @@ class tx_mkphpids_pi1 extends tslib_pibase {
             }
         }
     }
+
+	/**
+	 * @return boolean
+	 */
+	protected function isCurrentIpExcluded() {
+		$isCurrentIpExcluded = FALSE;
+
+		if($this->conf['General.']['excludedIPs']) {
+			$isCurrentIpExcluded = tx_rnbase_util_Network::cmpIP(
+				t3lib_div::getIndpEnv('REMOTE_ADDR'),
+				$this->conf['General.']['excludedIPs']
+			);
+		}
+
+		return $isCurrentIpExcluded;
+	}
 
     /**
      * @param string $content

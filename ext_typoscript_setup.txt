@@ -21,6 +21,7 @@ plugin.tx_mkphpids_pi1 {
     General.exceptions_2    = {$plugin.tx_mkphpids_pi1.General.exceptions_2}
     General.whitelist	    = {$plugin.tx_mkphpids_pi1.General.whitelist}
     General.min_php_version = {$plugin.tx_mkphpids_pi1.General.min_php_version}
+    General.excludedIPs 	= {$plugin.tx_mkphpids_pi1.General.excludedIPs}
     Logging.email           = {$plugin.tx_mkphpids_pi1.Logging.email}
     Logging.path            = {$plugin.tx_mkphpids_pi1.Logging.path}
     Logging.envelope        = {$plugin.tx_mkphpids_pi1.Logging.envelope}
