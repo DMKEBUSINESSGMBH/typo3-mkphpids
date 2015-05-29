@@ -14,11 +14,11 @@ Users manual
 .. _installation:
 
 Installation
-----------------
+------------
 
 Install the extension with the Extension Manager.
 
-The extension is automaticly installed by setting a Page Object “page.8 < plugin.tx_pxphpids_pi1” in the ext_typoscript_setup.txt. If you already defined the .8 by another extension please use another number as low as possible.
+The extension uses the hook ['SC_OPTIONS']['tslib/index_ts.php']['preprocessRequest'] to execute the plugin before any further processing is done.
 
 After activation you should activate the debug mode in the constants and afterwards
 get a message on top of your page: “No attack detected – click for an example attack”.
@@ -33,7 +33,7 @@ Note that most of the variables must not be changed since PHPIDS for TYPO3 is pr
 .. _how-to-update:
 
 How to update
-----------------
+-------------
 
 From time to time you have to update the filer rules (default_filter.xml) and the converter (Converter.php).
 This can be done by using the backend module PHPIDS → Update converter and filter → Start update
