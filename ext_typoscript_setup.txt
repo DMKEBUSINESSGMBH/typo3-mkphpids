@@ -42,5 +42,3 @@ plugin.tx_mkphpids_pi1 {
         .tx-mkphpids-pi1 .error { border:1px solid #FF0000; background-color:#FFEEEE; font-weight:bold; }
     )
 }
-
-page.8 < plugin.tx_mkphpids_pi1

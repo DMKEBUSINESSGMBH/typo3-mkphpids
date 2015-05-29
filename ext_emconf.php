@@ -40,6 +40,7 @@ $EM_CONF[$_EXTKEY] = array(
 			'core' => '',
 			'frontend' => '',
 			'rn_base' => '0.14.14-',
+			'mklib' => '0.9.75-',
 		),
 		'conflicts' => array(
 		),

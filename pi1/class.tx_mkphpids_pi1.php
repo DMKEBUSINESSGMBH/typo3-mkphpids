@@ -236,7 +236,7 @@ class tx_mkphpids_pi1 extends tslib_pibase {
 									No attack detected. You can disable this message by setting "General.debug_mode" to false in the TypoScript Objects of PHPIDS.
 								</div>';
                     $content.='	<div class="box info">
-									<a href="?test=%22><script>eval(window.name)</script>">Click for an example attack to see if PHPIDS for TYPO3 works correctly.</a>
+									<a href="' . t3lib_div::getIndpEnv('TYPO3_REQUEST_URL') . '?test=%22><script>eval(window.name)</script>">Click for an example attack to see if PHPIDS for TYPO3 works correctly.</a>
 								</div>';
                 }
             } catch (Exception $e) {

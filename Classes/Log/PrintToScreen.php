@@ -56,8 +56,7 @@ class Tx_mkphpids_Log_PrintToScreen implements IDS_Log_Interface
 	* @var array
 	*/
 	protected static $instance = array();
-	
-	
+
 	/**
 	 * @return object $this
 	 */
@@ -66,10 +65,10 @@ class Tx_mkphpids_Log_PrintToScreen implements IDS_Log_Interface
 		if (!self::$instance) {
 			self::$instance = new Tx_mkphpids_Log_PrintToScreen();
 		}
-	
+
 		return self::$instance;
 	}
-	
+
     /**
      * @param object $data IDS_Report instance
      *
@@ -77,8 +76,11 @@ class Tx_mkphpids_Log_PrintToScreen implements IDS_Log_Interface
      */
     public function execute(IDS_Report $data)
     {
+    	ob_start();
         tx_rnbase_util_Debug::debug(array(
         	"mkphpids vermutet eine Attacke:" . str_replace('<br/>', '', $data)
         ),__METHOD__.__LINE__);
+        $GLOBALS['TYPO3_CONF_VARS']['FE']['compressionLevel'] = 0;
+        ob_flush();
     }
 }
