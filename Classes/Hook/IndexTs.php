@@ -21,7 +21,7 @@
  * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>.
  */
 tx_rnbase::load('tx_mklib_util_TS');
-tx_rnbase::load('tx_rnbase_util_Misc');
+tx_rnbase::load('tx_rnbase_util_TCA');
 
 /**
  *
@@ -39,10 +39,9 @@ class Tx_Mkphpids_Hook_IndexTs {
 	 * @return void
 	 */
 	public function preprocessRequest() {
-		tx_rnbase_util_Misc::prepareTSFE();
-		//@TODO t3lib_div::_GP('id') ist in vielen Fällen leer. Warum?
+		tx_rnbase_util_TCA::loadTCA('pages');
 		$typoScriptConfiguration = tx_mklib_util_TS::loadTSFromPage(
-			t3lib_div::_GP('id'), 'mkphpids_pi1'
+			$GLOBALS['TSFE']->id, 'mkphpids_pi1'
 		)->getConfigArray();
 
 		require_once t3lib_extMgm::extPath('mkphpids', 'pi1/class.tx_mkphpids_pi1.php');
