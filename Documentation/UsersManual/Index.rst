@@ -18,7 +18,7 @@ Installation
 
 Install the extension with the Extension Manager.
 
-The extension uses the hook ['SC_OPTIONS']['tslib/index_ts.php']['preprocessRequest'] to execute the plugin before any further processing is done.
+The extension is automaticly installed by setting a Page Object “page.8 < plugin.tx_pxphpids_pi1” in the ext_typoscript_setup.txt. If you already defined the .8 by another extension please use another number as low as possible.
 
 After activation you should activate the debug mode in the constants and afterwards
 get a message on top of your page: “No attack detected – click for an example attack”.

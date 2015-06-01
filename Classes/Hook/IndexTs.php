@@ -40,6 +40,7 @@ class Tx_Mkphpids_Hook_IndexTs {
 	 */
 	public function preprocessRequest() {
 		tx_rnbase_util_Misc::prepareTSFE();
+		//@TODO t3lib_div::_GP('id') ist in vielen Fällen leer. Warum?
 		$typoScriptConfiguration = tx_mklib_util_TS::loadTSFromPage(
 			t3lib_div::_GP('id'), 'mkphpids_pi1'
 		)->getConfigArray();
