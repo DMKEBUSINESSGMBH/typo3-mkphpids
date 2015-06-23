@@ -39,6 +39,7 @@ class Tx_Mkphpids_Hook_IndexTs {
 	 * @return void
 	 */
 	public function preprocessRequest() {
+		$GLOBALS['TYPO3_DB']->connectDB();
 		tx_rnbase_util_TCA::loadTCA('pages');
 		$typoScriptConfiguration = tx_mklib_util_TS::loadTSFromPage(
 			$GLOBALS['TSFE']->id, 'mkphpids_pi1'
