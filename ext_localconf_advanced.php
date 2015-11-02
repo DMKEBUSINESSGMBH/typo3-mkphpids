@@ -10,4 +10,3 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['tx_mkphpids_cli
 	'title' => 'PHPIDS filter and converter update',
 	'description' => 'This task updates the PHPIDS default_filter.xml and Converter.php',
 );
-?>

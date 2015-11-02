@@ -8,43 +8,43 @@ $TCA['tx_mkphpids_log'] = array (
 	),
 	'feInterface' => $TCA['tx_mkphpids_log']['feInterface'],
 	'columns' => array (
-		'name' => array (		
-			'exclude' => 1,		
-			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_log.name',		
+		'name' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_log.name',
 			'config' => array (
-				'type' => 'input',	
+				'type' => 'input',
 				'size' => '30',
 			)
 		),
-		'value' => array (		
-			'exclude' => 1,		
-			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_log.value',		
+		'value' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_log.value',
 			'config' => array (
 				'type' => 'text',
-				'cols' => '30',	
+				'cols' => '30',
 				'rows' => '5',
 			)
 		),
-		'page' => array (		
-			'exclude' => 1,		
-			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_log.page',		
+		'page' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_log.page',
 			'config' => array (
 				'type' => 'text',
-				'cols' => '30',	
+				'cols' => '30',
 				'rows' => '5',
 			)
 		),
-		'ip' => array (		
-			'exclude' => 1,		
-			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_log.ip',		
+		'ip' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_log.ip',
 			'config' => array (
-				'type' => 'input',	
+				'type' => 'input',
 				'size' => '30',
 			)
 		),
-		'impact' => array (		
-			'exclude' => 1,		
-			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_log.impact',		
+		'impact' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_log.impact',
 			'config' => array (
 				'type'     => 'input',
 				'size'     => '4',
@@ -58,19 +58,19 @@ $TCA['tx_mkphpids_log'] = array (
 				'default' => 0
 			)
 		),
-		'origin' => array (		
-			'exclude' => 1,		
-			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_log.origin',		
+		'origin' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_log.origin',
 			'config' => array (
-				'type' => 'input',	
+				'type' => 'input',
 				'size' => '30',
 			)
 		),
-		'created' => array (		
-			'exclude' => 1,		
-			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_log.created',		
+		'created' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_log.created',
 			'config' => array (
-				'type' => 'input',	
+				'type' => 'input',
 				'size' => '30',
 			)
 		),
@@ -92,36 +92,36 @@ $TCA['tx_mkphpids_cache'] = array (
 	),
 	'feInterface' => $TCA['tx_mkphpids_cache']['feInterface'],
 	'columns' => array (
-		'type' => array (		
-			'exclude' => 1,		
-			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_cache.type',		
+		'type' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_cache.type',
 			'config' => array (
-				'type' => 'input',	
+				'type' => 'input',
 				'size' => '30',
 			)
 		),
-		'created' => array (		
-			'exclude' => 1,		
-			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_cache.created',		
+		'created' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_cache.created',
 			'config' => array (
-				'type' => 'input',	
+				'type' => 'input',
 				'size' => '30',
 			)
 		),
-		'phpids_data' => array (		
-			'exclude' => 1,		
-			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_cache.phpids_data',		
+		'phpids_data' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_cache.phpids_data',
 			'config' => array (
 				'type' => 'text',
-				'cols' => '30',	
+				'cols' => '30',
 				'rows' => '5',
 			)
 		),
-		'modified' => array (		
-			'exclude' => 1,		
-			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_cache.modified',		
+		'modified' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_cache.modified',
 			'config' => array (
-				'type' => 'input',	
+				'type' => 'input',
 				'size' => '30',
 			)
 		),
@@ -134,4 +134,3 @@ $TCA['tx_mkphpids_cache'] = array (
 	)
 );
 @include 'tca_advanced.php';
-?>

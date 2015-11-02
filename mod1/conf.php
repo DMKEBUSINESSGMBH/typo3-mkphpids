@@ -53,10 +53,9 @@ if (!@is_readable($REQUIRE_PATH))
 
 $MCONF['name']='tools_txmkphpidsM1';
 
-	
+
 $MCONF['access']='admin';
 $MCONF['script']='index.php';
 
 $MLANG['default']['tabs_images']['tab'] = 'moduleicon.gif';
 $MLANG['default']['ll_ref']='LLL:EXT:mkphpids/mod1/locallang_mod.xml';
-?>
