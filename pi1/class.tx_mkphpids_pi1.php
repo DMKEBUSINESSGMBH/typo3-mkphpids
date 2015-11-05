@@ -116,7 +116,7 @@ class tx_mkphpids_pi1 extends tslib_pibase {
             set_include_path(get_include_path() . PATH_SEPARATOR . $this->path);
             require_once('IDS/Init.php');
 
-            if (!session_id()) {
+        	if ($this->conf['Caching.']['caching'] == 'session' && !session_id()) {
                 session_start();
             }
 
