@@ -1,4 +1,4 @@
 mkforms
 =======
 
-Check the manual at http://docs.typo3.org/typo3cms/extensions/mkforms/
+Check the manual at http://docs.typo3.org/typo3cms/extensions/mkphpids/
