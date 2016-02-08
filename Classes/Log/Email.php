@@ -31,7 +31,7 @@
  * @link     http://php-ids.org/
  */
 
-require_once(t3lib_extMgm::extPath('mkphpids').'IDS/Log/Interface.php');
+require_once(tx_rnbase_util_Extensions::extPath('mkphpids').'IDS/Log/Interface.php');
 
 /**
  * Email logging wrapper
@@ -439,7 +439,7 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
      */
     private function getAvailableHeaderMarkers() {
     	return array(
-    		'SITEHOST' 	=> t3lib_div::getIndpEnv('TYPO3_HOST_ONLY'),
+    		'SITEHOST' 	=> tx_rnbase_util_Misc::getIndpEnv('TYPO3_HOST_ONLY'),
     		'CRLF'		=> CRLF
     	);
     }

@@ -31,7 +31,7 @@
  * @link     http://php-ids.org/
  */
 
-require_once(t3lib_extMgm::extPath('mkphpids').'IDS/Log/Interface.php');
+require_once(tx_rnbase_util_Extensions::extPath('mkphpids').'IDS/Log/Interface.php');
 tx_rnbase::load('tx_rnbase_util_Debug');
 
 /**

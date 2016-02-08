@@ -45,7 +45,7 @@ class Tx_Mkphpids_Hook_IndexTs {
 			$GLOBALS['TSFE']->id, 'mkphpids_pi1'
 		)->getConfigArray();
 
-		require_once t3lib_extMgm::extPath('mkphpids', 'pi1/class.tx_mkphpids_pi1.php');
+		require_once tx_rnbase_util_Extensions::extPath('mkphpids', 'pi1/class.tx_mkphpids_pi1.php');
 		$plugin = tx_rnbase::makeInstance('tx_mkphpids_pi1');
 
 		if ($content = $plugin->main('', $typoScriptConfiguration)) {

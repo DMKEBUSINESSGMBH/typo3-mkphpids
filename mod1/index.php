@@ -22,23 +22,14 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
-
-// DEFAULT initialization of a module [BEGIN]
-unset($MCONF);
-require_once('conf.php');
-
-require_once($REQUIRE_PATH . 'init.php');
-if (!class_exists('template')) {
-	require_once($REQUIRE_PATH . 'template.php');
-}
-
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_util_DB');
+tx_rnbase::load('tx_rnbase_util_Network');
+tx_rnbase::load('tx_rnbase_util_Files');
+tx_rnbase::load('Tx_Rnbase_Backend_Utility');
+tx_rnbase::load('Tx_Rnbase_Backend_Module_Base');
 
-$LANG->includeLLFile('EXT:mkphpids/mod1/locallang.xml');
-$BE_USER->modAccess($MCONF, 1); // This checks permissions and exits if the users has no permission for entry.
-// DEFAULT initialization of a module [END]
+$GLOBALS['LANG']->includeLLFile('EXT:mkphpids/mod1/locallang.xml');
+$GLOBALS['BE_USER']->modAccess($GLOBALS['MCONF'], 1);
 
 /**
  * Module 'PHP IDS' for the 'mkphpids' extension.
@@ -47,7 +38,7 @@ $BE_USER->modAccess($MCONF, 1); // This checks permissions and exits if the user
  * @package	TYPO3
  * @subpackage	tx_mkphpids
  */
-class tx_mkphpids_module1 extends t3lib_SCbase {
+class tx_mkphpids_module1 extends Tx_Rnbase_Backend_Module_Base {
 
     var $pageinfo;
     var $remoteRSS;
@@ -67,8 +58,8 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
 	$this->remoteRSS = 'http://dev.itratos.de/projects/php-ids/repository/revisions/1/revisions/trunk/?format=atom';
 	$this->remoteFilter = 'http://dev.itratos.de/projects/php-ids/repository/raw/trunk/lib/IDS/default_filter.xml';
 	$this->remoteConverter = 'http://dev.itratos.de/projects/php-ids/repository/raw/trunk/lib/IDS/Converter.php';
-	$this->localFilter = t3lib_extMgm::extPath('mkphpids', 'IDS/default_filter.xml');
-	$this->localConverter = t3lib_extMgm::extPath('mkphpids', 'IDS/Converter.php');
+	$this->localFilter = tx_rnbase_util_Extensions::extPath('mkphpids', 'IDS/default_filter.xml');
+	$this->localConverter = tx_rnbase_util_Extensions::extPath('mkphpids', 'IDS/Converter.php');
     }
 
     /**
@@ -99,13 +90,13 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
 	global $BE_USER, $LANG, $BACK_PATH, $TCA_DESCR, $TCA, $CLIENT, $TYPO3_CONF_VARS;
 
 	// Access check! The page will show only if there is a valid page and if this page may be viewed by the user
-	$this->pageinfo = t3lib_BEfunc::readPageAccess($this->id, $this->perms_clause);
+	$this->pageinfo = Tx_Rnbase_Backend_Utility::readPageAccess($this->id, $this->perms_clause);
 	$access = is_array($this->pageinfo) ? 1 : 0;
 
 	if (($this->id && $access) || ($BE_USER->user['admin'] && !$this->id)) {
 
 	    // Draw the header.
-	    $this->doc = t3lib_div::makeInstance('mediumDoc');
+	    $this->doc = tx_rnbase::makeInstance('mediumDoc');
 	    $this->doc->backPath = $BACK_PATH;
 	    $this->doc->form = '';
 
@@ -127,7 +118,7 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
 	    $this->content.=$this->doc->startPage($LANG->getLL('title'));
 	    $this->content.=$this->doc->header($LANG->getLL('title'));
 	    $this->content.=$this->doc->spacer(5);
-	    $this->content.=$this->doc->section('', $this->doc->funcMenu($headerSection, t3lib_BEfunc::getFuncMenu($this->id, 'SET[function]', $this->MOD_SETTINGS['function'], $this->MOD_MENU['function'])));
+	    $this->content.=$this->doc->section('', $this->doc->funcMenu($headerSection, Tx_Rnbase_Backend_Utility::getFuncMenu($this->id, 'SET[function]', $this->MOD_SETTINGS['function'], $this->MOD_MENU['function'])));
 	    $this->content.=$this->doc->divider(5);
 
 	    // Render content:
@@ -142,7 +133,7 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
 	} else {
 	    // If no access or if ID == zero
 
-	    $this->doc = t3lib_div::makeInstance('mediumDoc');
+	    $this->doc = tx_rnbase::makeInstance('mediumDoc');
 	    $this->doc->backPath = $BACK_PATH;
 
 	    $this->content.=$this->doc->startPage($LANG->getLL('title'));
@@ -247,14 +238,7 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
 				$dataArray = 'To many data';
 			} else {
 				$dataArray = unserialize($dataArray);
-// 				$dataArray = '<a title="Show extra data" id="extra-link-'.$row['uid'].'" href="javascript:document.getElementById(\'extra-data-'.$row['uid'].'\').style.display = \'block\';">'
-// 							.'+ Show Data: </a>'
-// 							.'<div id="extra-data-'.$row['uid'].'" style="display:none;">'.t3lib_div::view_array($dataArray).'</div>';
-				tx_rnbase::load('tx_rnbase_util_TYPO3');
-				if(tx_rnbase_util_TYPO3::isTYPO45OrHigher())
-					$dataArray = t3lib_utility_Debug::viewArray($dataArray);
-				else
-					$dataArray = t3lib_div::view_array($dataArray);
+				$dataArray = tx_rnbase_util_Debug::viewArray($dataArray);
 				$dataArray = '<a onclick="return show_hide_extradata(this);" id="extra-data-368" class="extra-data open" href="javascript:void(0);">Show extra data</a><div id="extra-data-'.$row['uid'].'-div" style="display:none;">'.$dataArray.'</div>';
 			}
 			$content .= '   <tr class="' . ($i % 2 ? 'db_list_normal' : 'db_list_alt') . '' . ($i == 1 ? ' firstcol' : '') . '' . ($i == $numRows ? ' lastcol' : '') . '">
@@ -322,10 +306,10 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
 
 	    case 4: // Function to update default_filter.xml and Converter.php
 		if ($_REQUEST['update']) {
-		    $filter = t3lib_div::getUrl($this->remoteFilter);
-		    $filter = t3lib_div::writeFile($this->localFilter, $filter);
-		    $converter = t3lib_div::getUrl($this->remoteConverter);
-		    $converter = t3lib_div::writeFile($this->localConverter, $converter);
+		    $filter = tx_rnbase_util_Network::getUrl($this->remoteFilter);
+		    $filter = tx_rnbase_util_Files::writeFile($this->localFilter, $filter);
+		    $converter = tx_rnbase_util_Network::getUrl($this->remoteConverter);
+		    $converter = tx_rnbase_util_Files::writeFile($this->localConverter, $converter);
 
 		    $res = tx_rnbase_util_DB::doQuery('TRUNCATE tx_mkphpids_cache');
 		    if ($filter && $converter && $res) {
@@ -373,7 +357,7 @@ class tx_mkphpids_module1 extends t3lib_SCbase {
     }
 
     function hlp_rssUpdated($rss) {
-	$rssFile = t3lib_div::getUrl($rss);
+	$rssFile = tx_rnbase_util_Network::getUrl($rss);
 	preg_match("/<updated>(.+)<\/updated>/Uism", $rssFile, $updated);
 	$updated = (string) $updated[1];
 
@@ -446,12 +430,13 @@ if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['
 
 
 // Make instance:
-$SOBE = t3lib_div::makeInstance('tx_mkphpids_module1');
+$SOBE = tx_rnbase::makeInstance('tx_mkphpids_module1');
 $SOBE->init();
 
 // Include files?
-foreach ($SOBE->include_once as $INC_FILE)
+foreach ((array) $SOBE->include_once as $INC_FILE) {
     include_once($INC_FILE);
+}
 
 $SOBE->main();
 $SOBE->printContent();

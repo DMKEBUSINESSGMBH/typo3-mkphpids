@@ -23,9 +23,11 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_util_Strings');
 tx_rnbase::load('tx_rnbase_util_Network');
+tx_rnbase::load('tx_rnbase_parameters');
+tx_rnbase::load('tx_rnbase_util_Misc');
+tx_rnbase::load('Tx_Rnbase_Frontend_Plugin');
 
 /**
  * Plugin 'PHPIDS for Typo3' for the 'mkphpids' extension.
@@ -38,7 +40,7 @@ tx_rnbase::load('tx_rnbase_util_Network');
  * @todo the converter class has been edited inside the IDS folder. so an update
  * of IDS is not easy in the moment. find a way to put the converter outside!
  */
-class tx_mkphpids_pi1 extends tslib_pibase {
+class tx_mkphpids_pi1 extends Tx_Rnbase_Frontend_Plugin {
 
     var $prefixId = 'tx_mkphpids_pi1';  // Same as class name
     var $scriptRelPath = 'pi1/class.tx_mkphpids_pi1.php'; // Path to this script relative to the extension dir.
@@ -110,7 +112,7 @@ class tx_mkphpids_pi1 extends tslib_pibase {
             unset($this->conf['General.']['exceptions_0'], $this->conf['General.']['exceptions_1'], $this->conf['General.']['exceptions_2']);
 
             // Settings
-            $this->path = t3lib_extMgm::extPath('mkphpids');       // Define Path to PHP IDS
+            $this->path = tx_rnbase_util_Extensions::extPath('mkphpids');       // Define Path to PHP IDS
             $this->debug = $this->conf['General.']['debug_mode'] == '1' ? true : false;   // Debug Mode true or false
             // Set the include path properly for PHPIDS
             set_include_path(get_include_path() . PATH_SEPARATOR . $this->path);
@@ -130,8 +132,8 @@ class tx_mkphpids_pi1 extends tslib_pibase {
                  * with your variables_order settings
                  */
                 $request = array(
-                    'GET' => t3lib_div::_GET(),
-                    'POST' => t3lib_div::_POST(),
+                    'GET' => tx_rnbase_parameters::getGetParameters(),
+                    'POST' => tx_rnbase_parameters::getPostParameters(),
                     'COOKIE' => $_COOKIE,
                 );
 
@@ -190,8 +192,8 @@ class tx_mkphpids_pi1 extends tslib_pibase {
                     /*
                      * Log the results
                      */
-                    require_once(t3lib_extMgm::extPath('mkphpids').'IDS/Log/File.php');
-                    require_once(t3lib_extMgm::extPath('mkphpids').'IDS/Log/Composite.php');
+                    require_once(tx_rnbase_util_Extensions::extPath('mkphpids').'IDS/Log/File.php');
+                    require_once(tx_rnbase_util_Extensions::extPath('mkphpids').'IDS/Log/Composite.php');
                     $compositeLog = new IDS_Log_Composite();
 
                     /*
@@ -236,7 +238,7 @@ class tx_mkphpids_pi1 extends tslib_pibase {
 									No attack detected. You can disable this message by setting "General.debug_mode" to false in the TypoScript Objects of PHPIDS.
 								</div>';
                     $content.='	<div class="box info">
-									<a href="' . t3lib_div::getIndpEnv('TYPO3_REQUEST_URL') . '?test=%22><script>eval(window.name)</script>">Click for an example attack to see if PHPIDS for TYPO3 works correctly.</a>
+									<a href="' . tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL') . '?test=%22><script>eval(window.name)</script>">Click for an example attack to see if PHPIDS for TYPO3 works correctly.</a>
 								</div>';
                 }
             } catch (Exception $e) {
@@ -258,7 +260,7 @@ class tx_mkphpids_pi1 extends tslib_pibase {
 
 		if($this->conf['General.']['excludedIPs']) {
 			$isCurrentIpExcluded = tx_rnbase_util_Network::cmpIP(
-				t3lib_div::getIndpEnv('REMOTE_ADDR'),
+				tx_rnbase_util_Misc::getIndpEnv('REMOTE_ADDR'),
 				$this->conf['General.']['excludedIPs']
 			);
 		}
@@ -276,7 +278,7 @@ class tx_mkphpids_pi1 extends tslib_pibase {
 
     	if ($this->debug == false && $this->conf['Impact.']['die_redirect_pid']) {
 	    	$redirectUrl = $this->pi_getPageLink($this->conf['Impact.']['die_redirect_pid']);
-	    	header('Location: '.t3lib_div::locationHeaderUrl($redirectUrl));
+	    	header('Location: '.tx_rnbase_util_Network::locationHeaderUrl($redirectUrl));
     	} else {
     		if ($this->debug == false){
     			$content = '';//remove left over informations
