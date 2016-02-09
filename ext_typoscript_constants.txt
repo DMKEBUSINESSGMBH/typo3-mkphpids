@@ -5,7 +5,7 @@ plugin.tx_mkphpids_pi1 {
 
     # cat=plugin.mkphpids/enable/002; type=text; label=Address for reportings by E-Mail: If not specified the $GLOBALS['TYPO3_CONF_VARS']['BE']['warning_email_addr'] will be used
     Logging.email        	=
-    
+
     # cat=plugin.mkphpids/enable/003; type=int; label=Print to screen Threshold: Threshold for printing an impact to the screen. Set to 0 if no logging desired.
     Impact.print_to_screen_threshold   = 0
 
@@ -20,10 +20,10 @@ plugin.tx_mkphpids_pi1 {
 
     # cat=plugin.mkphpids/enable/006; type=int; label=Die Threshold: Treshold for locking the homepage to the attacker with a session_destroy() and PHP die(). Set to 0 if no die() desired.
     Impact.die_threshold    = 65
-    
+
     # cat=plugin.mkphpids/enable/007; type=text; label=Pid/Alias of the page to redirect to after an attack. By default we just show a plain message to the attacker.
-    Impact.die_redirect_pid	= 
-    
+    Impact.die_redirect_pid	=
+
     # cat=plugin.mkphpids/enable/008; type=text; label=Exceptions 1: Define which fields shouldn't be monitored. You can also make a comma separated list. it is possible to use a Regex like this /COOKIE._pk_ref_*/i
     General.exceptions_0    = GET.EXAMPLE1
 
@@ -41,9 +41,9 @@ plugin.tx_mkphpids_pi1 {
 
     # cat=plugin.mkphpids/enable/013; type=text; label=Whitelist: Define which pages should not be protected by PHPIDS. Do this by entering the ID of the specific pages. Make a comma separated list for more then one pages
     General.whitelist	    =
-    
+
     # cat=plugin.mkphpids/enable/014; type=text; label=Comma separated list of IPs which are excluded from the intrution detection. Check the manual how the IPs can be defined.
-    General.excludedIPs    = 
+    General.excludedIPs    =
 
     # cat=plugin.mkphpids/file/001; type=boolean; label=Use base path: Choose if base path is used. Default is true
     General.use_base_path   = 1
@@ -77,7 +77,7 @@ plugin.tx_mkphpids_pi1 {
 
     # cat=plugin.mkphpids//004; type=boolean; label=Logging Safemofe: For E-Mail logging. Default is true
     Logging.safemode        = 1
-    
+
     # cat=plugin.mkphpids//005; type=text; label=Logging Header: The sent E-Mail header. The markers ###SITEHOST### and ###CRLF### are supported. You should set a From header!!! If not the value from php.ini is taken.
     Logging.header        	= From: <PHPIDS von ###SITEHOST###> mkphpids@###SITEHOST### ###CRLF###
 
