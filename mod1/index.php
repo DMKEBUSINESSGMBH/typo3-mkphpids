@@ -239,7 +239,9 @@ class tx_mkphpids_module1 extends Tx_Rnbase_Backend_Module_Base {
 			} else {
 				$dataArray = unserialize($dataArray);
 				$dataArray = tx_rnbase_util_Debug::viewArray($dataArray);
-				$dataArray = '<a onclick="return show_hide_extradata(this);" id="extra-data-368" class="extra-data open" href="javascript:void(0);">Show extra data</a><div id="extra-data-'.$row['uid'].'-div" style="display:none;">'.$dataArray.'</div>';
+				$dataArray = 	'<a onclick="return show_hide_extradata(this);" id="extra-data-'.$row['uid'].'" ' .
+								'class="extra-data open" href="javascript:void(0);">Show extra data</a>' .
+								'<div id="extra-data-'.$row['uid'].'-div" style="display:none;">'.$dataArray.'</div>';
 			}
 			$content .= '   <tr class="' . ($i % 2 ? 'db_list_normal' : 'db_list_alt') . '' . ($i == 1 ? ' firstcol' : '') . '' . ($i == $numRows ? ' lastcol' : '') . '">
                                             <td><div><code>' . htmlspecialchars($row["name"]) . '</code>&nbsp;</div></td>
