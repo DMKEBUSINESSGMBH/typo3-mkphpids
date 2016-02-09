@@ -43,6 +43,15 @@ class tx_mkphpids_pi1Test
 {
 
 	/**
+	 * @var string $remoteAddress
+	 */
+	protected $remoteAddress;
+
+	protected function setUp() {
+		$this->remoteAddress = $_SERVER['REMOTE_ADDR'];
+	}
+
+	/**
 	 * (non-PHPdoc)
 	 * @see PHPUnit_Framework_TestCase::tearDown()
 	 */
@@ -50,6 +59,8 @@ class tx_mkphpids_pi1Test
 		if (isset($_GET['test'])) {
 			unset($_GET['test']);
 		}
+		$_SERVER['REMOTE_ADDR'] = $this->remoteAddress;
+		$this->resetIndependentEnvironmentCache();
 	}
 
 	/**
