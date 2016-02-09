@@ -96,7 +96,7 @@ class tx_mkphpids_module1 extends Tx_Rnbase_Backend_Module_Base {
 	if (($this->id && $access) || ($BE_USER->user['admin'] && !$this->id)) {
 
 	    // Draw the header.
-	    $this->doc = tx_rnbase::makeInstance('mediumDoc');
+	    $this->doc = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getMediumDocumentTemplateClass());
 	    $this->doc->backPath = $BACK_PATH;
 	    $this->doc->form = '';
 
@@ -161,6 +161,13 @@ class tx_mkphpids_module1 extends Tx_Rnbase_Backend_Module_Base {
     function moduleContent() {
 	global $LANG, $BACK_PATH, $TYPO3_CONF_VARS;
 
+	$expandIcon = tx_rnbase_util_TYPO3::isTYPO70OrHigher() ?
+		'/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-view-list-expand.svg' :
+		'../../../../typo3/sysext/t3skin/icons/gfx/plusbullet_list.gif';
+	$collapseIcon = tx_rnbase_util_TYPO3::isTYPO70OrHigher() ?
+		'/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-view-list-collapse.svg' :
+		'../../../../typo3/sysext/t3skin/icons/gfx/minusbullet_list.gif';
+
 	$content .= '
              <style type="text/css">
                 #ext-px-phpids-mod1-index-php { margin:10px; }
@@ -169,8 +176,18 @@ class tx_mkphpids_module1 extends Tx_Rnbase_Backend_Module_Base {
                 .col-title { font-weight:bold; }
                 .typo3-dblist a.extra-data { background: transparent url("") no-repeat scroll 0 1px; padding: 0 0 0 20px; white-space: nowrap; display: block; }
                 .typo3-dblist a.extra-data:hover { background-color: white; }
-                .typo3-dblist a.open { background-image: url("../../../../typo3/sysext/t3skin/icons/gfx/plusbullet_list.gif"); }
-                .typo3-dblist a.close {  background-image: url("../../../../typo3/sysext/t3skin/icons/gfx/minusbullet_list.gif"); }
+                .typo3-dblist a.open {
+					background-image: url("' . $expandIcon . '"); }
+                .typo3-dblist a.close {
+					background-image: url("' . $collapseIcon . '");
+					font-size: 12px !important;
+					color: #212424 !important;
+					float: none;
+					font-weight: normal;
+					opacity: 1.0;
+					text_shadow: none;
+					line-height: 1.5 !important;
+    			}
              </style>
         ';
 	$content .= '
@@ -207,29 +224,47 @@ class tx_mkphpids_module1 extends Tx_Rnbase_Backend_Module_Base {
 		    if ($req_ord != false) {
 			if ($req_dir == 'DESC') {
 			    $direction = urlencode(' ASC');
-			    $arrow = '<img src="' . $BACK_PATH . 'sysext/t3skin/icons/gfx/redup.gif" width="7" height="4" alt="UP" />';
+			    $upIcon = tx_rnbase_util_TYPO3::isTYPO70OrHigher() ?
+					'/typo3/sysext/t3skin/images/icons/status/status-sorting-asc.png" width="16" height="16"' :
+					$BACK_PATH . 'sysext/t3skin/icons/gfx/redup.gif" width="7" height="4"';
+			    $arrow = '<img src="' . $upIcon . ' alt="UP" />';
 			} else {
 			    $direction = urlencode(' DESC');
-			    $arrow = '<img src="' . $BACK_PATH . 'sysext/t3skin/icons/gfx/reddown.gif" width="7" height="4" alt="DOWN" />';
+			    $downIcon = tx_rnbase_util_TYPO3::isTYPO70OrHigher() ?
+					'/typo3/sysext/t3skin/images/icons/status/status-sorting-desc.png" width="16" height="16"' :
+					$BACK_PATH . 'sysext/t3skin/icons/gfx/reddown.gif" width="7" height="4"';
+			    $arrow = '<img src="' . $downIcon . ' alt="DOWN" />';
 			}
 		    }
 
 		    $content .= '<p class="typo3-message message-information">' . $LANG->getLL('function1_text') . '</p>';
 
-		    $content .= '<table class="typo3-dblist" cellspacing="0" cellpadding="0" border="0">
-                                    <thead>
-                                        <tr class="c-headLine">
-                                            <td class="col-title"><a style="width:150px" href="index.php?order=name' . ($req_ord == 'name' ? $direction : urlencode(' ASC')) . '">Name ' . ($req_ord == 'name' ? $arrow : '') . '</a></td>
-                                            <td class="col-title"><a style="width:375px" href="index.php?order=value' . ($req_ord == 'value' ? $direction : urlencode(' ASC')) . '">Value ' . ($req_ord == 'value' ? $arrow : '') . '</a></td>
-                                            <td class="col-title"><a style="width:375px" href="index.php?order=page' . ($req_ord == 'page' ? $direction : urlencode(' ASC')) . '">Page ' . ($req_ord == 'page' ? $arrow : '') . '</a></td>
-                                            <td class="col-title"><a style="width:100px" href="index.php?order=ip' . ($req_ord == 'ip' ? $direction : urlencode(' ASC')) . '">IP ' . ($req_ord == 'ip' ? $arrow : '') . '</a></td>
-                                            <td class="col-title"><a style="width:100px" href="index.php?order=origin' . ($req_ord == 'origin' ? $direction : urlencode(' ASC')) . '">Origin ' . ($req_ord == 'origin' ? $arrow : '') . '</a></td>
-                                            <td class="col-title"><a style="width:100px" href="index.php?order=created' . ($req_ord == 'created' ? $direction : urlencode(' ASC')) . '">Created ' . ($req_ord == 'created' ? $arrow : '') . '</a></td>
-                                            <td class="col-title"><a style="width:75px; text-align:center;" href="index.php?order=impact' . ($req_ord == 'impact' ? $direction : urlencode(' DESC')) . '">Impact ' . ($req_ord == 'impact' ? $arrow : '') . '</a></td>
-                                            <td class="col-title">Extra Data</td>
-                                        </tr>
-		    						</thead>
-		    						<tbody>';
+		    $content .= '<table class="typo3-dblist" cellspacing="0" cellpadding="0" border="0">' .
+							'<thead><tr class="c-headLine">' .
+								'<td class="col-title"><a style="width:150px" href="' .
+								$this->getSortLink($req_ord, 'name', $direction) .
+								'">Name ' . ($req_ord == 'name' ? $arrow : '') . '</a></td>' .
+								'<td class="col-title"><a style="width:375px" href="' .
+								$this->getSortLink($req_ord, 'value', $direction) .
+								'">Value ' . ($req_ord == 'value' ? $arrow : '') . '</a></td>' .
+								'<td class="col-title"><a style="width:375px" href="' .
+								$this->getSortLink($req_ord, 'page', $direction) .
+								'">Page ' . ($req_ord == 'page' ? $arrow : '') . '</a></td>' .
+								'<td class="col-title"><a style="width:100px" href="' .
+								$this->getSortLink($req_ord, 'ip', $direction) .
+								'">IP ' . ($req_ord == 'ip' ? $arrow : '') . '</a></td>' .
+								'<td class="col-title"><a style="width:100px" href="' .
+								$this->getSortLink($req_ord, 'origin', $direction) .
+								'">Origin ' . ($req_ord == 'origin' ? $arrow : '') . '</a></td>' .
+								'<td class="col-title"><a style="width:100px" href="' .
+								$this->getSortLink($req_ord, 'created', $direction) .
+								'">Created ' . ($req_ord == 'created' ? $arrow : '') . '</a></td>' .
+								'<td class="col-title"><a style="width:75px; text-align:center;" href="' .
+								$this->getSortLink($req_ord, 'impact', $direction) .
+								'">Impact ' . ($req_ord == 'impact' ? $arrow : '') . '</a></td>' .
+								'<td class="col-title">Extra Data</td>' .
+							'</tr></thead>' .
+							'<tbody>';
 
 		    while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 			$i++;
@@ -280,7 +315,9 @@ class tx_mkphpids_module1 extends Tx_Rnbase_Backend_Module_Base {
 		    }
 		} else {
 		    $content.='<p class="typo3-message message-warning">' . $LANG->getLL('function2_text') . '</p>';
-		    $content.='<form name="delConfirm" action="index.php" method="post">';
+		    $content.='<form name="delConfirm" action="';
+		    $content .= Tx_Rnbase_Backend_Utility::getModuleUrl('tools_txmkphpidsM1');
+		    $content .= '" method="post">';
 		    $content.='<input type="hidden" name="del" value="true" />';
 		    $content.='<input type="submit" value="Yes, clear the log table" /></form>';
 		}
@@ -299,7 +336,9 @@ class tx_mkphpids_module1 extends Tx_Rnbase_Backend_Module_Base {
 		    }
 		} else {
 		    $content.='<p class="typo3-message message-warning">' . $LANG->getLL('function3_text') . '</p>';
-		    $content.='<form name="delConfirm" action="index.php" method="post">';
+		    $content.='<form name="delConfirm" action="';
+		    $content .= Tx_Rnbase_Backend_Utility::getModuleUrl('tools_txmkphpidsM1');
+		    $content .= '" method="post">';
 		    $content.='<input type="hidden" name="del" value="true" />';
 		    $content.='<input type="submit" value="Yes, clear the cache table" /></form>';
 		}
@@ -326,7 +365,9 @@ class tx_mkphpids_module1 extends Tx_Rnbase_Backend_Module_Base {
 		$localConverterTime = filemtime($this->localConverter);
 
 		$content.='<p class="typo3-message message-information">' . $LANG->getLL('function4_text_1') . '<code>' . $this->remoteRSS . '</code><br />' . $LANG->getLL('function4_text_2') . '</p>';
-		$content.='<form name="delConfirm" action="index.php" method="post">';
+		$content.='<form name="delConfirm" action="';
+		$content .= Tx_Rnbase_Backend_Utility::getModuleUrl('tools_txmkphpidsM1');
+		$content .= '" method="post">';
 		$content.='<table class="typo3-dblist" cellspacing="0" cellpadding="0" border="0" style="width:600px;">
                                 <tbody>
                                     <tr class="c-headLine">
@@ -385,12 +426,26 @@ class tx_mkphpids_module1 extends Tx_Rnbase_Backend_Module_Base {
 	$rows = $GLOBALS["TYPO3_DB"]->sql_num_rows($res);
 
 	if ($start > 0) {
-	    $content .= ' <a href="index.php?start=0&amp;order=' . $_REQUEST['order'] . '">&laquo;</a> ';
+	    $content .= ' <a href="' .
+			Tx_Rnbase_Backend_Utility::getModuleUrl(
+				'tools_txmkphpidsM1', array(
+					'start' => 0,
+					'order' => $_REQUEST['order']
+				)
+			) .
+			'">&laquo;</a> ';
 	    $back = $start - $offset;
 	    if ($back < 0) {
 		$back = 0;
 	    }
-	    $content .= ' <a href="index.php?start=' . $back . '&amp;order=' . $_REQUEST['order'] . '">&lt;</a> ';
+	    $content .= ' <a href="' .
+			Tx_Rnbase_Backend_Utility::getModuleUrl(
+				'tools_txmkphpidsM1', array(
+					'start' => $back,
+					'order' => $_REQUEST['order']
+				)
+			) .
+			'">&lt;</a> ';
 	}
 
 	if ($rows > $offset) {
@@ -403,7 +458,14 @@ class tx_mkphpids_module1 extends Tx_Rnbase_Backend_Module_Base {
 	for ($i = 1; $i <= $seiten; $i++) {
 	    $fwd = ($i - 1) * $offset;
 	    $x = $fwd + $offset;
-	    $content .= ' <a href="index.php?start=' . $fwd . '&amp;order=' . $_REQUEST['order'] . '">';
+		$content .= ' <a href="' .
+			Tx_Rnbase_Backend_Utility::getModuleUrl(
+				'tools_txmkphpidsM1', array(
+					'start' => $fwd,
+					'order' => $_REQUEST['order']
+				)
+			) .
+			'">';
 	    if ($start == $fwd)
 		$content .= '<b>';
 	    $content .= '[' . ($fwd + 1) . '-' . $x . ']';
@@ -414,13 +476,41 @@ class tx_mkphpids_module1 extends Tx_Rnbase_Backend_Module_Base {
 
 	if ($start < $rows - $offset && $rows > $offset) {
 	    $fwd = $start + $offset;
-	    $content .= ' <a href="index.php?start=' . $fwd . '&amp;order=' . $_REQUEST['order'] . '">&gt;</a> ';
+	    $content .= ' <a href="' .
+			Tx_Rnbase_Backend_Utility::getModuleUrl(
+				'tools_txmkphpidsM1', array(
+					'start' => $fwd,
+					'order' => $_REQUEST['order']
+				)
+			) .
+		'">&gt;</a> ';
 	    $fwd = $rows - $offset;
-	    $content .= ' <a href="index.php?start=' . $fwd . '&amp;order=' . $_REQUEST['order'] . '">&raquo;</a> ';
+	    $content .= ' <a href="' .
+			Tx_Rnbase_Backend_Utility::getModuleUrl(
+				'tools_txmkphpidsM1', array(
+					'start' => $fwd,
+					'order' => $_REQUEST['order']
+				)
+			) .
+			'">&raquo;</a> ';
 	}
 
 	return $content;
     }
+
+    /**
+     * @param string $currentField
+     * @param string $currentDirection
+     * @return string
+     */
+	protected function getSortLink($requestedOrder, $currentField, $currentDirection) {
+		return Tx_Rnbase_Backend_Utility::getModuleUrl(
+			'tools_txmkphpidsM1',
+			array('order' =>
+				$currentField . ($requestedOrder == $currentField ? $currentDirection : urlencode(' ASC'))
+			)
+		);
+	}
 
 }
 
