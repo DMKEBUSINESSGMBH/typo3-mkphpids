@@ -16,7 +16,7 @@
 	"support": {
 		"email": "dev@dmk-ebusiness.de",
 		"source": "https://github.com/DMKEBUSINESSGMBH/typo3-mkphpids",
-		"issues": "https://forge.typo3.org/projects/extension-mkphpids"
+		"issues": "https://github.com/DMKEBUSINESSGMBH/typo3-mkphpids"
 	},
 	"replace": {
 		"typo3-ter/mkphpids": "*"
