@@ -18,7 +18,8 @@ The following is a very high level overview of the changes in this extension.
 =========  ===========================================================================
 Version    Changes
 =========  ===========================================================================
-1.5.11     - added support for TYPO3 7.6
+2.0.0      - added support for TYPO3 7.6
+           - added updated IDS/Converter.php
 1.5.10     - call session_start only if caching is done through session
 1.5.8      - some bugfixes
 1.5.7      - insert Plugin through preprocessRequest hook for earliest possible detection
