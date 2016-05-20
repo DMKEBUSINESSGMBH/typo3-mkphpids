@@ -22,6 +22,7 @@
  */
 tx_rnbase::load('tx_mklib_util_TS');
 tx_rnbase::load('tx_rnbase_util_TCA');
+tx_rnbase::load('tx_rnbase_util_Misc');
 
 /**
  *
@@ -41,6 +42,7 @@ class Tx_Mkphpids_Hook_IndexTs {
 	public function preprocessRequest() {
 		$GLOBALS['TYPO3_DB']->connectDB();
 		tx_rnbase_util_TCA::loadTCA('pages');
+		tx_rnbase_util_Misc::prepareTSFE();
 		$typoScriptConfiguration = tx_mklib_util_TS::loadTSFromPage(
 			$GLOBALS['TSFE']->id, 'mkphpids_pi1'
 		)->getConfigArray();
