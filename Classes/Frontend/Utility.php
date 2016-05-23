@@ -20,13 +20,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>.
  */
-tx_rnbase::load('tx_mklib_util_TS');
-tx_rnbase::load('tx_rnbase_util_TCA');
-tx_rnbase::load('tx_rnbase_util_Misc');
 
 /**
- *
- * Tx_Mkphpids_Hook_IndexTs
+ * Tx_Mkphpids_Frontend_Utility
  *
  * @package 		TYPO3
  * @subpackage	 	mkphpids
@@ -34,23 +30,17 @@ tx_rnbase::load('tx_rnbase_util_Misc');
  * @license 		http://www.gnu.org/licenses/lgpl.html
  * 					GNU Lesser General Public License, version 3 or later
  */
-class Tx_Mkphpids_Hook_IndexTs {
+class Tx_Mkphpids_Frontend_Utility {
 
 	/**
 	 * @return void
 	 */
-	public function preprocessRequest() {
-		$GLOBALS['TYPO3_DB']->connectDB();
-		tx_rnbase_util_TCA::loadTCA('pages');
-		tx_rnbase_util_Misc::prepareTSFE();
-		$typoScriptConfiguration = tx_mklib_util_TS::loadTSFromPage(
-			$GLOBALS['TSFE']->id, 'mkphpids_pi1'
-		)->getConfigArray();
-
+	public function runIntrusionDetection() {
 		require_once tx_rnbase_util_Extensions::extPath('mkphpids', 'pi1/class.tx_mkphpids_pi1.php');
+		/* @var tx_mkphpids_pi1 $plugin */
 		$plugin = tx_rnbase::makeInstance('tx_mkphpids_pi1');
 
-		if ($content = $plugin->main('', $typoScriptConfiguration)) {
+		if ($content = $plugin->main('', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_mkphpids_pi1.'])) {
 			print_r($content);
 			$GLOBALS['TYPO3_CONF_VARS']['FE']['compressionLevel'] = 0;
 			ob_flush();
