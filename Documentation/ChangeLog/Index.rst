@@ -18,6 +18,7 @@ The following is a very high level overview of the changes in this extension.
 =========  ===========================================================================
 Version    Changes
 =========  ===========================================================================
+2.0.1      - fixed serious bug when in most cases no typoscript configuration could be loaded leading to no execution of the plugin
 2.0.0      - added support for TYPO3 7.6
            - added updated IDS/Converter.php
 1.5.10     - call session_start only if caching is done through session
