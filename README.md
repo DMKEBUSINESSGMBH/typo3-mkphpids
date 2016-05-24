@@ -1,6 +1,14 @@
 mkphpids
 =======
 
+[Administration](Documentation/Administration/Index.md)
+
+[Configuration](Documentation/Configuration/Index.md)
+
+[UsersManual](Documentation/UsersManual/Index.md)
+
+[ChangeLog](Documentation/ChangeLog/Index.md)
+
 What does it do?
 ----------------
 
@@ -41,9 +49,3 @@ Screenshots
 ![](Documentation/Images/BackendModule.png)
 
 The backend module.
-
-
-[Administration](Administration/Index.md)
-[Configuration](Configuration/Index.md)
-[UsersManual](UsersManual/Index.md)
-[ChangeLog](ChangeLog/Index.md)
