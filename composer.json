@@ -23,7 +23,8 @@
 	},
 	"require" : {
 		"typo3/cms-core" : ">=4.5.0 <=7.6.99",
-		"digedag/rn-base" : ">=0.16.4"
+		"typo3-ter/mklib" : ">=0.9.75",
+		"typo3-ter/rn-base" : ">=0.16.4"
 	},
 	"autoload": {
 		"classmap": ["Classes/", "cli/", "IDS/", "mod1/", "pi1/"]
