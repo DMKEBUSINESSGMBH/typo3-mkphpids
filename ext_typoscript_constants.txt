@@ -84,8 +84,8 @@ plugin.tx_mkphpids_pi1 {
     # cat=plugin.mkphpids//006; type=boolean; label=Logging urlencode: For Email logging. Default is true
     Logging.urlencode       = 1
 
-    # cat=plugin.mkphpids//007; type=int; label=Logging Allowed rate: For Email logging. Default is 15
-    Logging.allowed_rate    = 15
+    # cat=plugin.mkphpids//007; type=int; label=Logging Allowed rate: For Email logging. Default is 60
+    Logging.allowed_rate    = 60
 
     # cat=plugin.mkphpids//008; type=options[session,file,database,memcached,none]; label=Caching method: Default is file
     Caching.caching         = file
