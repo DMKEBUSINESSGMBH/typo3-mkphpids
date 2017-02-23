@@ -405,6 +405,15 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
      */
     protected function send($address, $data, $headers, $envelope = null)
     {
+    	tx_rnbase::load('tx_rnbase_util_Lock');
+    	// Only one mail within one minute!
+    	$lock = tx_rnbase_util_Lock::getInstance('mkphpids_mail_' . md5($data), 60);
+    	if ($lock->isLocked()) {
+    		return;
+    	} else {
+    		$lock->lockProcess();
+    	}
+
     	$headers = $this->replaceHeaderMarkers($headers);
 
         if (!$envelope || strpos(ini_get('sendmail_path'),' -f') !== false) {
