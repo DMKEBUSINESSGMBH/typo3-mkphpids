@@ -9,16 +9,16 @@
  *
  * PHPIDS is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, version 3 of the License, or 
+ * the Free Software Foundation, version 3 of the License, or
  * (at your option) any later version.
  *
  * PHPIDS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
- * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>. 
+ * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>.
  *
  * PHP version 5.1.6+
  *
@@ -76,7 +76,7 @@ class IDS_Report implements Countable, IteratorAggregate
      * The impact level is calculated on demand by adding the results of the
      * event objects on IDS_Report->getImpact()
      *
-     * @var integer
+     * @var int
      */
     protected $impact = 0;
 
@@ -158,8 +158,10 @@ class IDS_Report implements Countable, IteratorAggregate
             $this->tags = array();
 
             foreach ($this->events as $event) {
-                $this->tags = array_merge($this->tags,
-                                          $event->getTags());
+                $this->tags = array_merge(
+                    $this->tags,
+                    $event->getTags()
+                );
             }
 
             $this->tags = array_values(array_unique($this->tags));
@@ -174,7 +176,7 @@ class IDS_Report implements Countable, IteratorAggregate
      * Each stored IDS_Event object and its IDS_Filter sub-object are called
      * to calculate the overall impact level of this request
      *
-     * @return integer
+     * @return int
      */
     public function getImpact()
     {
@@ -195,7 +197,7 @@ class IDS_Report implements Countable, IteratorAggregate
      *
      * @throws InvalidArgumentException if argument is illegal
      *
-     * @return boolean
+     * @return bool
      */
     public function hasEvent($name)
     {
@@ -209,7 +211,7 @@ class IDS_Report implements Countable, IteratorAggregate
     /**
      * Returns total amount of events
      *
-     * @return integer
+     * @return int
      */
     public function count()
     {
@@ -217,14 +219,14 @@ class IDS_Report implements Countable, IteratorAggregate
     }
 
      /**
-     * Return iterator object
-     *
-     * In order to provide the possibility to directly iterate over the
-     * IDS_Event object the IteratorAggregate is implemented. One can easily
-     * use foreach() to iterate through all stored IDS_Event objects.
-     *
-     * @return ArrayObject the event collection
-     */
+      * Return iterator object
+      *
+      * In order to provide the possibility to directly iterate over the
+      * IDS_Event object the IteratorAggregate is implemented. One can easily
+      * use foreach() to iterate through all stored IDS_Event objects.
+      *
+      * @return ArrayObject the event collection
+      */
     public function getIterator()
     {
         return new ArrayObject($this->events);
@@ -233,7 +235,7 @@ class IDS_Report implements Countable, IteratorAggregate
     /**
      * Checks if any events are registered
      *
-     * @return boolean
+     * @return bool
      */
     public function isEmpty()
     {
@@ -259,8 +261,7 @@ class IDS_Report implements Countable, IteratorAggregate
      */
     public function getCentrifuge()
     {
-        return ($this->centrifuge && count($this->centrifuge) > 0)
-            ? $this->centrifuge : null;
+        return ($this->centrifuge && count($this->centrifuge) > 0) ? $this->centrifuge : null;
     }
 
     /**
@@ -270,12 +271,13 @@ class IDS_Report implements Countable, IteratorAggregate
      *
      * @throws InvalidArgumentException if argument is illegal
      *
-     * @return boolean true is arguments were valid
+     * @return bool true is arguments were valid
      */
     public function setCentrifuge($centrifuge = array())
     {
         if (is_array($centrifuge) && $centrifuge) {
             $this->centrifuge = $centrifuge;
+
             return true;
         }
         throw new InvalidArgumentException('Invalid argument given');
@@ -315,13 +317,13 @@ class IDS_Report implements Countable, IteratorAggregate
 
             if ($centrifuge = $this->getCentrifuge()) {
                 $output .= 'Centrifuge detection data';
-                $output .= '<br/>  Threshold: ' . 
-                    ((isset($centrifuge['threshold'])&&$centrifuge['threshold']) ?
+                $output .= '<br/>  Threshold: ' .
+                    ((isset($centrifuge['threshold']) && $centrifuge['threshold']) ?
                     $centrifuge['threshold'] : '---');
-                $output .= '<br/>  Ratio: ' . 
-                    ((isset($centrifuge['ratio'])&&$centrifuge['ratio']) ?
+                $output .= '<br/>  Ratio: ' .
+                    ((isset($centrifuge['ratio']) && $centrifuge['ratio']) ?
                     $centrifuge['ratio'] : '---');
-                if(isset($centrifuge['converted'])) {
+                if (isset($centrifuge['converted'])) {
                     $output .= '<br/>  Converted: ' . $centrifuge['converted'];
                 }
                 $output .= "<br/><br/>\n";

@@ -43,18 +43,20 @@ class HTMLPurifier_ErrorStruct
      */
     public $children = array();
 
-    public function getChild($type, $id) {
+    public function getChild($type, $id)
+    {
         if (!isset($this->children[$type][$id])) {
             $this->children[$type][$id] = new HTMLPurifier_ErrorStruct();
             $this->children[$type][$id]->type = $type;
         }
+
         return $this->children[$type][$id];
     }
 
-    public function addError($severity, $message) {
+    public function addError($severity, $message)
+    {
         $this->errors[] = array($severity, $message);
     }
-
 }
 
 // vim: et sw=4 sts=4

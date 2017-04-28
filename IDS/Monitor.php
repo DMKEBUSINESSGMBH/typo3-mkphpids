@@ -9,16 +9,16 @@
  *
  * PHPIDS is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, version 3 of the License, or 
+ * the Free Software Foundation, version 3 of the License, or
  * (at your option) any later version.
  *
  * PHPIDS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
- * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>. 
+ * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>.
  *
  * PHP version 5.1.6+
  *
@@ -94,7 +94,7 @@ class IDS_Monitor
      * Enabling this property will cause the monitor to scan both the key and
      * the value of variables
      *
-     * @var boolean
+     * @var bool
      */
     public $scanKeys = false;
 
@@ -134,7 +134,7 @@ class IDS_Monitor
      *
      * @var object
      */
-    private $htmlpurifier = NULL;
+    private $htmlpurifier = null;
 
     /**
      * Path to HTMLPurifier source
@@ -174,8 +174,7 @@ class IDS_Monitor
      */
     public function __construct(array $request, IDS_Init $init, array $tags = null)
     {
-        $version = isset($init->config['General']['min_php_version'])
-            ? $init->config['General']['min_php_version'] : '5.1.6';
+        $version = isset($init->config['General']['min_php_version']) ? $init->config['General']['min_php_version'] : '5.1.6';
 
         if (version_compare(PHP_VERSION, $version, '<')) {
             throw new Exception(
@@ -192,33 +191,28 @@ class IDS_Monitor
 
             $this->scanKeys   = $init->config['General']['scan_keys'];
 
-            $this->exceptions = isset($init->config['General']['exceptions'])
-                ? $init->config['General']['exceptions'] : false;
+            $this->exceptions = isset($init->config['General']['exceptions']) ? $init->config['General']['exceptions'] : false;
 
-            $this->html       = isset($init->config['General']['html'])
-                ? $init->config['General']['html'] : false;
+            $this->html       = isset($init->config['General']['html']) ? $init->config['General']['html'] : false;
 
-            $this->json       = isset($init->config['General']['json'])
-                ? $init->config['General']['json'] : false;
+            $this->json       = isset($init->config['General']['json']) ? $init->config['General']['json'] : false;
 
-            if(isset($init->config['General']['HTML_Purifier_Path'])
+            if (isset($init->config['General']['HTML_Purifier_Path'])
                 && isset($init->config['General']['HTML_Purifier_Cache'])) {
-                
-                $this->pathToHTMLPurifier = 
+                $this->pathToHTMLPurifier =
                     $init->config['General']['HTML_Purifier_Path'];
                 
                 $this->HTMLPurifierCache  = $init->getBasePath()
                     . $init->config['General']['HTML_Purifier_Cache'];
             }
-
         }
 
         if (!is_writeable($init->getBasePath()
             . $init->config['General']['tmp_path'])) {
             throw new Exception(
-                'Please make sure the ' . 
-                htmlspecialchars($init->getBasePath() . 
-                $init->config['General']['tmp_path'], ENT_QUOTES, 'UTF-8') . 
+                'Please make sure the ' .
+                htmlspecialchars($init->getBasePath() .
+                $init->config['General']['tmp_path'], ENT_QUOTES, 'UTF-8') .
                 ' folder is writable'
             );
         }
@@ -234,7 +228,6 @@ class IDS_Monitor
      */
     public function run()
     {
-        
         if (!empty($this->request)) {
             foreach ($this->request as $key => $value) {
                 $this->_iterate($key, $value);
@@ -255,10 +248,8 @@ class IDS_Monitor
      */
     private function _iterate($key, $value)
     {
-
         if (!is_array($value)) {
             if (is_string($value)) {
-
                 if ($filter = $this->_detect($key, $value)) {
                     include_once 'IDS/Event.php';
                     $this->report->addEvent(
@@ -289,16 +280,16 @@ class IDS_Monitor
     {
 
         // define the pre-filter
-        $prefilter = '/[^\w\s\/@!?\.]+|(?:\.\/)|(?:@@\w+)' 
+        $prefilter = '/[^\w\s\/@!?\.]+|(?:\.\/)|(?:@@\w+)'
             . '|(?:\+ADw)|(?:union\s+select)/i';
         
         // to increase performance, only start detection if value
         // isn't alphanumeric
-        if (!$this->scanKeys 
+        if (!$this->scanKeys
             && (!$value || !preg_match($prefilter, $value))) {
             return false;
-        } elseif($this->scanKeys) {
-            if((!$key || !preg_match($prefilter, $key)) 
+        } elseif ($this->scanKeys) {
+            if ((!$key || !preg_match($prefilter, $key))
                 && (!$value || !preg_match($prefilter, $value))) {
                 return false;
             }
@@ -306,14 +297,14 @@ class IDS_Monitor
         
         // check if this field is part of the exceptions
         if (is_array($this->exceptions)) {
-            foreach($this->exceptions as $exception) {
+            foreach ($this->exceptions as $exception) {
                 $matches = array();
-                if(preg_match('/(\/.*\/[^eE]*)$/', $exception, $matches)) {
-                    if(isset($matches[1]) && preg_match($matches[1], $key)) {
+                if (preg_match('/(\/.*\/[^eE]*)$/', $exception, $matches)) {
+                    if (isset($matches[1]) && preg_match($matches[1], $key)) {
                         return false;
-                    } 
+                    }
                 } else {
-                    if($exception === $key) {
+                    if ($exception === $key) {
                         return false;
                     }
                 }
@@ -325,8 +316,8 @@ class IDS_Monitor
             && get_magic_quotes_gpc()) {
             $value = stripslashes($value);
         }
-        if(function_exists('get_magic_quotes_gpc')
-            && !get_magic_quotes_gpc() 
+        if (function_exists('get_magic_quotes_gpc')
+            && !get_magic_quotes_gpc()
             && version_compare(PHP_VERSION, '5.3.0', '>=')) {
             $value = preg_replace('/\\\(["\'\/])/im', '$1', $value);
         }
@@ -347,15 +338,12 @@ class IDS_Monitor
         $value = IDS_Converter::runCentrifuge($value, $this);
 
         // scan keys if activated via config
-        $key = $this->scanKeys ? IDS_Converter::runAll($key)
-            : $key;
-        $key = $this->scanKeys ? IDS_Converter::runCentrifuge($key, $this)
-            : $key;
+        $key = $this->scanKeys ? IDS_Converter::runAll($key) : $key;
+        $key = $this->scanKeys ? IDS_Converter::runCentrifuge($key, $this) : $key;
 
         $filters   = array();
         $filterSet = $this->storage->getFilterSet();
         foreach ($filterSet as $filter) {
-
             /*
              * in case we have a tag array specified the IDS will only
              * use those filters that are meant to detect any of the
@@ -392,12 +380,12 @@ class IDS_Monitor
      *
      * @return array
      */
-    private function _purifyValues($key, $value) 
+    private function _purifyValues($key, $value)
     {
         /*
          * Perform a pre-check if string is valid for purification
          */
-        if(!$this->_purifierPreCheck($key, $value)) {
+        if (!$this->_purifierPreCheck($key, $value)) {
             return array($key, $value);
         }
 
@@ -405,7 +393,8 @@ class IDS_Monitor
 
         if (!is_writeable($this->HTMLPurifierCache)) {
             throw new Exception(
-                $this->HTMLPurifierCache . ' must be writeable');
+                $this->HTMLPurifierCache . ' must be writeable'
+            );
         }
 
         if (class_exists('HTMLPurifier')) {
@@ -423,7 +412,7 @@ class IDS_Monitor
         }
 
         $value = preg_replace('/[\x0b-\x0c]/', ' ', $value);
-        $key = preg_replace('/[\x0b-\x0c]/', ' ', $key);   
+        $key = preg_replace('/[\x0b-\x0c]/', ' ', $key);
 
         $purified_value = $this->htmlpurifier->purify($value);
         $purified_key   = $this->htmlpurifier->purify($key);
@@ -434,31 +423,31 @@ class IDS_Monitor
         if ($value != $purified_value || $redux_value) {
             $value = $this->_diff($value, $purified_value, $redux_value);
         } else {
-            $value = NULL;
+            $value = null;
         }
         if ($key != $purified_key) {
             $key = $this->_diff($key, $purified_key, $redux_key);
         } else {
-            $key = NULL;
+            $key = null;
         }
 
         return array($key, $value);
     }
     
     /**
-     * This method makes sure no dangerous markup can be smuggled in 
-     * attributes when HTML mode is switched on. 
-     * 
-     * If the precheck considers the string too dangerous for 
+     * This method makes sure no dangerous markup can be smuggled in
+     * attributes when HTML mode is switched on.
+     *
+     * If the precheck considers the string too dangerous for
      * purification false is being returned.
-     * 
+     *
      * @param  mixed $key
      * @param  mixed $value
      * @since  0.6
      *
-     * @return boolean
+     * @return bool
      */
-    private function _purifierPreCheck($key = '', $value = '') 
+    private function _purifierPreCheck($key = '', $value = '')
     {
         /*
          * Remove control chars before pre-check
@@ -467,11 +456,11 @@ class IDS_Monitor
         $tmp_key = preg_replace('/\p{C}/', null, $key);
         
         $precheck = '/<(script|iframe|applet|object)\W/i';
-        if(preg_match($precheck, $tmp_key) 
+        if (preg_match($precheck, $tmp_key)
             || preg_match($precheck, $tmp_value)) {
-            
             return false;
         }
+
         return true;
     }
     
@@ -499,15 +488,17 @@ class IDS_Monitor
         $original = preg_replace('/=?\s*"\s*"/m', null, $original);
         $original = preg_replace('/style\s*=\s*([^"])/m', 'style = "$1', $original);
         
-        # deal with oversensitive CSS normalization
+        // deal with oversensitive CSS normalization
         $original = preg_replace('/(?:([\w\-]+:)+\s*([^;]+;\s*))/m', '$1$2', $original);
         
-        # strip whitespace between tags
+        // strip whitespace between tags
         $original = trim(preg_replace('/>\s*</m', '><', $original));
         $purified = trim(preg_replace('/>\s*</m', '><', $purified));
         
         $original = preg_replace(
-            '/(=\s*(["\'`])[^>"\'`]*>[^>"\'`]*["\'`])/m', 'alt$1', $original
+            '/(=\s*(["\'`])[^>"\'`]*>[^>"\'`]*["\'`])/m',
+            'alt$1',
+            $original
         );
 
         // no purified html is left
@@ -534,7 +525,7 @@ class IDS_Monitor
         }
 
         // return the diff - ready to hit the converter and the rules
-        if(intval($length) <= 10) {
+        if (intval($length) <= 10) {
             $diff = trim(join('', $differences));
         } else {
             $diff = mb_substr(trim(join('', $differences)), 0, strlen($original));
@@ -565,23 +556,23 @@ class IDS_Monitor
      *
      * @return array
      */
-    private function _jsonDecodeValues($key, $value) {
-
+    private function _jsonDecodeValues($key, $value)
+    {
         $tmp_key   = json_decode($key);
         $tmp_value = json_decode($value);
 
-        if($tmp_value && is_array($tmp_value) || is_object($tmp_value)) {
+        if ($tmp_value && is_array($tmp_value) || is_object($tmp_value)) {
             array_walk_recursive($tmp_value, array($this, '_jsonConcatContents'));
             $value = $this->tmpJsonString;
         } else {
-            $this->tmpJsonString .=  " " . $tmp_value . "\n";
+            $this->tmpJsonString .=  ' ' . $tmp_value . "\n";
         }
 
-        if($tmp_key && is_array($tmp_key) || is_object($tmp_key)) {
+        if ($tmp_key && is_array($tmp_key) || is_object($tmp_key)) {
             array_walk_recursive($tmp_key, array($this, '_jsonConcatContents'));
             $key = $this->tmpJsonString;
         } else {
-            $this->tmpJsonString .=  " " . $tmp_key . "\n";
+            $this->tmpJsonString .=  ' ' . $tmp_key . "\n";
         }
 
         return array($key, $value);
@@ -597,13 +588,14 @@ class IDS_Monitor
      *
      * @return void
      */
-    private function _jsonConcatContents($key, $value) {
-
-        if(is_string($key) && is_string($value)) {
-            $this->tmpJsonString .=  $key . " " . $value . "\n";
+    private function _jsonConcatContents($key, $value)
+    {
+        if (is_string($key) && is_string($value)) {
+            $this->tmpJsonString .=  $key . ' ' . $value . "\n";
         } else {
             $this->_jsonDecodeValues(
-                json_encode($key), json_encode($value)
+                json_encode($key),
+                json_encode($value)
             );
         }
     }
@@ -615,7 +607,7 @@ class IDS_Monitor
      * @param mixed  $value  the value to scan
      * @param object $filter the filter object
      *
-     * @return boolean
+     * @return bool
      */
     private function _match($key, $value, $filter)
     {
@@ -766,7 +758,6 @@ class IDS_Monitor
 
         return $this->report;
     }
-
 }
 
 /**

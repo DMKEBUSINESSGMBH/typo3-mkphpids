@@ -1,94 +1,94 @@
 plugin.tx_mkphpids_pi1 {
 
     # cat=plugin.mkphpids/enable/001; type=boolean; label=Debug Mode: Turn on or off debug mode.
-    General.debug_mode     	= 0
+    General.debug_mode = 0
 
     # cat=plugin.mkphpids/enable/002; type=text; label=Address for reportings by E-Mail: If not specified the $GLOBALS['TYPO3_CONF_VARS']['BE']['warning_email_addr'] will be used
-    Logging.email        	=
+    Logging.email =
 
     # cat=plugin.mkphpids/enable/003; type=int; label=Print to screen Threshold: Threshold for printing an impact to the screen. Set to 0 if no logging desired.
-    Impact.print_to_screen_threshold   = 0
+    Impact.print_to_screen_threshold = 0
 
     # cat=plugin.mkphpids/enable/003; type=int; label=File Threshold: Threshold for reporting an impact to the logfile defined in Logging.path. Set to 0 if no logging desired.
-    Impact.file_threshold   = 0
+    Impact.file_threshold = 0
 
     # cat=plugin.mkphpids/enable/004; type=int; label=DB Threshold: Threshold for reporting an impact to the database shown in the PHPIDS backend module. Set to 0 if no logging desired.
-    Impact.db_threshold     = 15
+    Impact.db_threshold = 15
 
     # cat=plugin.mkphpids/enable/005; type=int; label=EMail Threshold: Threshold for reporting an impact by e-mail specified in Logging.email. Set to 0 if no logging desired.
-    Impact.email_threshold  = 20
+    Impact.email_threshold = 20
 
     # cat=plugin.mkphpids/enable/006; type=int; label=Die Threshold: Treshold for locking the homepage to the attacker with a session_destroy() and PHP die(). Set to 0 if no die() desired.
-    Impact.die_threshold    = 65
+    Impact.die_threshold = 65
 
     # cat=plugin.mkphpids/enable/007; type=text; label=Pid/Alias of the page to redirect to after an attack. By default we just show a plain message to the attacker.
-    Impact.die_redirect_pid	=
+    Impact.die_redirect_pid =
 
     # cat=plugin.mkphpids/enable/008; type=text; label=Exceptions 1: Define which fields shouldn't be monitored. You can also make a comma separated list. it is possible to use a Regex like this /COOKIE._pk_ref_*/i
-    General.exceptions_0    = COOKIE.__utmz,COOKIE.__utmc,COOKIE.__gads,/COOKIE.*_session/i,/COOKIE._pk_ref_*/i,/POST.*.__hmac/i,/GET.*.__hmac/i,/POST.*.__referrer.@request/i,/POST.*.__trustedProperties/i
+    General.exceptions_0 = COOKIE.__utmz,COOKIE.__utmc,COOKIE.__gads,/COOKIE.*_session/i,/COOKIE._pk_ref_*/i,/POST.*.__hmac/i,/GET.*.__hmac/i,/POST.*.__referrer.@request/i,/POST.*.__trustedProperties/i
 
     # cat=plugin.mkphpids/enable/009; type=text; label=Exceptions 2: Define which fields shouldn't be monitored. You can also make a comma separated list it is possible to use a Regex like this /COOKIE._pk_ref_*/i. The default POST.d,POST.s and POST.st come from the caretaker extension.
-    General.exceptions_1    = COOKIE.__utmz,COOKIE.__utmc,COOKIE.__gads,/COOKIE.*_session/i,/COOKIE._pk_ref_*/i,/POST.*.__hmac/i,/GET.*.__hmac/i,/POST.*.__referrer.@request/i,/POST.*.__trustedProperties/i
+    General.exceptions_1 = COOKIE.__utmz,COOKIE.__utmc,COOKIE.__gads,/COOKIE.*_session/i,/COOKIE._pk_ref_*/i,/POST.*.__hmac/i,/GET.*.__hmac/i,/POST.*.__referrer.@request/i,/POST.*.__trustedProperties/i
 
     # cat=plugin.mkphpids/enable/010; type=text; label=Exceptions 3: Define which fields shouldn't be monitored. You can also make a comma separated list it is possible to use a Regex like this /COOKIE._pk_ref_*/i
-    General.exceptions_2    = COOKIE.__utmz,COOKIE.__utmc,COOKIE.__gads,/COOKIE.*_session/i,/COOKIE._pk_ref_*/i,/POST.*.__hmac/i,/GET.*.__hmac/i,/POST.*.__referrer.@request/i,/POST.*.__trustedProperties/i
+    General.exceptions_2 = COOKIE.__utmz,COOKIE.__utmc,COOKIE.__gads,/COOKIE.*_session/i,/COOKIE._pk_ref_*/i,/POST.*.__hmac/i,/GET.*.__hmac/i,/POST.*.__referrer.@request/i,/POST.*.__trustedProperties/i
 
     # cat=plugin.mkphpids/enable/011; type=text; label=HTML: Define which fields contain html and need preparation before hitting the PHPIDS rules
-    General.html          	= __wysiwyg
+    General.html = __wysiwyg
 
     # cat=plugin.mkphpids/enable/012; type=text; label=JSON: Define which fields contain JSON data and should be treated as such for fewer false positives
-    General.json          	= POST.__jsondata
+    General.json = POST.__jsondata
 
     # cat=plugin.mkphpids/enable/013; type=text; label=Whitelist: Define which pages should not be protected by PHPIDS. Do this by entering the ID of the specific pages. Make a comma separated list for more then one pages
-    General.whitelist	    =
+    General.whitelist =
 
     # cat=plugin.mkphpids/enable/014; type=text; label=Comma separated list of IPs which are excluded from the intrution detection. Check the manual how the IPs can be defined.
-    General.excludedIPs    =
+    General.excludedIPs =
 
     # cat=plugin.mkphpids/file/001; type=boolean; label=Use base path: Choose if base path is used. Default is true
-    General.use_base_path   = 1
+    General.use_base_path = 1
 
     # cat=plugin.mkphpids/file/002; type=text; label=Tmp path: Choose your temp path. Default is tmp
-    General.tmp_path        = tmp
+    General.tmp_path = tmp
 
     # cat=plugin.mkphpids/file/003; type=text; label=File logging: If you use the PHPIDS logger you can define specific configuration here
-    Logging.path 			= tmp/phpids_log.txt
+    Logging.path = tmp/phpids_log.txt
 
     # cat=plugin.mkphpids/file/004; type=text; label=File cache: Default is tmp/default_filter.cache
-    Caching.path 			= tmp/default_filter.cache
+    Caching.path = tmp/default_filter.cache
 
     # cat=plugin.mkphpids/file/005; type=text; label=Filter path: Choose your filter file. Default is default_filter.xml
-    General.filter_path     = default_filter.xml
+    General.filter_path = default_filter.xml
 
     # cat=plugin.mkphpids/file/006; type=text; label=HTML Purifier Path: In case you want to use a different HTMLPurifier source, specify it here. By default, those files are used that are being shipped with PHPIDS
-	General.HTML_Purifier_Path	= IDS/vendors/htmlpurifier/HTMLPurifier.auto.php
+    General.HTML_Purifier_Path = IDS/vendors/htmlpurifier/HTMLPurifier.auto.php
 
     # cat=plugin.mkphpids/file/007; type=text; label=HTML Purifier Cache: In case you want to use a different HTMLPurifier cache, specify it here. By default, those files are used that are being shipped with PHPIDS
-	General.HTML_Purifier_Cache = IDS/vendors/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer
+    General.HTML_Purifier_Cache = IDS/vendors/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer
 
     # cat=plugin.mkphpids//001; type=text; label=Filter Typ: Choose your filter type. Default is XML
-    General.filter_type     = xml
+    General.filter_type = xml
 
     # cat=plugin.mkphpids//002; type=boolean; label=Scan Key: Use scan key. Default is false
-    General.scan_keys       = 0
+    General.scan_keys = 0
 
     # cat=plugin.mkphpids//003; type=text; label=Email logging: Note that enabling safemode you can prevent spam attempts
-    Logging.envelope        =
+    Logging.envelope =
 
     # cat=plugin.mkphpids//004; type=boolean; label=Logging Safemofe: For E-Mail logging. Default is true
-    Logging.safemode        = 1
+    Logging.safemode = 1
 
     # cat=plugin.mkphpids//005; type=text; label=Logging Header: The sent E-Mail header. The markers ###SITEHOST### and ###CRLF### are supported. You should set a From header!!! If not the value from php.ini is taken.
-    Logging.header        	= From: <PHPIDS von ###SITEHOST###> mkphpids@###SITEHOST### ###CRLF###
+    Logging.header = From: <PHPIDS von ###SITEHOST###> mkphpids@###SITEHOST### ###CRLF###
 
     # cat=plugin.mkphpids//006; type=boolean; label=Logging urlencode: For Email logging. Default is true
-    Logging.urlencode       = 1
+    Logging.urlencode = 1
 
     # cat=plugin.mkphpids//007; type=int; label=Logging Allowed rate: For Email logging. Default is 60
-    Logging.allowed_rate    = 60
+    Logging.allowed_rate = 60
 
     # cat=plugin.mkphpids//008; type=options[session,file,database,memcached,none]; label=Caching method: Default is file
-    Caching.caching         = file
+    Caching.caching = file
 
     # cat=plugin.mkphpids//009; type=int; label=Caching expiration time: Default is 600
     Caching.expiration_time = 600

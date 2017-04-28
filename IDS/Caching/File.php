@@ -2,26 +2,26 @@
 
 /**
  * PHPIDS
- * 
+ *
  * Requirements: PHP5, SimpleXML
  *
  * Copyright (c) 2008 PHPIDS group (https://phpids.org)
  *
  * PHPIDS is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, version 3 of the License, or 
+ * the Free Software Foundation, version 3 of the License, or
  * (at your option) any later version.
  *
  * PHPIDS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
- * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>. 
+ * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>.
  *
  * PHP version 5.1.6+
- * 
+ *
  * @category Security
  * @package  PHPIDS
  * @author   Mario Heiderich <mario.heiderich@gmail.com>
@@ -85,19 +85,18 @@ class IDS_Caching_File implements IDS_Caching_Interface
      *
      * @param  string $type caching type
      * @param  object $init the IDS_Init object
-     * 
+     *
      * @return void
      */
     public function __construct($type, $init)
     {
-    	
         $this->type   = $type;
         $this->config = $init->config['Caching'];
         $this->path   = $init->getBasePath() . $this->config['path'];
 
         if (file_exists($this->path) && !is_writable($this->path)) {
-            throw new Exception('Make sure all files in ' . 
-            htmlspecialchars($this->path, ENT_QUOTES, 'UTF-8') . 
+            throw new Exception('Make sure all files in ' .
+            htmlspecialchars($this->path, ENT_QUOTES, 'UTF-8') .
                 'are writeable!');
         }
     }
@@ -107,7 +106,7 @@ class IDS_Caching_File implements IDS_Caching_Interface
      *
      * @param  string $type caching type
      * @param  object $init the IDS_Init object
-     * 
+     *
      * @return object $this
      */
     public static function getInstance($type, $init)
@@ -123,21 +122,23 @@ class IDS_Caching_File implements IDS_Caching_Interface
      * Writes cache data into the file
      *
      * @param array $data the cache data
-     * 
+     *
      * @throws Exception if cache file couldn't be created
      * @return object $this
      */
-    public function setCache(array $data) 
+    public function setCache(array $data)
     {
-
-        if (!is_writable(preg_replace('/[\/][^\/]+\.[^\/]++$/', null, 
-            $this->path))) {
-            throw new Exception('Temp directory ' . 
-            htmlspecialchars($this->path, ENT_QUOTES, 'UTF-8') . 
+        if (!is_writable(preg_replace(
+            '/[\/][^\/]+\.[^\/]++$/',
+            null,
+            $this->path
+        ))) {
+            throw new Exception('Temp directory ' .
+            htmlspecialchars($this->path, ENT_QUOTES, 'UTF-8') .
             ' seems not writable');
-        }    	
+        }
         
-        if ((!file_exists($this->path) || (time()-filectime($this->path)) > 
+        if ((!file_exists($this->path) || (time() - filectime($this->path)) >
             $this->config['expiration_time'])) {
             $handle = @fopen($this->path, 'w+');
             $serialized = @serialize($data);
@@ -145,9 +146,9 @@ class IDS_Caching_File implements IDS_Caching_Interface
             if (!$handle) {
                 throw new Exception("Cache file couldn't be created");
             }
-			if (!$serialized) {
+            if (!$serialized) {
                 throw new Exception("Cache data couldn't be serialized");
-            }            
+            }
 
             fwrite($handle, $serialized);
             fclose($handle);
@@ -159,19 +160,20 @@ class IDS_Caching_File implements IDS_Caching_Interface
     /**
      * Returns the cached data
      *
-     * Note that this method returns false if either type or file cache is 
+     * Note that this method returns false if either type or file cache is
      * not set
-     * 
+     *
      * @return mixed cache data or false
      */
-    public function getCache() 
+    public function getCache()
     {
 
         // make sure filters are parsed again if cache expired
-        if (file_exists($this->path) && (time()-filectime($this->path)) < 
+        if (file_exists($this->path) && (time() - filectime($this->path)) <
             $this->config['expiration_time']) {
             $data = unserialize(file_get_contents($this->path));
-              return $data;
+
+            return $data;
         }
 
         return false;

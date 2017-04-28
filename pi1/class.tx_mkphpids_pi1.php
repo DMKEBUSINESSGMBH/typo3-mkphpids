@@ -32,35 +32,36 @@ tx_rnbase::load('Tx_Rnbase_Frontend_Plugin');
 /**
  * Plugin 'PHPIDS for Typo3' for the 'mkphpids' extension.
  *
- * @author	pixabit GmbH / Pascal Naujoks <pascal.naujoks@pixabit.de>
+ * @author  pixabit GmbH / Pascal Naujoks <pascal.naujoks@pixabit.de>
  * @author Hannes Bochmann <dev@dmk-ebusiness.de>
- * @package	TYPO3
- * @subpackage	tx_mkphpids
+ * @package     TYPO3
+ * @subpackage  tx_mkphpids
  * @todo port to rn_base plugin
  * @todo the converter class has been edited inside the IDS folder. so an update
  * of IDS is not easy in the moment. find a way to put the converter outside!
  */
-class tx_mkphpids_pi1 extends Tx_Rnbase_Frontend_Plugin {
-
-    var $prefixId = 'tx_mkphpids_pi1';  // Same as class name
-    var $scriptRelPath = 'pi1/class.tx_mkphpids_pi1.php'; // Path to this script relative to the extension dir.
-    var $extKey = 'mkphpids'; // The extension key.
-    var $conf;
+class tx_mkphpids_pi1 extends Tx_Rnbase_Frontend_Plugin
+{
+    public $prefixId = 'tx_mkphpids_pi1';  // Same as class name
+    public $scriptRelPath = 'pi1/class.tx_mkphpids_pi1.php'; // Path to this script relative to the extension dir.
+    public $extKey = 'mkphpids'; // The extension key.
+    public $conf;
 
     /**
      * The main method of the PlugIn
      *
-     * @param	string		$content: The PlugIn content
-     * @param	array		$conf: The PlugIn configuration
-     * @return	The content that is displayed on the website
+     * @param   string      $content: The PlugIn content
+     * @param   array       $conf: The PlugIn configuration
+     * @return  The content that is displayed on the website
      */
-    function main($content, $conf) {
+    public function main($content, $conf)
+    {
         $this->pi_USER_INT_obj = 1;
         $this->conf = $conf;
 
-		if ($this->isCurrentIpExcluded()) {
-			return NULL;
-		}
+        if ($this->isCurrentIpExcluded()) {
+            return null;
+        }
 
         $this->conf['General.']['exceptions'] = array();
 
@@ -68,28 +69,27 @@ class tx_mkphpids_pi1 extends Tx_Rnbase_Frontend_Plugin {
         $this->conf['General.']['whitelist'] = tx_rnbase_util_Strings::trimExplode(
             ',',
             $this->conf['General.']['whitelist'],
-            TRUE
+            true
         );
         $this->conf['General.']['json'] = tx_rnbase_util_Strings::trimExplode(
             ',',
             $this->conf['General.']['json'],
-            TRUE
+            true
         );
         $this->conf['General.']['html'] = tx_rnbase_util_Strings::trimExplode(
             ',',
             $this->conf['General.']['html'],
-            TRUE
+            true
         );
 
         // Should the current page be monitored or is it in the whitelist?
         if (!in_array($GLOBALS['TSFE']->id, $this->conf['General.']['whitelist'])) {
-
             // Hook for importing exceptions from constant editor
             $this->conf['General.']['exceptions'] = array_merge(
                 tx_rnbase_util_Strings::trimExplode(
                     ',',
                     $this->conf['General.']['exceptions_0'],
-                    TRUE
+                    true
                 ),
                 $this->conf['General.']['exceptions']
             );
@@ -97,7 +97,7 @@ class tx_mkphpids_pi1 extends Tx_Rnbase_Frontend_Plugin {
                 tx_rnbase_util_Strings::trimExplode(
                     ',',
                     $this->conf['General.']['exceptions_1'],
-                    TRUE
+                    true
                 ),
                 $this->conf['General.']['exceptions']
             );
@@ -105,7 +105,7 @@ class tx_mkphpids_pi1 extends Tx_Rnbase_Frontend_Plugin {
                 tx_rnbase_util_Strings::trimExplode(
                     ',',
                     $this->conf['General.']['exceptions_2'],
-                    TRUE
+                    true
                 ),
                 $this->conf['General.']['exceptions']
             );
@@ -118,7 +118,7 @@ class tx_mkphpids_pi1 extends Tx_Rnbase_Frontend_Plugin {
             set_include_path(get_include_path() . PATH_SEPARATOR . $this->path);
             require_once('IDS/Init.php');
 
-        	if ($this->conf['Caching.']['caching'] == 'session' && !session_id()) {
+            if ($this->conf['Caching.']['caching'] == 'session' && !session_id()) {
                 session_start();
             }
 
@@ -187,7 +187,7 @@ class tx_mkphpids_pi1 extends Tx_Rnbase_Frontend_Plugin {
                 // Hilfsmittel ein sicheres System bereitzustellen. Programmcode mus trotzdem sicher sein.
                 // Verhindert wird nur etwas was mit sehr großer Sicherheit ein Angriffsversuch ist.
                 if (!$result->isEmpty()) {
-                    $content.='<p class="box error">' . $result . '</p>';
+                    $content .= '<p class="box error">' . $result . '</p>';
 
                     /*
                      * Log the results
@@ -206,26 +206,26 @@ class tx_mkphpids_pi1 extends Tx_Rnbase_Frontend_Plugin {
                      */
 
                     if ($this->conf['Impact.']['print_to_screen_threshold'] && $result->getImpact() >= $this->conf['Impact.']['print_to_screen_threshold']) {
-                    	tx_rnbase::load('Tx_mkphpids_Log_PrintToScreen');
-                    	$compositeLog->addLogger(Tx_mkphpids_Log_PrintToScreen::getInstance());
-                    	$content .='<div class="box ok">Reporting to Screen (Threshold: ' . $this->conf['Impact.']['print_to_screen_threshold'] . ')</div>';
+                        tx_rnbase::load('Tx_mkphpids_Log_PrintToScreen');
+                        $compositeLog->addLogger(Tx_mkphpids_Log_PrintToScreen::getInstance());
+                        $content .= '<div class="box ok">Reporting to Screen (Threshold: ' . $this->conf['Impact.']['print_to_screen_threshold'] . ')</div>';
                     }
 
                     if ($this->conf['Impact.']['file_threshold'] && $result->getImpact() >= $this->conf['Impact.']['file_threshold']) {
                         $compositeLog->addLogger(IDS_Log_File::getInstance($init));     // Log Impact into File (IDS/tmp/phpids_log.txt)
-                        $content .='<div class="box ok">Reporting to File (Threshold: ' . $this->conf['Impact.']['file_threshold'] . ')</div>';
+                        $content .= '<div class="box ok">Reporting to File (Threshold: ' . $this->conf['Impact.']['file_threshold'] . ')</div>';
                     }
 
                     if ($this->conf['Impact.']['db_threshold'] && $result->getImpact() >= $this->conf['Impact.']['db_threshold']) {
-                    	tx_rnbase::load('Tx_mkphpids_Log_Database');
+                        tx_rnbase::load('Tx_mkphpids_Log_Database');
                         $compositeLog->addLogger(Tx_mkphpids_Log_Database::getInstance($init)); // Log Impact into a Database (tx_mkphpids_log)
-                        $content .='<div class="box ok">Reporting to DB (Threshold: ' . $this->conf['Impact.']['db_threshold'] . ')</div>';
+                        $content .= '<div class="box ok">Reporting to DB (Threshold: ' . $this->conf['Impact.']['db_threshold'] . ')</div>';
                     }
 
                     if ($this->conf['Impact.']['email_threshold'] && $result->getImpact() >= $this->conf['Impact.']['email_threshold']) {
-                    	tx_rnbase::load('Tx_mkphpids_Log_Email');
+                        tx_rnbase::load('Tx_mkphpids_Log_Email');
                         $compositeLog->addLogger(Tx_mkphpids_Log_Email::getInstance($init));    // Report Impact via E-Mail
-                        $content .='<div class="box ok">Reporting by E-Mail (Threshold: ' . $this->conf['Impact.']['email_threshold'] . ')</div>';
+                        $content .= '<div class="box ok">Reporting by E-Mail (Threshold: ' . $this->conf['Impact.']['email_threshold'] . ')</div>';
                     }
 
                     $compositeLog->execute($result);
@@ -234,17 +234,17 @@ class tx_mkphpids_pi1 extends Tx_Rnbase_Frontend_Plugin {
                         $this->handleDieThreshold($content);
                     }
                 } else {
-                    $content.='	<div class="box ok">
+                    $content .= '	<div class="box ok">
 									No attack detected. You can disable this message by setting "General.debug_mode" to false in the TypoScript Objects of PHPIDS.
 								</div>';
-                    $content.='	<div class="box info">
+                    $content .= '	<div class="box info">
 									<a href="' . tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL') . '?test=%22><script>eval(window.name)</script>">Click for an example attack to see if PHPIDS for TYPO3 works correctly.</a>
 								</div>';
                 }
             } catch (Exception $e) {
-                $content.='<div class="box error">An error occurred: ' . $e->getMessage() . '</div>';
-                $content.='<div class="box error">Settings in $this->conf<pre>' . print_r($this->conf, true) . '</pre></div>';
-                $content.='<div class="box error">Settings in $init->config<pre>' . print_r($init->config, true) . '</pre></div>';
+                $content .= '<div class="box error">An error occurred: ' . $e->getMessage() . '</div>';
+                $content .= '<div class="box error">Settings in $this->conf<pre>' . print_r($this->conf, true) . '</pre></div>';
+                $content .= '<div class="box error">Settings in $init->config<pre>' . print_r($init->config, true) . '</pre></div>';
             }
             if ($this->debug == true) {
                 return $this->pi_wrapInBaseClass($content);
@@ -252,45 +252,47 @@ class tx_mkphpids_pi1 extends Tx_Rnbase_Frontend_Plugin {
         }
     }
 
-	/**
-	 * @return boolean
-	 */
-	protected function isCurrentIpExcluded() {
-		$isCurrentIpExcluded = FALSE;
+    /**
+     * @return bool
+     */
+    protected function isCurrentIpExcluded()
+    {
+        $isCurrentIpExcluded = false;
 
-		if($this->conf['General.']['excludedIPs']) {
-			$isCurrentIpExcluded = tx_rnbase_util_Network::cmpIP(
-				tx_rnbase_util_Misc::getIndpEnv('REMOTE_ADDR'),
-				$this->conf['General.']['excludedIPs']
-			);
-		}
+        if ($this->conf['General.']['excludedIPs']) {
+            $isCurrentIpExcluded = tx_rnbase_util_Network::cmpIP(
+                tx_rnbase_util_Misc::getIndpEnv('REMOTE_ADDR'),
+                $this->conf['General.']['excludedIPs']
+            );
+        }
 
-		return $isCurrentIpExcluded;
-	}
+        return $isCurrentIpExcluded;
+    }
 
     /**
      * @param string $content
      *
      * @return void
      */
-    private function handleDieThreshold($content) {
-    	session_destroy();
+    private function handleDieThreshold($content)
+    {
+        session_destroy();
 
-    	if ($this->debug == false && $this->conf['Impact.']['die_redirect_pid']) {
-	    	$redirectUrl = $this->pi_getPageLink($this->conf['Impact.']['die_redirect_pid']);
-	    	header('Location: '.tx_rnbase_util_Network::locationHeaderUrl($redirectUrl));
-    	} else {
-    		if ($this->debug == false){
-    			$content = '';//remove left over informations
-    		} else {
-				$content .='<div>Dieing... (Threshold: ' . $this->conf['Impact.']['die_threshold'] . ')</div>';
-    		}
-			$content .= '<br /><div>You have been logged out cause of a possible hacking attemp.</div>
+        if ($this->debug == false && $this->conf['Impact.']['die_redirect_pid']) {
+            $redirectUrl = $this->pi_getPageLink($this->conf['Impact.']['die_redirect_pid']);
+            header('Location: '.tx_rnbase_util_Network::locationHeaderUrl($redirectUrl));
+        } else {
+            if ($this->debug == false) {
+                $content = '';//remove left over informations
+            } else {
+                $content .= '<div>Dieing... (Threshold: ' . $this->conf['Impact.']['die_threshold'] . ')</div>';
+            }
+            $content .= '<br /><div>You have been logged out cause of a possible hacking attemp.</div>
 						<div>Your data has been stored and reported.</div>
 						<div>If you think this is an error please contact the webmaster of this website.</div>';
 
-			die($content);
-    	}
+            die($content);
+        }
     }
 }
 

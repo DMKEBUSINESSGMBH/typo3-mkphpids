@@ -6,7 +6,6 @@
  */
 class HTMLPurifier_ConfigDef_Directive extends HTMLPurifier_ConfigDef
 {
-    
     public $class = 'directive';
     
     public function __construct(
@@ -15,10 +14,18 @@ class HTMLPurifier_ConfigDef_Directive extends HTMLPurifier_ConfigDef
         $allowed = null,
         $aliases = null
     ) {
-        if (       $type !== null)        $this->type = $type;
-        if ( $allow_null !== null)  $this->allow_null = $allow_null;
-        if (    $allowed !== null)     $this->allowed = $allowed;
-        if (    $aliases !== null)     $this->aliases = $aliases;
+        if ($type !== null) {
+            $this->type = $type;
+        }
+        if ($allow_null !== null) {
+            $this->allow_null = $allow_null;
+        }
+        if ($allowed !== null) {
+            $this->allowed = $allowed;
+        }
+        if ($aliases !== null) {
+            $this->aliases = $aliases;
+        }
     }
     
     /**
@@ -37,6 +44,7 @@ class HTMLPurifier_ConfigDef_Directive extends HTMLPurifier_ConfigDef
     
     /**
      * Is null allowed? Has no effect for mixed type.
+     *
      * @bool
      */
     public $allow_null = false;
@@ -50,6 +58,4 @@ class HTMLPurifier_ConfigDef_Directive extends HTMLPurifier_ConfigDef
      * Hash of value aliases, i.e. values that are equivalent.
      */
     public $aliases = array();
-    
 }
-

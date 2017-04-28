@@ -81,7 +81,7 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
      * Using this switch it is possible to enable safemode, which is a spam
      * protection based on the alert frequency.
      *
-     * @var boolean
+     * @var bool
      */
     protected $safemode = true;
 
@@ -92,7 +92,7 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
      * the 'better safe than sorry' urlencoding for the result string in
      * the report mails. Enhances readability but maybe XSSes email clients.
      *
-     * @var boolean
+     * @var bool
      */
     protected $urlencode = true;
 
@@ -103,7 +103,7 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
      * sent out. Default value is 15, which means that a mail will be sent on
      * condition that the last email has not been sent earlier than 15 seconds ago.
      *
-     * @var integer
+     * @var int
      */
     protected $allowed_rate = 15;
 
@@ -147,10 +147,9 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
      */
     protected function __construct($config)
     {
-
         if ($config instanceof IDS_Init) {
             $this->recipients   = $config->config['Logging']['recipients'];
-            $this->subject      = $config->config['Logging']['subject'] ? $config->config['Logging']['subject'] : "PHPIDS detected an intrusion attempt on ".$_SERVER['SERVER_NAME']." (".$_SERVER['SERVER_ADDR'].")!";
+            $this->subject      = $config->config['Logging']['subject'] ? $config->config['Logging']['subject'] : 'PHPIDS detected an intrusion attempt on '.$_SERVER['SERVER_NAME'].' ('.$_SERVER['SERVER_ADDR'].')!';
             $this->headers      = $config->config['Logging']['header'];
             $this->envelope     = $config->config['Logging']['envelope'];
             $this->safemode     = $config->config['Logging']['safemode'];
@@ -158,7 +157,6 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
             $this->allowed_rate = $config->config['Logging']['allowed_rate'];
             $this->tmp_path     = $config->getBasePath()
                 . $config->config['General']['tmp_path'];
-
         } elseif (is_array($config)) {
             $this->recipients[]      = $config['recipients'];
             $this->subject           = $config['subject'];
@@ -208,7 +206,7 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
      * To avoid mail spam through this logging class this function is used
      * to detect such attempts based on the alert frequency.
      *
-     * @return boolean
+     * @return bool
      */
     protected function isSpamAttempt()
     {
@@ -272,8 +270,7 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
      */
     protected function prepareData($data)
     {
-
-        $format  = "The following attack has been detected by PHPIDS for TYPO3 on ".$_SERVER['SERVER_NAME']." (".$_SERVER['SERVER_ADDR']."):\n\n";
+        $format  = 'The following attack has been detected by PHPIDS for TYPO3 on '.$_SERVER['SERVER_NAME'].' ('.$_SERVER['SERVER_ADDR']."):\n\n";
         $format .= "IP: %s \n";
         $format .= "Date: %s \n";
         $format .= "Impact: %d \n\n";
@@ -282,34 +279,37 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
         $attackedParameters = '';
         foreach ($data as $event) {
             $attackedParameters .= $event->getName() . '=' .
-                ((!isset($this->urlencode) ||$this->urlencode)
-                	? urlencode($event->getValue())
-                	: $event->getValue()) . ", ";
+                ((!isset($this->urlencode) || $this->urlencode) ? urlencode($event->getValue()) : $event->getValue()) . ', ';
         }
 
         $format .= "Affected parameters: %s \n";
         $format .= "Affected parameters (url encoded): %s \n";
-		$format .= "Affected parameters (url decoded): %s \n\n";
+        $format .= "Affected parameters (url decoded): %s \n\n";
         $format .= "Request URI: %s \n";
         $format .= "Request URI (url encoded): %s \n";
-		$format .= "Request URI (url decoded): %s \n\n";
+        $format .= "Request URI (url decoded): %s \n\n";
 
 
-        $format = sprintf($format,
-                       $this->ip,
-                       date('c'),
-                       $data->getImpact(),
-                       join(', ', $data->getTags()),
-                       trim($attackedParameters),
-                       trim(urlencode($attackedParameters)),
-					   trim(urldecode($attackedParameters)),
-                       trim($_SERVER['REQUEST_URI']),
-                       trim(urlencode($_SERVER['REQUEST_URI'])),
-					   trim(urldecode($_SERVER['REQUEST_URI']))
-                   );
+        $format = sprintf(
+            $format,
+            $this->ip,
+            date('c'),
+            $data->getImpact(),
+            join(', ', $data->getTags()),
+            trim($attackedParameters),
+            trim(urlencode($attackedParameters)),
+            trim(urldecode($attackedParameters)),
+            trim($_SERVER['REQUEST_URI']),
+            trim(urlencode($_SERVER['REQUEST_URI'])),
+            trim(urldecode($_SERVER['REQUEST_URI']))
+        );
 
-        if(!empty($_GET)) $format .= '_GET: '. var_export($_GET, true). "\n";
-        if(!empty($_POST)) $format .= '_POST: '. var_export($_POST, true). "\n";
+        if (!empty($_GET)) {
+            $format .= '_GET: '. var_export($_GET, true). "\n";
+        }
+        if (!empty($_POST)) {
+            $format .= '_POST: '. var_export($_POST, true). "\n";
+        }
         $format .= '_SERVER: '. var_export($_SERVER, true). "\n\n";
 
         tx_rnbase::load('tx_rnbase_util_TYPO3');
@@ -329,11 +329,10 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
      * @param object $data IDS_Report instance
      *
      * @throws Exception if data is no string
-     * @return boolean
+     * @return bool
      */
     public function execute(IDS_Report $data)
     {
-
         if ($this->safemode) {
             if ($this->isSpamAttempt()) {
                 return false;
@@ -352,7 +351,7 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
 
             // if headers are passed as array, we need to make a string of it
             if (is_array($this->headers)) {
-                $headers = "";
+                $headers = '';
                 foreach ($this->headers as $header) {
                     $headers .= $header . "\r\n";
                 }
@@ -378,12 +377,11 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
                         $this->envelope
                     );
                 }
-            }else{
+            } else {
                 throw new Exception(
                     'Please make sure that you specified an E-Mail address in Logging.email or $GLOBALS[\'TYPO3_CONF_VARS\'][\'BE\'][\'warning_email_addr\']'
                 );
             }
-
         } else {
             throw new Exception(
                 'Please make sure that data returned by Tx_mkphpids_Log_Email::prepareData() is a string.'
@@ -401,23 +399,27 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
      * @param string $headers  the mail headers
      * @param string $envelope the optional envelope string
      *
-     * @return boolean
+     * @return bool
      */
     protected function send($address, $data, $headers, $envelope = null)
     {
-    	$headers = $this->replaceHeaderMarkers($headers);
+        $headers = $this->replaceHeaderMarkers($headers);
 
-        if (!$envelope || strpos(ini_get('sendmail_path'),' -f') !== false) {
-            return mail($address,
+        if (!$envelope || strpos(ini_get('sendmail_path'), ' -f') !== false) {
+            return mail(
+                $address,
                 $this->subject,
                 $data,
-                $headers);
+                $headers
+            );
         } else {
-            return mail($address,
+            return mail(
+                $address,
                 $this->subject,
                 $data,
                 $headers,
-                '-f' . $envelope);
+                '-f' . $envelope
+            );
         }
     }
 
@@ -426,22 +428,24 @@ class Tx_mkphpids_Log_Email implements IDS_Log_Interface
      *
      * @return string
      */
-    private function replaceHeaderMarkers($headers) {
-    	foreach ($this->getAvailableHeaderMarkers() as $marker => $replacement) {
-    		$headers = str_replace('###'.$marker.'###', $replacement, $headers);
-    	}
+    private function replaceHeaderMarkers($headers)
+    {
+        foreach ($this->getAvailableHeaderMarkers() as $marker => $replacement) {
+            $headers = str_replace('###'.$marker.'###', $replacement, $headers);
+        }
 
-    	return $headers;
+        return $headers;
     }
 
     /**
      * @return array
      */
-    private function getAvailableHeaderMarkers() {
-    	return array(
-    		'SITEHOST' 	=> tx_rnbase_util_Misc::getIndpEnv('TYPO3_HOST_ONLY'),
-    		'CRLF'		=> CRLF
-    	);
+    private function getAvailableHeaderMarkers()
+    {
+        return array(
+            'SITEHOST'    => tx_rnbase_util_Misc::getIndpEnv('TYPO3_HOST_ONLY'),
+            'CRLF'        => CRLF
+        );
     }
 }
 

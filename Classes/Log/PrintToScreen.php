@@ -50,24 +50,24 @@ tx_rnbase::load('tx_rnbase_util_Debug');
 class Tx_mkphpids_Log_PrintToScreen implements IDS_Log_Interface
 {
 
-	/**
-	* Instance container
-	*
-	* @var array
-	*/
-	protected static $instance = array();
+    /**
+     * Instance container
+     *
+     * @var array
+     */
+    protected static $instance = array();
 
-	/**
-	 * @return object $this
-	 */
-	public static function getInstance()
-	{
-		if (!self::$instance) {
-			self::$instance = new Tx_mkphpids_Log_PrintToScreen();
-		}
+    /**
+     * @return object $this
+     */
+    public static function getInstance()
+    {
+        if (!self::$instance) {
+            self::$instance = new Tx_mkphpids_Log_PrintToScreen();
+        }
 
-		return self::$instance;
-	}
+        return self::$instance;
+    }
 
     /**
      * @param object $data IDS_Report instance
@@ -76,10 +76,10 @@ class Tx_mkphpids_Log_PrintToScreen implements IDS_Log_Interface
      */
     public function execute(IDS_Report $data)
     {
-    	ob_start();
+        ob_start();
         tx_rnbase_util_Debug::debug(array(
-        	"mkphpids vermutet eine Attacke:" . str_replace('<br/>', '', $data)
-        ),__METHOD__.__LINE__);
+            'mkphpids vermutet eine Attacke:' . str_replace('<br/>', '', $data)
+        ), __METHOD__.__LINE__);
         $GLOBALS['TYPO3_CONF_VARS']['FE']['compressionLevel'] = 0;
         ob_flush();
     }

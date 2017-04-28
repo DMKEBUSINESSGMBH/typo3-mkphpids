@@ -16,9 +16,9 @@ class HTMLPurifier_ConfigDef_DirectiveAlias extends HTMLPurifier_ConfigDef
      */
     public $name;
     
-    public function __construct($namespace, $name) {
+    public function __construct($namespace, $name)
+    {
         $this->namespace = $namespace;
         $this->name = $name;
     }
 }
-

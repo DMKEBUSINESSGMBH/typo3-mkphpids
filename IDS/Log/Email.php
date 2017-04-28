@@ -9,16 +9,16 @@
  *
  * PHPIDS is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, version 3 of the License, or 
+ * the Free Software Foundation, version 3 of the License, or
  * (at your option) any later version.
  *
  * PHPIDS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
- * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>. 
+ * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>.
  *
  * PHP version 5.1.6+
  *
@@ -79,18 +79,18 @@ class IDS_Log_Email implements IDS_Log_Interface
      * Using this switch it is possible to enable safemode, which is a spam
      * protection based on the alert frequency.
      *
-     * @var boolean
+     * @var bool
      */
     protected $safemode = true;
 
     /**
      * Urlencode for result strings
      *
-     * This switch is true by default. Setting it to false removes 
-     * the 'better safe than sorry' urlencoding for the result string in 
+     * This switch is true by default. Setting it to false removes
+     * the 'better safe than sorry' urlencoding for the result string in
      * the report mails. Enhances readability but maybe XSSes email clients.
      *
-     * @var boolean
+     * @var bool
      */
     protected $urlencode = true;
 
@@ -101,7 +101,7 @@ class IDS_Log_Email implements IDS_Log_Interface
      * sent out. Default value is 15, which means that a mail will be sent on
      * condition that the last email has not been sent earlier than 15 seconds ago.
      *
-     * @var integer
+     * @var int
      */
     protected $allowed_rate = 15;
 
@@ -145,7 +145,6 @@ class IDS_Log_Email implements IDS_Log_Interface
      */
     protected function __construct($config)
     {
-
         if ($config instanceof IDS_Init) {
             $this->recipients   = $config->config['Logging']['recipients'];
             $this->subject      = $config->config['Logging']['subject'];
@@ -154,9 +153,8 @@ class IDS_Log_Email implements IDS_Log_Interface
             $this->safemode     = $config->config['Logging']['safemode'];
             $this->urlencode    = $config->config['Logging']['urlencode'];
             $this->allowed_rate = $config->config['Logging']['allowed_rate'];
-            $this->tmp_path     = $config->getBasePath() 
+            $this->tmp_path     = $config->getBasePath()
                 . $config->config['General']['tmp_path'];
-
         } elseif (is_array($config)) {
             $this->recipients[]      = $config['recipients'];
             $this->subject           = $config['subject'];
@@ -206,7 +204,7 @@ class IDS_Log_Email implements IDS_Log_Interface
      * To avoid mail spam through this logging class this function is used
      * to detect such attempts based on the alert frequency.
      *
-     * @return boolean
+     * @return bool
      */
     protected function isSpamAttempt()
     {
@@ -268,7 +266,6 @@ class IDS_Log_Email implements IDS_Log_Interface
      */
     protected function prepareData($data)
     {
-
         $format  = "The following attack has been detected by PHPIDS\n\n";
         $format .= "IP: %s \n";
         $format .= "Date: %s \n";
@@ -278,23 +275,23 @@ class IDS_Log_Email implements IDS_Log_Interface
         $attackedParameters = '';
         foreach ($data as $event) {
             $attackedParameters .= $event->getName() . '=' .
-                ((!isset($this->urlencode) ||$this->urlencode) 
-                    ? urlencode($event->getValue()) 
-                    : $event->getValue()) . ", ";
+                ((!isset($this->urlencode) || $this->urlencode) ? urlencode($event->getValue()) : $event->getValue()) . ', ';
         }
 
         $format .= "Affected parameters: %s \n";
         $format .= "Request URI: %s \n";
         $format .= "Origin: %s \n";
 
-        return sprintf($format,
-                       $this->ip,
-                       date('c'),
-                       $data->getImpact(),
-                       join(' ', $data->getTags()),
-                       trim($attackedParameters),
-                       htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8'),
-                       $_SERVER['SERVER_ADDR']);
+        return sprintf(
+            $format,
+            $this->ip,
+            date('c'),
+            $data->getImpact(),
+            join(' ', $data->getTags()),
+            trim($attackedParameters),
+            htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8'),
+            $_SERVER['SERVER_ADDR']
+        );
     }
 
     /**
@@ -303,11 +300,10 @@ class IDS_Log_Email implements IDS_Log_Interface
      * @param object $data IDS_Report instance
      *
      * @throws Exception if data is no string
-     * @return boolean
+     * @return bool
      */
     public function execute(IDS_Report $data)
     {
-
         if ($this->safemode) {
             if ($this->isSpamAttempt()) {
                 return false;
@@ -326,7 +322,7 @@ class IDS_Log_Email implements IDS_Log_Interface
 
             // if headers are passed as array, we need to make a string of it
             if (is_array($this->headers)) {
-                $headers = "";
+                $headers = '';
                 foreach ($this->headers as $header) {
                     $headers .= $header . "\r\n";
                 }
@@ -353,7 +349,6 @@ class IDS_Log_Email implements IDS_Log_Interface
                     );
                 }
             }
-
         } else {
             throw new Exception(
                 'Please make sure that data returned by
@@ -372,21 +367,25 @@ class IDS_Log_Email implements IDS_Log_Interface
      * @param string $headers  the mail headers
      * @param string $envelope the optional envelope string
      *
-     * @return boolean
+     * @return bool
      */
     protected function send($address, $data, $headers, $envelope = null)
     {
-        if (!$envelope || strpos(ini_get('sendmail_path'),' -f') !== false) {
-            return mail($address,
+        if (!$envelope || strpos(ini_get('sendmail_path'), ' -f') !== false) {
+            return mail(
+                $address,
                 $this->subject,
                 $data,
-                $headers);
+                $headers
+            );
         } else {
-            return mail($address,
+            return mail(
+                $address,
                 $this->subject,
                 $data,
                 $headers,
-                '-f' . $envelope);
+                '-f' . $envelope
+            );
         }
     }
 }

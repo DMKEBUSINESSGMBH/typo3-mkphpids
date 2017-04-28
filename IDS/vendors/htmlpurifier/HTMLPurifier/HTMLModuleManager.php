@@ -44,16 +44,21 @@ class HTMLPurifier_HTMLModuleManager
      */
     public $elementLookup = array();
 
-    /** List of prefixes we should use for registering small names */
+    /**
+     * List of prefixes we should use for registering small names
+     */
     public $prefixes = array('HTMLPurifier_HTMLModule_');
 
     public $contentSets;     /**< Instance of HTMLPurifier_ContentSets */
     public $attrCollections; /**< Instance of HTMLPurifier_AttrCollections */
 
-    /** If set to true, unsafe elements and attributes will be allowed */
+    /**
+     * If set to true, unsafe elements and attributes will be allowed
+     */
     public $trusted = false;
 
-    public function __construct() {
+    public function __construct()
+    {
 
         // editable internal objects
         $this->attrTypes = new HTMLPurifier_AttrTypes();
@@ -75,7 +80,8 @@ class HTMLPurifier_HTMLModuleManager
 
         // setup basic doctypes
         $this->doctypes->register(
-            'HTML 4.01 Transitional', false,
+            'HTML 4.01 Transitional',
+            false,
             array_merge($common, $transitional, $non_xml),
             array('Tidy_Transitional', 'Tidy_Proprietary'),
             array(),
@@ -84,7 +90,8 @@ class HTMLPurifier_HTMLModuleManager
         );
 
         $this->doctypes->register(
-            'HTML 4.01 Strict', false,
+            'HTML 4.01 Strict',
+            false,
             array_merge($common, $non_xml),
             array('Tidy_Strict', 'Tidy_Proprietary', 'Tidy_Name'),
             array(),
@@ -93,7 +100,8 @@ class HTMLPurifier_HTMLModuleManager
         );
 
         $this->doctypes->register(
-            'XHTML 1.0 Transitional', true,
+            'XHTML 1.0 Transitional',
+            true,
             array_merge($common, $transitional, $xml, $non_xml),
             array('Tidy_Transitional', 'Tidy_XHTML', 'Tidy_Proprietary', 'Tidy_Name'),
             array(),
@@ -102,7 +110,8 @@ class HTMLPurifier_HTMLModuleManager
         );
 
         $this->doctypes->register(
-            'XHTML 1.0 Strict', true,
+            'XHTML 1.0 Strict',
+            true,
             array_merge($common, $xml, $non_xml),
             array('Tidy_Strict', 'Tidy_XHTML', 'Tidy_Strict', 'Tidy_Proprietary', 'Tidy_Name'),
             array(),
@@ -111,14 +120,14 @@ class HTMLPurifier_HTMLModuleManager
         );
 
         $this->doctypes->register(
-            'XHTML 1.1', true,
+            'XHTML 1.1',
+            true,
             array_merge($common, $xml, array('Ruby')),
             array('Tidy_Strict', 'Tidy_XHTML', 'Tidy_Proprietary', 'Tidy_Strict', 'Tidy_Name'), // Tidy_XHTML1_1
             array(),
             '-//W3C//DTD XHTML 1.1//EN',
             'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'
         );
-
     }
 
     /**
@@ -142,7 +151,8 @@ class HTMLPurifier_HTMLModuleManager
      *       your module manually. All modules must have been included
      *       externally: registerModule will not perform inclusions for you!
      */
-    public function registerModule($module, $overload = false) {
+    public function registerModule($module, $overload = false)
+    {
         if (is_string($module)) {
             // attempt to load the module
             $original_module = $module;
@@ -157,8 +167,11 @@ class HTMLPurifier_HTMLModuleManager
             if (!$ok) {
                 $module = $original_module;
                 if (!class_exists($module)) {
-                    trigger_error($original_module . ' module does not exist',
-                        E_USER_ERROR);
+                    trigger_error(
+                        $original_module . ' module does not exist',
+                        E_USER_ERROR
+                    );
+
                     return;
                 }
             }
@@ -166,6 +179,7 @@ class HTMLPurifier_HTMLModuleManager
         }
         if (empty($module->name)) {
             trigger_error('Module instance of ' . get_class($module) . ' must have name');
+
             return;
         }
         if (!$overload && isset($this->registeredModules[$module->name])) {
@@ -178,9 +192,12 @@ class HTMLPurifier_HTMLModuleManager
      * Adds a module to the current doctype by first registering it,
      * and then tacking it on to the active doctype
      */
-    public function addModule($module) {
+    public function addModule($module)
+    {
         $this->registerModule($module);
-        if (is_object($module)) $module = $module->name;
+        if (is_object($module)) {
+            $module = $module->name;
+        }
         $this->userModules[] = $module;
     }
 
@@ -188,7 +205,8 @@ class HTMLPurifier_HTMLModuleManager
      * Adds a class prefix that registerModule() will use to resolve a
      * string name to a concrete class
      */
-    public function addPrefix($prefix) {
+    public function addPrefix($prefix)
+    {
         $this->prefixes[] = $prefix;
     }
 
@@ -197,8 +215,8 @@ class HTMLPurifier_HTMLModuleManager
      * use getElement() and getElements()
      * @param $config Instance of HTMLPurifier_Config
      */
-    public function setup($config) {
-
+    public function setup($config)
+    {
         $this->trusted = $config->get('HTML.Trusted');
 
         // generate
@@ -211,8 +229,12 @@ class HTMLPurifier_HTMLModuleManager
 
         if (is_array($lookup)) {
             foreach ($modules as $k => $m) {
-                if (isset($special_cases[$m])) continue;
-                if (!isset($lookup[$m])) unset($modules[$k]);
+                if (isset($special_cases[$m])) {
+                    continue;
+                }
+                if (!isset($lookup[$m])) {
+                    unset($modules[$k]);
+                }
             }
         }
 
@@ -285,7 +307,8 @@ class HTMLPurifier_HTMLModuleManager
      * Takes a module and adds it to the active module collection,
      * registering it if necessary.
      */
-    public function processModule($module) {
+    public function processModule($module)
+    {
         if (!isset($this->registeredModules[$module]) || is_object($module)) {
             $this->registerModule($module);
         }
@@ -296,13 +319,17 @@ class HTMLPurifier_HTMLModuleManager
      * Retrieves merged element definitions.
      * @return Array of HTMLPurifier_ElementDef
      */
-    public function getElements() {
-
+    public function getElements()
+    {
         $elements = array();
         foreach ($this->modules as $module) {
-            if (!$this->trusted && !$module->safe) continue;
+            if (!$this->trusted && !$module->safe) {
+                continue;
+            }
             foreach ($module->info as $name => $v) {
-                if (isset($elements[$name])) continue;
+                if (isset($elements[$name])) {
+                    continue;
+                }
                 $elements[$name] = $this->getElement($name);
             }
         }
@@ -310,11 +337,12 @@ class HTMLPurifier_HTMLModuleManager
         // remove dud elements, this happens when an element that
         // appeared to be safe actually wasn't
         foreach ($elements as $n => $v) {
-            if ($v === false) unset($elements[$n]);
+            if ($v === false) {
+                unset($elements[$n]);
+            }
         }
 
         return $elements;
-
     }
 
     /**
@@ -327,20 +355,21 @@ class HTMLPurifier_HTMLModuleManager
      *       in getElements() and once here). This
      *       is because
      */
-    public function getElement($name, $trusted = null) {
-
+    public function getElement($name, $trusted = null)
+    {
         if (!isset($this->elementLookup[$name])) {
             return false;
         }
 
         // setup global state variables
         $def = false;
-        if ($trusted === null) $trusted = $this->trusted;
+        if ($trusted === null) {
+            $trusted = $this->trusted;
+        }
 
         // iterate through each module that has registered itself to this
         // element
-        foreach($this->elementLookup[$name] as $module_name) {
-
+        foreach ($this->elementLookup[$name] as $module_name) {
             $module = $this->modules[$module_name];
 
             // refuse to create/merge from a module that is deemed unsafe--
@@ -385,7 +414,9 @@ class HTMLPurifier_HTMLModuleManager
 
         // This can occur if there is a blank definition, but no base to
         // mix it in with
-        if (!$def) return false;
+        if (!$def) {
+            return false;
+        }
 
         // add information on required attributes
         foreach ($def->attr as $attr_name => $attr_def) {
@@ -395,9 +426,7 @@ class HTMLPurifier_HTMLModuleManager
         }
 
         return $def;
-
     }
-
 }
 
 // vim: et sw=4 sts=4

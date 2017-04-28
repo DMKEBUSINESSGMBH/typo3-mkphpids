@@ -2,26 +2,26 @@
 
 /**
  * PHPIDS
- * 
+ *
  * Requirements: PHP5, SimpleXML
  *
  * Copyright (c) 2008 PHPIDS group (https://phpids.org)
  *
  * PHPIDS is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, version 3 of the License, or 
+ * the Free Software Foundation, version 3 of the License, or
  * (at your option) any later version.
  *
  * PHPIDS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
- * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>.  
+ * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>.
  *
  * PHP version 5.1.6+
- * 
+ *
  * @category Security
  * @package  PHPIDS
  * @author   Mario Heiderich <mario.heiderich@gmail.com>
@@ -36,7 +36,7 @@ require_once 'IDS/Log/Interface.php';
 /*
  * Needed SQL:
  *
-    CREATE DATABASE IF NOT EXISTS `phpids` DEFAULT CHARACTER 
+    CREATE DATABASE IF NOT EXISTS `phpids` DEFAULT CHARACTER
         SET utf8 COLLATE utf8_general_ci;
     DROP TABLE IF EXISTS `intrusions`;
     CREATE TABLE IF NOT EXISTS `intrusions` (
@@ -60,8 +60,8 @@ require_once 'IDS/Log/Interface.php';
 /**
  * Database logging wrapper
  *
- * The database wrapper is designed to store reports into an sql database. It 
- * implements the singleton pattern and is based in PDO, supporting 
+ * The database wrapper is designed to store reports into an sql database. It
+ * implements the singleton pattern and is based in PDO, supporting
  * different database types.
  *
  * @category  Security
@@ -142,19 +142,17 @@ class IDS_Log_Database implements IDS_Log_Interface
      * Prepares the SQL statement
      *
      * @param mixed $config IDS_Init instance | array
-     * 
+     *
      * @return void
      * @throws PDOException if a db error occurred
      */
-    protected function __construct($config) 
+    protected function __construct($config)
     {
-
         if ($config instanceof IDS_Init) {
             $this->wrapper  = $config->config['Logging']['wrapper'];
             $this->user     = $config->config['Logging']['user'];
             $this->password = $config->config['Logging']['password'];
             $this->table    = $config->config['Logging']['table'];
-
         } elseif (is_array($config)) {
             $this->wrapper  = $config['wrapper'];
             $this->user     = $config['user'];
@@ -164,9 +162,7 @@ class IDS_Log_Database implements IDS_Log_Interface
 
         // determine correct IP address and concat them if necessary
         $this->ip  = $_SERVER['REMOTE_ADDR'];
-        $this->ip2 = isset($_SERVER['HTTP_X_FORWARDED_FOR']) 
-            ? $_SERVER['HTTP_X_FORWARDED_FOR'] 
-            : '';
+        $this->ip2 = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '';
 
         try {
             $this->handle = new PDO(
@@ -199,7 +195,6 @@ class IDS_Log_Database implements IDS_Log_Interface
                     now()
                 )
             ');
-
         } catch (PDOException $e) {
             throw new PDOException('PDOException: ' . $e->getMessage());
         }
@@ -213,7 +208,7 @@ class IDS_Log_Database implements IDS_Log_Interface
      *
      * @param  mixed  $config    IDS_Init | array
      * @param  string $classname the class name to use
-     * 
+     *
      * @return object $this
      */
     public static function getInstance($config, $classname = 'IDS_Log_Database')
@@ -235,29 +230,29 @@ class IDS_Log_Database implements IDS_Log_Interface
      * Permitting to clone this object
      *
      * For the sake of correctness of a singleton pattern, this is necessary
-     * 
+     *
      * @return void
      */
-    private function __clone() 
-    { 
+    private function __clone()
+    {
     }
 
     /**
      * Stores given data into the database
      *
      * @param object $data IDS_Report instance
-     * 
+     *
      * @throws Exception if db error occurred
-     * @return boolean
+     * @return bool
      */
-    public function execute(IDS_Report $data) 
+    public function execute(IDS_Report $data)
     {
         if (!isset($_SERVER['REQUEST_URI'])) {
             $_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 1);
-            if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING']) { 
-                $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING']; 
-            } 
-        }     	
+            if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING']) {
+                $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
+            }
+        }
 
         foreach ($data as $event) {
             $page = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
@@ -279,7 +274,6 @@ class IDS_Log_Database implements IDS_Log_Interface
             $this->statement->bindParam('origin', $_SERVER['SERVER_ADDR']);
 
             if (!$this->statement->execute()) {
-
                 $info = $this->statement->errorInfo();
                 throw new Exception(
                     $this->statement->errorCode() . ', ' . $info[1] . ', ' . $info[2]

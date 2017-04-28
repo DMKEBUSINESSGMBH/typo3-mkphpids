@@ -14,15 +14,17 @@
  */
 class HTMLPurifier_AttrTransform_SafeParam extends HTMLPurifier_AttrTransform
 {
-    public $name = "SafeParam";
+    public $name = 'SafeParam';
     private $uri;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->uri = new HTMLPurifier_AttrDef_URI(true); // embedded
         $this->wmode = new HTMLPurifier_AttrDef_Enum(array('window', 'opaque', 'transparent'));
     }
 
-    public function transform($attr, $config, $context) {
+    public function transform($attr, $config, $context)
+    {
         // If we add support for other objects, we'll need to alter the
         // transforms.
         switch ($attr['name']) {
@@ -46,7 +48,7 @@ class HTMLPurifier_AttrTransform_SafeParam extends HTMLPurifier_AttrTransform
                 break;
             case 'movie':
             case 'src':
-                $attr['name'] = "movie";
+                $attr['name'] = 'movie';
                 $attr['value'] = $this->uri->validate($attr['value'], $config, $context);
                 break;
             case 'flashvars':
@@ -57,6 +59,7 @@ class HTMLPurifier_AttrTransform_SafeParam extends HTMLPurifier_AttrTransform
             default:
                 $attr['name'] = $attr['value'] = null;
         }
+
         return $attr;
     }
 }

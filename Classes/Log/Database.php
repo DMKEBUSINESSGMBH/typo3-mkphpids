@@ -115,7 +115,6 @@ class Tx_mkphpids_Log_Database implements IDS_Log_Interface
         if ($config instanceof IDS_Init) {
             $this->wrapper  = $config->config['Logging']['wrapper'];
             $this->table    = $config->config['Logging']['table'];
-
         } elseif (is_array($config)) {
             $this->wrapper  = $config['wrapper'];
             $this->table    = $config['table'];
@@ -172,11 +171,10 @@ class Tx_mkphpids_Log_Database implements IDS_Log_Interface
      * @param object $data IDS_Report instance
      *
      * @throws Exception if db error occurred
-     * @return boolean
+     * @return bool
      */
     public function execute(IDS_Report $data)
     {
-
         if (!isset($_SERVER['REQUEST_URI'])) {
             $_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 1);
             if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING']) {
@@ -186,33 +184,36 @@ class Tx_mkphpids_Log_Database implements IDS_Log_Interface
 
         tx_rnbase::load('tx_rnbase_util_TYPO3');
         $dataArray = array(
-			'get' => $_GET, //var_export($_GET, true),
-			'post' => $_POST, //var_export($_POST, true),
-			'server' => $_SERVER, //var_export($_SERVER, true),
-			'feuser' => tx_rnbase_util_TYPO3::getFEUserUID(),
-			'beuser' => tx_rnbase_util_TYPO3::getBEUserUID(),
-        ); $dataArray = serialize($dataArray);
+            'get' => $_GET, //var_export($_GET, true),
+            'post' => $_POST, //var_export($_POST, true),
+            'server' => $_SERVER, //var_export($_SERVER, true),
+            'feuser' => tx_rnbase_util_TYPO3::getFEUserUID(),
+            'beuser' => tx_rnbase_util_TYPO3::getBEUserUID(),
+        );
+        $dataArray = serialize($dataArray);
 
         foreach ($data as $event) {
-        	$name   = $event->getName();
-        	$value  = $event->getValue();
-        	$page 	= isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
-        	$ip   	= $this->ip;
+            $name   = $event->getName();
+            $value  = $event->getValue();
+            $page    = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+            $ip    = $this->ip;
             $impact = $event->getImpact();
 
 
-        	$fieldValues = array(
-				'name' => $GLOBALS['TYPO3_DB']->quoteStr($name, $this->table),
-        		'value' => $GLOBALS['TYPO3_DB']->quoteStr($value, $this->table),
-        		'page' => $GLOBALS['TYPO3_DB']->quoteStr($page, $this->table),
-        		'ip' => $GLOBALS['TYPO3_DB']->quoteStr($ip, $this->table),
-        		'impact' => $GLOBALS['TYPO3_DB']->quoteStr($impact, $this->table),
-        		'origin' => $GLOBALS['TYPO3_DB']->quoteStr($_SERVER['SERVER_ADDR'], $this->table),
-        		'data' => $dataArray,
-        		'created' => date('Y-m-d H:i:s'),
-			);
-			$res = $GLOBALS['TYPO3_DB']->exec_INSERTquery($this->table, $fieldValues);
-			if(!$res){ die('ERROR STORING IMPACT IN DB'); }
+            $fieldValues = array(
+                'name' => $GLOBALS['TYPO3_DB']->quoteStr($name, $this->table),
+                'value' => $GLOBALS['TYPO3_DB']->quoteStr($value, $this->table),
+                'page' => $GLOBALS['TYPO3_DB']->quoteStr($page, $this->table),
+                'ip' => $GLOBALS['TYPO3_DB']->quoteStr($ip, $this->table),
+                'impact' => $GLOBALS['TYPO3_DB']->quoteStr($impact, $this->table),
+                'origin' => $GLOBALS['TYPO3_DB']->quoteStr($_SERVER['SERVER_ADDR'], $this->table),
+                'data' => $dataArray,
+                'created' => date('Y-m-d H:i:s'),
+            );
+            $res = $GLOBALS['TYPO3_DB']->exec_INSERTquery($this->table, $fieldValues);
+            if (!$res) {
+                die('ERROR STORING IMPACT IN DB');
+            }
         }
 
         return true;

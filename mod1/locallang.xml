@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <T3locallang>
-	<meta type="array">
-		<type>module</type>
-		<description>Language labels for module &quot;tools_txmkphpidsM1&quot;</description>
-	</meta>
-	<data type="array">
+    <meta type="array">
+        <type>module</type>
+        <description>Language labels for module &quot;tools_txmkphpidsM1&quot;</description>
+    </meta>
+    <data type="array">
             <languageKey index="default" type="array">
                 <label index="title">PHPIDS</label>
                 <label index="function1">Show all impacts</label>
@@ -27,5 +27,5 @@
                 <label index="sql_no_data">No data found.</label>
                 <label index="sql_exec_error">Error executing the query!</label>
             </languageKey>
-	</data>
+    </data>
 </T3locallang>
