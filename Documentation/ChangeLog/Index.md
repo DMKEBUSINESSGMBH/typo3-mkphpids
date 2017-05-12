@@ -5,6 +5,7 @@ The following is a very high level overview of the changes in this extension.
 
 |Version|Changes|
 |-------|-------|
+|3.0.0|- Initial TYPO3 8.7 LTS Support|
 |2.0.2|- converted manual to markdown|
 ||- added some extbase plugin parameters as default exceptions|
 |2.0.1|- fixed serious bug when in most cases no typoscript configuration could be loaded leading to no execution of the plugin|
