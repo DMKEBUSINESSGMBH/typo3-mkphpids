@@ -235,11 +235,11 @@ class tx_mkphpids_pi1 extends Tx_Rnbase_Frontend_Plugin
                     }
                 } else {
                     $content .= '	<div class="box ok">
-									No attack detected. You can disable this message by setting "General.debug_mode" to false in the TypoScript Objects of PHPIDS.
-								</div>';
+                                    No attack detected. You can disable this message by setting "General.debug_mode" to false in the TypoScript Objects of PHPIDS.
+                                </div>';
                     $content .= '	<div class="box info">
-									<a href="' . tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL') . '?test=%22><script>eval(window.name)</script>">Click for an example attack to see if PHPIDS for TYPO3 works correctly.</a>
-								</div>';
+                                    <a href="' . tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL') . '?test=%22><script>eval(window.name)</script>">Click for an example attack to see if PHPIDS for TYPO3 works correctly.</a>
+                                </div>';
                 }
             } catch (Exception $e) {
                 $content .= '<div class="box error">An error occurred: ' . $e->getMessage() . '</div>';
@@ -279,8 +279,10 @@ class tx_mkphpids_pi1 extends Tx_Rnbase_Frontend_Plugin
         session_destroy();
 
         if ($this->debug == false && $this->conf['Impact.']['die_redirect_pid']) {
-            $redirectUrl = $this->pi_getPageLink($this->conf['Impact.']['die_redirect_pid']);
-            header('Location: '.tx_rnbase_util_Network::locationHeaderUrl($redirectUrl));
+            $utility = tx_rnbase_util_Typo3Classes::getHttpUtilityClass();
+            tx_rnbase::makeInstance('tx_rnbase_util_Link')->destination($this->conf['Impact.']['die_redirect_pid'])->redirect(
+                $utility::HTTP_STATUS_400
+            );
         } else {
             if ($this->debug == false) {
                 $content = '';//remove left over informations
@@ -288,8 +290,8 @@ class tx_mkphpids_pi1 extends Tx_Rnbase_Frontend_Plugin
                 $content .= '<div>Dieing... (Threshold: ' . $this->conf['Impact.']['die_threshold'] . ')</div>';
             }
             $content .= '<br /><div>You have been logged out cause of a possible hacking attemp.</div>
-						<div>Your data has been stored and reported.</div>
-						<div>If you think this is an error please contact the webmaster of this website.</div>';
+                        <div>Your data has been stored and reported.</div>
+                        <div>If you think this is an error please contact the webmaster of this website.</div>';
 
             die($content);
         }
