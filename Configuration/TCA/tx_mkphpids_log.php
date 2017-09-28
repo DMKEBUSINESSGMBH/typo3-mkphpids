@@ -3,12 +3,20 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-$TCA['tx_mkphpids_log'] = array(
-    'ctrl' => $TCA['tx_mkphpids_log']['ctrl'],
+return array(
+    'ctrl' => array(
+        'title'     => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_log',
+        'label'     => 'uid',
+        'tstamp'    => 'tstamp',
+        'crdate'    => 'crdate',
+        'cruser_id' => 'cruser_id',
+        'default_sortby' => 'ORDER BY crdate',
+        'delete' => 'deleted',
+        'iconfile'          => 'EXT:mkphpids/icon_tx_mkphpids_log.gif',
+    ),
     'interface' => array(
         'showRecordFieldList' => 'name,value,page,ip,impact,origin,created'
     ),
-    'feInterface' => $TCA['tx_mkphpids_log']['feInterface'],
     'columns' => array(
         'name' => array(
             'exclude' => 1,
@@ -84,55 +92,3 @@ $TCA['tx_mkphpids_log'] = array(
         '1' => array('showitem' => '')
     )
 );
-
-
-
-$TCA['tx_mkphpids_cache'] = array(
-    'ctrl' => $TCA['tx_mkphpids_cache']['ctrl'],
-    'interface' => array(
-        'showRecordFieldList' => 'type,created,phpids_data,modified'
-    ),
-    'feInterface' => $TCA['tx_mkphpids_cache']['feInterface'],
-    'columns' => array(
-        'type' => array(
-            'exclude' => 1,
-            'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_cache.type',
-            'config' => array(
-                'type' => 'input',
-                'size' => '30',
-            )
-        ),
-        'created' => array(
-            'exclude' => 1,
-            'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_cache.created',
-            'config' => array(
-                'type' => 'input',
-                'size' => '30',
-            )
-        ),
-        'phpids_data' => array(
-            'exclude' => 1,
-            'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_cache.phpids_data',
-            'config' => array(
-                'type' => 'text',
-                'cols' => '30',
-                'rows' => '5',
-            )
-        ),
-        'modified' => array(
-            'exclude' => 1,
-            'label' => 'LLL:EXT:mkphpids/locallang_db.xml:tx_mkphpids_cache.modified',
-            'config' => array(
-                'type' => 'input',
-                'size' => '30',
-            )
-        ),
-    ),
-    'types' => array(
-        '0' => array('showitem' => 'type;;;;1-1-1, created, phpids_data, modified')
-    ),
-    'palettes' => array(
-        '1' => array('showitem' => '')
-    )
-);
-@include 'tca_advanced.php';
