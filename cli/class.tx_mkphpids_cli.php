@@ -66,16 +66,24 @@ class tx_mkphpids_cli extends Tx_Rnbase_Scheduler_Task
             $res = tx_rnbase_util_DB::doQuery('TRUNCATE tx_mkphpids_cache');
 
             if ($filter && $converter && $res) {
-                tx_rnbase_util_Logger::devLog('[scheduler: phpids updater]: Updated successfull.', 'mkphpids', -1);
+                tx_rnbase_util_Logger::devLog(
+                    '[scheduler: phpids updater]: Updated successfull.', 'mkphpids', tx_rnbase_util_Logger::LOGLEVEL_INFO
+                );
 
                 return true;
             } else {
-                tx_rnbase_util_Logger::devLog('[scheduler: phpids updater]: Error Updating! $filter: ' . $filter . ' $converter: ' . $converter, 'mkphpids', 3);
+                tx_rnbase_util_Logger::devLog(
+                    '[scheduler: phpids updater]: Error Updating! $filter: ' . $filter . ' $converter: ' . $converter,
+                    'mkphpids',
+                    tx_rnbase_util_Logger::LOGLEVEL_WARN
+                );
 
                 return false;
             }
         } else {
-            tx_rnbase_util_Logger::devLog('[scheduler: phpids updater]: No update needed', 'mkphpids', 1);
+            tx_rnbase_util_Logger::devLog(
+                '[scheduler: phpids updater]: No update needed', 'mkphpids', tx_rnbase_util_Logger::LOGLEVEL_INFO
+            );
 
             return true;
         }
