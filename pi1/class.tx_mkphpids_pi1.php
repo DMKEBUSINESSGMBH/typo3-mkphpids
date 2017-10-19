@@ -276,7 +276,9 @@ class tx_mkphpids_pi1 extends Tx_Rnbase_Frontend_Plugin
      */
     private function handleDieThreshold($content)
     {
-        session_destroy();
+        if (isset($_SESSION)) {
+            session_destroy();
+        }
 
         if ($this->debug == false && $this->conf['Impact.']['die_redirect_pid']) {
             $utility = tx_rnbase_util_Typo3Classes::getHttpUtilityClass();
