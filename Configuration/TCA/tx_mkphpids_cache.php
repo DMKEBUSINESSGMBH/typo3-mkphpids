@@ -52,7 +52,7 @@ return array(
         ),
     ),
     'types' => array(
-        '0' => array('showitem' => 'type;;;;1-1-1, created, phpids_data, modified')
+        '0' => array('showitem' => 'type, created, phpids_data, modified')
     ),
     'palettes' => array(
         '1' => array('showitem' => '')

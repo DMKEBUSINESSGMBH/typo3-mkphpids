@@ -86,7 +86,7 @@ return array(
         ),
     ),
     'types' => array(
-        '0' => array('showitem' => 'name;;;;1-1-1, value, page, ip, impact, origin, created')
+        '0' => array('showitem' => 'name, value, page, ip, impact, origin, created')
     ),
     'palettes' => array(
         '1' => array('showitem' => '')
