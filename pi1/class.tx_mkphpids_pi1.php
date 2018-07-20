@@ -116,7 +116,7 @@ class tx_mkphpids_pi1 extends Tx_Rnbase_Frontend_Plugin
             $this->debug = $this->conf['General.']['debug_mode'] == '1' ? true : false;   // Debug Mode true or false
             // Set the include path properly for PHPIDS
             set_include_path(get_include_path() . PATH_SEPARATOR . $this->path);
-            require_once('IDS/Init.php');
+            require_once($this->path . 'IDS/Init.php');
 
             if ($this->conf['Caching.']['caching'] == 'session' && !session_id()) {
                 session_start();
