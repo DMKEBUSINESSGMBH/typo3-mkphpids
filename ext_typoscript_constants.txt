@@ -79,7 +79,7 @@ plugin.tx_mkphpids_pi1 {
     Logging.safemode = 1
 
     # cat=plugin.mkphpids//005; type=text; label=Logging Header: The sent E-Mail header. The markers ###SITEHOST### and ###CRLF### are supported. You should set a From header!!! If not the value from php.ini is taken.
-    Logging.header = From: <PHPIDS von ###SITEHOST###> mkphpids@###SITEHOST### ###CRLF###
+    Logging.header = From: PHPIDS von ###SITEHOST### <mkphpids@###SITEHOST###> ###CRLF###
 
     # cat=plugin.mkphpids//006; type=boolean; label=Logging urlencode: For Email logging. Default is true
     Logging.urlencode = 1
