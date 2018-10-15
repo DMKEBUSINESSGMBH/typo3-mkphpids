@@ -12,6 +12,7 @@ return array(
         'cruser_id' => 'cruser_id',
         'default_sortby' => 'ORDER BY crdate',
         'iconfile'          => 'EXT:mkphpids/icon_tx_mkphpids_cache.gif',
+        'hideTable' => true,
     ),
     'interface' => array(
         'showRecordFieldList' => 'type,created,phpids_data,modified'

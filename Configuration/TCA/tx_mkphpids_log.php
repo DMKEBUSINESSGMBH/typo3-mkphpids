@@ -13,6 +13,7 @@ return array(
         'default_sortby' => 'ORDER BY crdate',
         'delete' => 'deleted',
         'iconfile'          => 'EXT:mkphpids/icon_tx_mkphpids_log.gif',
+        'hideTable' => true,
     ),
     'interface' => array(
         'showRecordFieldList' => 'name,value,page,ip,impact,origin,created'
