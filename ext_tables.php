@@ -1,4 +1,7 @@
 <?php
+use TYPO3\CMS\Scheduler\Task\TableGarbageCollectionTask;
+use TYPO3\CMS\Scheduler\Task\IpAnonymizationTask;
+
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
@@ -22,12 +25,27 @@ call_user_func(
             ['SC_OPTIONS']
             ['scheduler']
             ['tasks']
-            ['TYPO3\CMS\Scheduler\Task\TableGarbageCollectionTask']
+            [TableGarbageCollectionTask::class]
             ['options']
             ['tables']
             ['tx_mkphpids_log'] = [
                 'dateField' => 'tstamp',
                 'expirePeriod' => 90
+            ];
+
+        /**
+         * Anonymize IPs in the logs
+         */
+        $GLOBALS['TYPO3_CONF_VARS']
+            ['SC_OPTIONS']
+            ['scheduler']
+            ['tasks']
+            [IpAnonymizationTask::class]
+            ['options']
+            ['tables']
+            ['tx_mkphpids_log'] = [
+                'dateField' => 'tstamp',
+                'ipField' => 'ip'
             ];
     }
 );

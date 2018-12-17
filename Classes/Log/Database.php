@@ -88,7 +88,7 @@ class Tx_mkphpids_Log_Database implements IDS_Log_Interface
      *
      * @var string
      */
-    private $ip = 'local/unknown';
+    private $ip = '';
 
     /**
      * Instance container
