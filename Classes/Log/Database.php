@@ -209,6 +209,7 @@ class Tx_mkphpids_Log_Database implements IDS_Log_Interface
                 'origin' => $GLOBALS['TYPO3_DB']->quoteStr($_SERVER['SERVER_ADDR'], $this->table),
                 'data' => $dataArray,
                 'created' => date('Y-m-d H:i:s'),
+                'tstamp' => $GLOBALS['EXEC_TIME']
             );
             $res = $GLOBALS['TYPO3_DB']->exec_INSERTquery($this->table, $fieldValues);
             if (!$res) {
