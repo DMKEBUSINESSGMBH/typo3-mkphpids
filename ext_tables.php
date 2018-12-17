@@ -27,7 +27,7 @@ call_user_func(
             ['tables']
             ['tx_mkphpids_log'] = [
                 'dateField' => 'tstamp',
-                'expirePeriod' => 180
+                'expirePeriod' => 90
             ];
     }
 );
