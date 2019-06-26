@@ -1,6 +1,14 @@
 mkphpids
 =======
 
+**NOTE: This extension is abandoned as the development of PHPIDS was 
+abandoned as well a long time ago. So no Support for TYPO3 9.5 
+and later versions will be added. If you're interested in more security
+in your TYPO3 environments you should check out 
+[mksanitizedparameters](https://github.com/DMKEBUSINESSGMBH/typo3-mksanitizedparameters)
+which prevents most attacks in the first place by sanitizing incoming 
+request parameters making it harder for attackers.**
+
 [Administration](Documentation/Administration/Index.md)
 
 [Configuration](Documentation/Configuration/Index.md)
@@ -15,7 +23,7 @@ What does it do?
 Adding a PHP Intrusion Detection System from <http://www.phpids.org> to
 your TYPO3 Website.
 
-This extension is a fork of px\_phpids with more features and TYPO3 6.2
+This extension is a fork of px\_phpids with more features and TYPO3 6.2, 7.6 and 8.7
 support. So thanx for the development of px\_phpids.
 
 Features
